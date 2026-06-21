@@ -1,32 +1,28 @@
 # Vistas
 
-A self-hosted, Bloomberg-style analytics terminal for NSE indices.
+A self-hosted, Bloomberg-style analytics terminal for NSE indices, stocks and India macro.
 
-## Live deck (shareable link)
+## Live link
 
-**Passive terminal → https://kartiksngh.github.io/vistas/passive/**
+**Terminal → https://kartiksngh.github.io/vistas/terminal/**
 
-Open it in any browser. It is a **fully self-contained, interactive** dashboard —
-pick any indices and benchmarks, any date window, daily/weekly, excess/Jensen
-alpha, and every panel (NAV, comparative stats, rolling alpha/beta, rolling risk,
-correlation matrix, capture, calendar-year, monthly heatmap, return/alpha
-distributions) recomputes **in the browser**. No server, no install, works
-offline once loaded. Built from NSE total-return (dividends-reinvested) index
-levels — public market data only.
+The bare URL (https://kartiksngh.github.io/vistas/) redirects here.
+
+An interactive, hosted dashboard: NSE total-return indices (NAV, comparative stats,
+rolling alpha/beta, rolling risk, correlation, capture, calendar-year, monthly
+heatmap, distributions), a per-company **Fundamentals** tab, and an India-first
+**Macro** tab (CPI/WPI/core inflation, policy & market rates, the G-sec curve,
+money & credit, forex reserves, market internals, derived signals). Analytics
+recompute in the browser; per-symbol data is fetched on demand.
 
 ## How it stays fresh
 
-This repo is published by **`Refresh Vistas Passive.bat`** (in the Vistas-passive
-app folder on the author's machine). One double-click:
-1. pulls the latest NSE data,
-2. rebuilds the deck,
-3. **validates** that it renders with no errors, and
-4. only then pushes here — so this link is always a *working* deck (a faulty
-   rebuild is never published; the previous good deck stays live).
-
-GitHub Pages serves it within ~1 minute of each push.
+Published by **`Refresh Vistas Terminal.bat`** (`publish_terminal.py`) on the
+author's machine. One run: pull latest data → rebuild the hosted site →
+**validate** it renders with no errors → only then push here (a faulty build is
+never published). GitHub Pages serves it within ~1 minute.
 
 ## Layout
 
-- `passive/index.html` — the published passive deck (the live link above).
-- `active/` — mutual-fund terminal (planned).
+- `terminal/` — the published hosted terminal (shell + per-symbol data).
+- `index.html` — redirects to `terminal/`.
