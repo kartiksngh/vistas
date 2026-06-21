@@ -2,27 +2,27 @@
 
 A self-hosted, Bloomberg-style analytics terminal for NSE indices, stocks and India macro.
 
-## Live link
+## Live links
 
-**Terminal → https://kartiksngh.github.io/vistas/terminal/**
+- **Terminal (current — the main product) → https://kartiksngh.github.io/vistas/terminal/**
+- **Passive (legacy self-contained deck — RETAINED as a live-data source for the FFT project)
+  → https://kartiksngh.github.io/vistas/passive/**
 
-The bare URL (https://kartiksngh.github.io/vistas/) redirects here.
+The bare URL (https://kartiksngh.github.io/vistas/) redirects to the terminal.
 
-An interactive, hosted dashboard: NSE total-return indices (NAV, comparative stats,
-rolling alpha/beta, rolling risk, correlation, capture, calendar-year, monthly
-heatmap, distributions), a per-company **Fundamentals** tab, and an India-first
-**Macro** tab (CPI/WPI/core inflation, policy & market rates, the G-sec curve,
-money & credit, forex reserves, market internals, derived signals). Analytics
-recompute in the browser; per-symbol data is fetched on demand.
+The **terminal** is the hosted hybrid site (Performance + Fundamentals + Macro tabs; per-symbol
+data fetched on demand). The **passive** deck is the original self-contained Performance-only deck —
+kept and untouched because a separate ongoing project consumes its data.
 
 ## How it stays fresh
 
-Published by **`Refresh Vistas Terminal.bat`** (`publish_terminal.py`) on the
-author's machine. One run: pull latest data → rebuild the hosted site →
-**validate** it renders with no errors → only then push here (a faulty build is
-never published). GitHub Pages serves it within ~1 minute.
+- Terminal: `Refresh Vistas Terminal.bat` (`publish_terminal.py`).
+- Passive:  `Refresh Vistas Passive.bat` (`publish_passive.py`).
+
+Each pulls data → rebuilds → validates (Node runtime smoke-test) → publishes only if it renders cleanly.
 
 ## Layout
 
-- `terminal/` — the published hosted terminal (shell + per-symbol data).
+- `terminal/` — the hosted terminal (shell + per-symbol data).
+- `passive/index.html` — the retained passive deck.
 - `index.html` — redirects to `terminal/`.
