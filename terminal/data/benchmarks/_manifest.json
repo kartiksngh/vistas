@@ -1,12 +1,12 @@
 {
- "asof": "2026-07-02",
- "mcap_period": "31Dec2025",
+ "asof": "2026-07-09",
+ "mcap_period": "30Jun2026",
  "n_indices": 21,
  "indices": {
   "NIFTY 50": {
    "slug": "ind_nifty50list",
    "n": 50,
-   "coverage": 0.98,
+   "coverage": 1.0,
    "broad": true,
    "low_confidence": false
   },
@@ -20,21 +20,21 @@
   "NIFTY 100": {
    "slug": "ind_nifty100list",
    "n": 100,
-   "coverage": 0.99,
+   "coverage": 1.0,
    "broad": true,
    "low_confidence": false
   },
   "NIFTY 200": {
    "slug": "ind_nifty200list",
    "n": 200,
-   "coverage": 0.99,
+   "coverage": 0.995,
    "broad": true,
    "low_confidence": false
   },
   "NIFTY 500": {
    "slug": "ind_nifty500list",
    "n": 500,
-   "coverage": 0.99,
+   "coverage": 0.994,
    "broad": true,
    "low_confidence": false
   },
@@ -55,42 +55,42 @@
   "NIFTY SMALLCAP 250": {
    "slug": "ind_niftysmallcap250list",
    "n": 250,
-   "coverage": 0.992,
+   "coverage": 0.996,
    "broad": true,
    "low_confidence": false
   },
   "NIFTY SMALLCAP 100": {
    "slug": "ind_niftysmallcap100list",
    "n": 100,
-   "coverage": 0.99,
+   "coverage": 1.0,
    "broad": true,
    "low_confidence": false
   },
   "NIFTY LARGEMIDCAP 250": {
    "slug": "ind_niftylargemidcap250list",
    "n": 250,
-   "coverage": 0.988,
+   "coverage": 0.992,
    "broad": true,
    "low_confidence": false
   },
   "NIFTY MIDSMALLCAP 400": {
    "slug": "ind_niftymidsmallcap400list",
    "n": 400,
-   "coverage": 0.99,
+   "coverage": 0.993,
    "broad": true,
    "low_confidence": false
   },
   "NIFTY MICROCAP 250": {
    "slug": "ind_niftymicrocap250_list",
    "n": 251,
-   "coverage": 0.992,
+   "coverage": 0.996,
    "broad": true,
    "low_confidence": false
   },
   "NIFTY BANK": {
    "slug": "ind_niftybanklist",
    "n": 14,
-   "coverage": 0.929,
+   "coverage": 1.0,
    "broad": false,
    "low_confidence": false
   },
@@ -146,7 +146,7 @@
   "NIFTY FINANCIAL SERVICES": {
    "slug": "ind_niftyfinancelist",
    "n": 20,
-   "coverage": 0.95,
+   "coverage": 1.0,
    "broad": false,
    "low_confidence": false
   }
