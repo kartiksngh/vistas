@@ -1,7 +1,7 @@
 {
- "asof": "2026-07-16",
+ "asof": "2026-07-18",
  "mcap_period": "30Jun2026",
- "n_indices": 21,
+ "n_indices": 20,
  "indices": {
   "NIFTY 50": {
    "slug": "ind_nifty50list",
@@ -21,13 +21,6 @@
    "slug": "ind_nifty100list",
    "n": 100,
    "coverage": 1.0,
-   "broad": true,
-   "low_confidence": false
-  },
-  "NIFTY 200": {
-   "slug": "ind_nifty200list",
-   "n": 200,
-   "coverage": 0.995,
    "broad": true,
    "low_confidence": false
   },
