@@ -83,7 +83,7 @@
   "NIFTY MICROCAP 250": {
    "slug": "ind_niftymicrocap250_list",
    "n": 251,
-   "coverage": 0.996,
+   "coverage": 0.992,
    "broad": true,
    "low_confidence": false
   },
