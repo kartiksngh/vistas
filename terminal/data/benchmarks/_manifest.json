@@ -1,5 +1,5 @@
 {
- "asof": "2026-07-24",
+ "asof": "2026-07-31",
  "mcap_period": "30Jun2026",
  "n_indices": 21,
  "indices": {
@@ -82,8 +82,8 @@
   },
   "NIFTY MICROCAP 250": {
    "slug": "ind_niftymicrocap250_list",
-   "n": 251,
-   "coverage": 0.992,
+   "n": 252,
+   "coverage": 0.988,
    "broad": true,
    "low_confidence": false
   },
