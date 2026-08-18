@@ -1,0 +1,102 @@
+{
+ "written_at": "2026-08-19T00:42:33",
+ "summary": "[freshness] 12 tabs audited \u2014 12 OK, 0 STALE, 0 MISSING",
+ "tabs": {
+  "allocator/market-dashboard": {
+   "artifact": "data/dashboard.json meta.asof",
+   "asof": "2026-07-13",
+   "age_days": 37,
+   "allow_days": 120,
+   "why_allowance": "QUARTERLY hand-fed cycle (KQF workbook) until the Phase-2 Vistas repoint",
+   "verdict": "OK"
+  },
+  "allocator/breadth": {
+   "artifact": "breadth.json meta.asof",
+   "asof": "2026-08-18",
+   "age_days": 1,
+   "allow_days": 4,
+   "why_allowance": "daily off the stock panel (weekend+holiday allowance)",
+   "verdict": "OK"
+  },
+  "fundskill (SKILL verdict)": {
+   "artifact": "funds_attribution/<scheme>.json ts[-1].ym",
+   "asof": "2026-06",
+   "age_days": 52,
+   "allow_days": 75,
+   "why_allowance": "month M needs M+1's COMPLETED returns + disclosure lag (~6 weeks structural)",
+   "verdict": "OK"
+  },
+  "screen (smart-money)": {
+   "artifact": "smart_vs_street.json holdings_asof",
+   "asof": "2026-07",
+   "age_days": 22,
+   "allow_days": 45,
+   "why_allowance": "monthly SEBI portfolio disclosure (10th of next month)",
+   "verdict": "OK"
+  },
+  "ownership/fii_derivs": {
+   "artifact": "ownership/_fii_derivs.json",
+   "asof": "2026-08-18",
+   "age_days": 1,
+   "allow_days": 5,
+   "why_allowance": "daily NSE participant OI",
+   "verdict": "OK"
+  },
+  "ownership/fpi_sector": {
+   "artifact": "ownership/_fpi_sector.json",
+   "asof": "2026-07-31",
+   "age_days": 19,
+   "allow_days": 22,
+   "why_allowance": "NSDL fortnightly, ~1wk publication lag",
+   "verdict": "OK"
+  },
+  "ownership/fpi_ownership": {
+   "artifact": "ownership/_fpi_ownership.json",
+   "asof": "2026-06",
+   "age_days": 52,
+   "allow_days": 115,
+   "why_allowance": "quarterly shareholding pattern",
+   "verdict": "OK"
+  },
+  "ownership/fpi_holders": {
+   "artifact": "ownership/_fpi_holders.json",
+   "asof": "2026-06-30",
+   "age_days": 50,
+   "allow_days": 115,
+   "why_allowance": "quarterly shareholding pattern",
+   "verdict": "OK"
+  },
+  "ownership/f13_india": {
+   "artifact": "ownership/_f13_india.json",
+   "asof": "2026-06-30",
+   "age_days": 50,
+   "allow_days": 140,
+   "why_allowance": "13F: quarter end + 45d filing window",
+   "verdict": "OK"
+  },
+  "ownership/nport_india": {
+   "artifact": "ownership/_nport_india.json",
+   "asof": "2026-05-31",
+   "age_days": 80,
+   "allow_days": 155,
+   "why_allowance": "N-PORT: quarter end + 60d publication",
+   "verdict": "OK"
+  },
+  "ownership/mf_liquidity": {
+   "artifact": "ownership/_mf_liquidity.json",
+   "asof": "2026-07",
+   "age_days": 22,
+   "allow_days": 45,
+   "why_allowance": "monthly AUM/flow",
+   "verdict": "OK"
+  },
+  "events (shell embed)": {
+   "artifact": "data/events/events.json meta (dev-side source)",
+   "asof": "2026-08-18",
+   "age_days": 1,
+   "allow_days": 4,
+   "why_allowance": "daily NSE calendar",
+   "verdict": "OK"
+  }
+ }
+}
