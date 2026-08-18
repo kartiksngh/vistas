@@ -1,5 +1,5 @@
 {
- "written_at": "2026-08-19T01:15:17",
+ "written_at": "2026-08-19T02:01:14",
  "summary": "[freshness] 12 tabs audited \u2014 12 OK, 0 STALE, 0 MISSING",
  "tabs": {
   "allocator/market-dashboard": {
@@ -20,10 +20,10 @@
   },
   "fundskill (SKILL verdict)": {
    "artifact": "funds_attribution/<scheme>.json ts[-1].ym",
-   "asof": "2026-06",
-   "age_days": 52,
-   "allow_days": 75,
-   "why_allowance": "month M needs M+1's COMPLETED returns + disclosure lag (~6 weeks structural)",
+   "asof": "2026-07",
+   "age_days": 22,
+   "allow_days": 50,
+   "why_allowance": "newest holdings month scored on the forward MTD (updates daily; holdings disclose by the 10th of the next month)",
    "verdict": "OK"
   },
   "screen (smart-money)": {
