@@ -1,18 +1,18 @@
 {
- "written_at": "2026-09-01T00:50:57",
- "summary": "[freshness] 12 tabs audited \u2014 12 OK, 0 STALE, 0 MISSING",
+ "written_at": "2026-09-02T01:34:59",
+ "summary": "[freshness] 14 tabs audited \u2014 14 OK, 0 STALE, 0 MISSING",
  "tabs": {
   "allocator/market-dashboard": {
    "artifact": "data/dashboard.json meta.asof",
    "asof": "2026-07-13",
-   "age_days": 50,
+   "age_days": 51,
    "allow_days": 120,
    "why_allowance": "QUARTERLY hand-fed cycle (KQF workbook) until the Phase-2 Vistas repoint",
    "verdict": "OK"
   },
   "allocator/breadth": {
    "artifact": "breadth.json meta.asof",
-   "asof": "2026-08-31",
+   "asof": "2026-09-01",
    "age_days": 1,
    "allow_days": 4,
    "why_allowance": "daily off the stock panel (weekend+holiday allowance)",
@@ -21,7 +21,7 @@
   "fundskill (SKILL verdict)": {
    "artifact": "funds_attribution/<scheme>.json ts[-1].ym",
    "asof": "2026-07",
-   "age_days": 35,
+   "age_days": 36,
    "allow_days": 50,
    "why_allowance": "newest holdings month scored on the forward MTD (updates daily; holdings disclose by the 10th of the next month)",
    "verdict": "OK"
@@ -29,14 +29,14 @@
   "screen (smart-money)": {
    "artifact": "smart_vs_street.json holdings_asof",
    "asof": "2026-07",
-   "age_days": 35,
+   "age_days": 36,
    "allow_days": 45,
    "why_allowance": "monthly SEBI portfolio disclosure (10th of next month)",
    "verdict": "OK"
   },
   "ownership/fii_derivs": {
    "artifact": "ownership/_fii_derivs.json",
-   "asof": "2026-08-31",
+   "asof": "2026-09-01",
    "age_days": 1,
    "allow_days": 5,
    "why_allowance": "daily NSE participant OI",
@@ -45,7 +45,7 @@
   "ownership/fpi_sector": {
    "artifact": "ownership/_fpi_sector.json",
    "asof": "2026-08-15",
-   "age_days": 17,
+   "age_days": 18,
    "allow_days": 22,
    "why_allowance": "NSDL fortnightly, ~1wk publication lag",
    "verdict": "OK"
@@ -53,7 +53,7 @@
   "ownership/fpi_ownership": {
    "artifact": "ownership/_fpi_ownership.json",
    "asof": "2026-06",
-   "age_days": 65,
+   "age_days": 66,
    "allow_days": 115,
    "why_allowance": "quarterly shareholding pattern",
    "verdict": "OK"
@@ -61,7 +61,7 @@
   "ownership/fpi_holders": {
    "artifact": "ownership/_fpi_holders.json",
    "asof": "2026-06-30",
-   "age_days": 63,
+   "age_days": 64,
    "allow_days": 115,
    "why_allowance": "quarterly shareholding pattern",
    "verdict": "OK"
@@ -69,7 +69,7 @@
   "ownership/f13_india": {
    "artifact": "ownership/_f13_india.json",
    "asof": "2026-06-30",
-   "age_days": 63,
+   "age_days": 64,
    "allow_days": 140,
    "why_allowance": "13F: quarter end + 45d filing window",
    "verdict": "OK"
@@ -77,22 +77,38 @@
   "ownership/nport_india": {
    "artifact": "ownership/_nport_india.json",
    "asof": "2026-05-31",
-   "age_days": 93,
+   "age_days": 94,
    "allow_days": 155,
    "why_allowance": "N-PORT: quarter end + 60d publication",
    "verdict": "OK"
   },
   "ownership/mf_liquidity": {
    "artifact": "ownership/_mf_liquidity.json",
-   "asof": "2026-07",
-   "age_days": 35,
+   "asof": "2026-08",
+   "age_days": 5,
    "allow_days": 45,
    "why_allowance": "monthly AUM/flow",
    "verdict": "OK"
   },
+  "quant/arm (StarMine)": {
+   "artifact": "arm_repo/compiled/arm_india_meta.json date_max",
+   "asof": "2026-08-31",
+   "age_days": 2,
+   "allow_days": 5,
+   "why_allowance": "daily StarMine ARM top-up; VPN-gated, weekend+holiday allowance",
+   "verdict": "OK"
+  },
+  "revisions (Earnings Revisions tab)": {
+   "artifact": "data/revisions/_snapshot.json meta.asof",
+   "asof": "2026-08-31",
+   "age_days": 2,
+   "allow_days": 5,
+   "why_allowance": "daily off the compiled ARM cache; VPN-gated weekend allowance",
+   "verdict": "OK"
+  },
   "events (shell embed)": {
    "artifact": "data/events/events.json meta (dev-side source)",
-   "asof": "2026-08-31",
+   "asof": "2026-09-01",
    "age_days": 1,
    "allow_days": 4,
    "why_allowance": "daily NSE calendar",
