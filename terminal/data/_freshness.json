@@ -1,5 +1,5 @@
 {
- "written_at": "2026-09-02T01:34:59",
+ "written_at": "2026-09-02T10:44:02",
  "summary": "[freshness] 14 tabs audited \u2014 14 OK, 0 STALE, 0 MISSING",
  "tabs": {
   "allocator/market-dashboard": {
@@ -108,8 +108,8 @@
   },
   "events (shell embed)": {
    "artifact": "data/events/events.json meta (dev-side source)",
-   "asof": "2026-09-01",
-   "age_days": 1,
+   "asof": "2026-09-02",
+   "age_days": 0,
    "allow_days": 4,
    "why_allowance": "daily NSE calendar",
    "verdict": "OK"
