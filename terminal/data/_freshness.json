@@ -1,11 +1,11 @@
 {
- "written_at": "2026-09-02T13:03:32",
+ "written_at": "2026-09-02T14:08:13",
  "summary": "[freshness] 14 tabs audited \u2014 14 OK, 0 STALE, 0 MISSING",
  "tabs": {
   "allocator/market-dashboard": {
    "artifact": "data/dashboard.json meta.asof",
-   "asof": "2026-07-13",
-   "age_days": 51,
+   "asof": "2026-09-01",
+   "age_days": 1,
    "allow_days": 120,
    "why_allowance": "QUARTERLY hand-fed cycle (KQF workbook) until the Phase-2 Vistas repoint",
    "verdict": "OK"
