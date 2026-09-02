@@ -1,6 +1,6 @@
 {
- "written_at": "2026-09-02T14:08:13",
- "summary": "[freshness] 14 tabs audited \u2014 14 OK, 0 STALE, 0 MISSING",
+ "written_at": "2026-09-02T15:49:19",
+ "summary": "[freshness] 22 tabs audited \u2014 22 OK, 0 STALE, 0 MISSING",
  "tabs": {
   "allocator/market-dashboard": {
    "artifact": "data/dashboard.json meta.asof",
@@ -104,6 +104,70 @@
    "age_days": 2,
    "allow_days": 5,
    "why_allowance": "daily off the compiled ARM cache; VPN-gated weekend allowance",
+   "verdict": "OK"
+  },
+  "gold/lbma": {
+   "artifact": "gold_tab.json meta.asof_by_feed.lbma",
+   "asof": "2026-09-01",
+   "age_days": 1,
+   "allow_days": 5,
+   "why_allowance": "LBMA business-daily auction (weekend+holiday allowance)",
+   "verdict": "OK"
+  },
+  "gold/gld": {
+   "artifact": "gold_tab.json meta.asof_by_feed.gld",
+   "asof": "2026-09-01",
+   "age_days": 1,
+   "allow_days": 5,
+   "why_allowance": "SPDR GLD business-daily archive",
+   "verdict": "OK"
+  },
+  "gold/gvz": {
+   "artifact": "gold_tab.json meta.asof_by_feed.gvz",
+   "asof": "2026-09-01",
+   "age_days": 1,
+   "allow_days": 5,
+   "why_allowance": "CBOE GVZ business-daily CSV",
+   "verdict": "OK"
+  },
+  "gold/cot": {
+   "artifact": "gold_tab.json meta.asof_by_feed.cot",
+   "asof": "2026-08-25",
+   "age_days": 8,
+   "allow_days": 12,
+   "why_allowance": "CFTC weekly Friday release for Tuesday positions + holiday slip",
+   "verdict": "OK"
+  },
+  "gold/ibja": {
+   "artifact": "gold_tab.json meta.asof_by_feed.ibja",
+   "asof": "2026-09-01",
+   "age_days": 1,
+   "allow_days": 4,
+   "why_allowance": "IBJA business-daily India scrape (store)",
+   "verdict": "OK"
+  },
+  "gold/sgb": {
+   "artifact": "gold_tab.json meta.asof_by_feed.sgb",
+   "asof": "2026-09-01",
+   "age_days": 1,
+   "allow_days": 4,
+   "why_allowance": "NSE trading-daily EOD (store)",
+   "verdict": "OK"
+  },
+  "gold/futures": {
+   "artifact": "gold_tab.json meta.asof_by_feed.futures",
+   "asof": "2026-08-31",
+   "age_days": 2,
+   "allow_days": 4,
+   "why_allowance": "business-daily CME settles via the futures_curve store",
+   "verdict": "OK"
+  },
+  "gold/bake": {
+   "artifact": "gold_tab.json meta.asof",
+   "asof": "2026-09-01",
+   "age_days": 1,
+   "allow_days": 5,
+   "why_allowance": "the Gold bake itself must run nightly",
    "verdict": "OK"
   },
   "events (shell embed)": {
