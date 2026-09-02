@@ -1,18 +1,18 @@
 {
- "written_at": "2026-09-02T15:49:19",
- "summary": "[freshness] 22 tabs audited \u2014 22 OK, 0 STALE, 0 MISSING",
+ "written_at": "2026-09-03T02:19:44",
+ "summary": "[freshness] 28 tabs audited \u2014 28 OK, 0 STALE, 0 MISSING",
  "tabs": {
   "allocator/market-dashboard": {
    "artifact": "data/dashboard.json meta.asof",
    "asof": "2026-09-01",
-   "age_days": 1,
+   "age_days": 2,
    "allow_days": 120,
    "why_allowance": "QUARTERLY hand-fed cycle (KQF workbook) until the Phase-2 Vistas repoint",
    "verdict": "OK"
   },
   "allocator/breadth": {
    "artifact": "breadth.json meta.asof",
-   "asof": "2026-09-01",
+   "asof": "2026-09-02",
    "age_days": 1,
    "allow_days": 4,
    "why_allowance": "daily off the stock panel (weekend+holiday allowance)",
@@ -21,7 +21,7 @@
   "fundskill (SKILL verdict)": {
    "artifact": "funds_attribution/<scheme>.json ts[-1].ym",
    "asof": "2026-07",
-   "age_days": 36,
+   "age_days": 37,
    "allow_days": 50,
    "why_allowance": "newest holdings month scored on the forward MTD (updates daily; holdings disclose by the 10th of the next month)",
    "verdict": "OK"
@@ -29,14 +29,14 @@
   "screen (smart-money)": {
    "artifact": "smart_vs_street.json holdings_asof",
    "asof": "2026-07",
-   "age_days": 36,
+   "age_days": 37,
    "allow_days": 45,
    "why_allowance": "monthly SEBI portfolio disclosure (10th of next month)",
    "verdict": "OK"
   },
   "ownership/fii_derivs": {
    "artifact": "ownership/_fii_derivs.json",
-   "asof": "2026-09-01",
+   "asof": "2026-09-02",
    "age_days": 1,
    "allow_days": 5,
    "why_allowance": "daily NSE participant OI",
@@ -45,15 +45,15 @@
   "ownership/fpi_sector": {
    "artifact": "ownership/_fpi_sector.json",
    "asof": "2026-08-15",
-   "age_days": 18,
+   "age_days": 19,
    "allow_days": 22,
    "why_allowance": "NSDL fortnightly, ~1wk publication lag",
    "verdict": "OK"
   },
   "ownership/fpi_ownership": {
    "artifact": "ownership/_fpi_ownership.json",
-   "asof": "2026-06",
-   "age_days": 66,
+   "asof": "2026-09",
+   "age_days": -25,
    "allow_days": 115,
    "why_allowance": "quarterly shareholding pattern",
    "verdict": "OK"
@@ -61,7 +61,7 @@
   "ownership/fpi_holders": {
    "artifact": "ownership/_fpi_holders.json",
    "asof": "2026-06-30",
-   "age_days": 64,
+   "age_days": 65,
    "allow_days": 115,
    "why_allowance": "quarterly shareholding pattern",
    "verdict": "OK"
@@ -69,7 +69,7 @@
   "ownership/f13_india": {
    "artifact": "ownership/_f13_india.json",
    "asof": "2026-06-30",
-   "age_days": 64,
+   "age_days": 65,
    "allow_days": 140,
    "why_allowance": "13F: quarter end + 45d filing window",
    "verdict": "OK"
@@ -77,7 +77,7 @@
   "ownership/nport_india": {
    "artifact": "ownership/_nport_india.json",
    "asof": "2026-05-31",
-   "age_days": 94,
+   "age_days": 95,
    "allow_days": 155,
    "why_allowance": "N-PORT: quarter end + 60d publication",
    "verdict": "OK"
@@ -85,7 +85,7 @@
   "ownership/mf_liquidity": {
    "artifact": "ownership/_mf_liquidity.json",
    "asof": "2026-08",
-   "age_days": 5,
+   "age_days": 6,
    "allow_days": 45,
    "why_allowance": "monthly AUM/flow",
    "verdict": "OK"
@@ -93,7 +93,7 @@
   "quant/arm (StarMine)": {
    "artifact": "arm_repo/compiled/arm_india_meta.json date_max",
    "asof": "2026-08-31",
-   "age_days": 2,
+   "age_days": 3,
    "allow_days": 5,
    "why_allowance": "daily StarMine ARM top-up; VPN-gated, weekend+holiday allowance",
    "verdict": "OK"
@@ -101,7 +101,7 @@
   "revisions (Earnings Revisions tab)": {
    "artifact": "data/revisions/_snapshot.json meta.asof",
    "asof": "2026-08-31",
-   "age_days": 2,
+   "age_days": 3,
    "allow_days": 5,
    "why_allowance": "daily off the compiled ARM cache; VPN-gated weekend allowance",
    "verdict": "OK"
@@ -109,7 +109,7 @@
   "gold/lbma": {
    "artifact": "gold_tab.json meta.asof_by_feed.lbma",
    "asof": "2026-09-01",
-   "age_days": 1,
+   "age_days": 2,
    "allow_days": 5,
    "why_allowance": "LBMA business-daily auction (weekend+holiday allowance)",
    "verdict": "OK"
@@ -117,7 +117,7 @@
   "gold/gld": {
    "artifact": "gold_tab.json meta.asof_by_feed.gld",
    "asof": "2026-09-01",
-   "age_days": 1,
+   "age_days": 2,
    "allow_days": 5,
    "why_allowance": "SPDR GLD business-daily archive",
    "verdict": "OK"
@@ -125,7 +125,7 @@
   "gold/gvz": {
    "artifact": "gold_tab.json meta.asof_by_feed.gvz",
    "asof": "2026-09-01",
-   "age_days": 1,
+   "age_days": 2,
    "allow_days": 5,
    "why_allowance": "CBOE GVZ business-daily CSV",
    "verdict": "OK"
@@ -133,14 +133,14 @@
   "gold/cot": {
    "artifact": "gold_tab.json meta.asof_by_feed.cot",
    "asof": "2026-08-25",
-   "age_days": 8,
+   "age_days": 9,
    "allow_days": 12,
    "why_allowance": "CFTC weekly Friday release for Tuesday positions + holiday slip",
    "verdict": "OK"
   },
   "gold/ibja": {
    "artifact": "gold_tab.json meta.asof_by_feed.ibja",
-   "asof": "2026-09-01",
+   "asof": "2026-09-02",
    "age_days": 1,
    "allow_days": 4,
    "why_allowance": "IBJA business-daily India scrape (store)",
@@ -148,7 +148,7 @@
   },
   "gold/sgb": {
    "artifact": "gold_tab.json meta.asof_by_feed.sgb",
-   "asof": "2026-09-01",
+   "asof": "2026-09-02",
    "age_days": 1,
    "allow_days": 4,
    "why_allowance": "NSE trading-daily EOD (store)",
@@ -156,7 +156,7 @@
   },
   "gold/futures": {
    "artifact": "gold_tab.json meta.asof_by_feed.futures",
-   "asof": "2026-08-31",
+   "asof": "2026-09-01",
    "age_days": 2,
    "allow_days": 4,
    "why_allowance": "business-daily CME settles via the futures_curve store",
@@ -165,15 +165,63 @@
   "gold/bake": {
    "artifact": "gold_tab.json meta.asof",
    "asof": "2026-09-01",
-   "age_days": 1,
+   "age_days": 2,
    "allow_days": 5,
    "why_allowance": "the Gold bake itself must run nightly",
+   "verdict": "OK"
+  },
+  "oil/wti": {
+   "artifact": "oil_tab.json meta.asof_by_feed.wti",
+   "asof": "2026-08-25",
+   "age_days": 9,
+   "allow_days": 12,
+   "why_allowance": "FRED WTI spot; business-daily observations, ~8d publication lag measured 2026-09-02",
+   "verdict": "OK"
+  },
+  "oil/brent": {
+   "artifact": "oil_tab.json meta.asof_by_feed.brent",
+   "asof": "2026-08-25",
+   "age_days": 9,
+   "allow_days": 12,
+   "why_allowance": "FRED Brent spot; same measured publication lag",
+   "verdict": "OK"
+  },
+  "oil/products": {
+   "artifact": "oil_tab.json meta.asof_by_feed.products",
+   "asof": "2026-08-25",
+   "age_days": 9,
+   "allow_days": 12,
+   "why_allowance": "FRED Gulf product prices (the crack legs); same measured lag",
+   "verdict": "OK"
+  },
+  "oil/futures": {
+   "artifact": "oil_tab.json meta.asof_by_feed.futures",
+   "asof": "2026-09-01",
+   "age_days": 2,
+   "allow_days": 4,
+   "why_allowance": "business-daily CME settles via the futures_curve store",
+   "verdict": "OK"
+  },
+  "oil/cot": {
+   "artifact": "oil_tab.json meta.asof_by_feed.cot",
+   "asof": "2026-08-25",
+   "age_days": 9,
+   "allow_days": 12,
+   "why_allowance": "CFTC weekly Friday release for Tuesday positions + holiday slip",
+   "verdict": "OK"
+  },
+  "oil/bake": {
+   "artifact": "oil_tab.json meta.asof",
+   "asof": "2026-08-25",
+   "age_days": 9,
+   "allow_days": 12,
+   "why_allowance": "the Oil bake stamps its FRED leg's content date, so it inherits that feed's ~8d publication lag (see the measured note above)",
    "verdict": "OK"
   },
   "events (shell embed)": {
    "artifact": "data/events/events.json meta (dev-side source)",
    "asof": "2026-09-02",
-   "age_days": 0,
+   "age_days": 1,
    "allow_days": 4,
    "why_allowance": "daily NSE calendar",
    "verdict": "OK"
