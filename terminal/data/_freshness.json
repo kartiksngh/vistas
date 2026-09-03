@@ -1,6 +1,6 @@
 {
- "written_at": "2026-09-04T01:00:18",
- "summary": "[freshness] 33 tabs audited \u2014 32 OK, 1 STALE, 0 MISSING",
+ "written_at": "2026-09-04T01:46:32",
+ "summary": "[freshness] 33 tabs audited \u2014 33 OK, 0 STALE, 0 MISSING",
  "tabs": {
   "allocator/market-dashboard": {
    "artifact": "data/dashboard.json meta.asof",
@@ -126,9 +126,9 @@
    "artifact": "data/macro/ppac.json asof",
    "asof": "2026-07-01",
    "age_days": 65,
-   "allow_days": 45,
-   "why_allowance": "monthly, posted in the day 2-10 window for the prior month",
-   "verdict": "STALE"
+   "allow_days": 75,
+   "why_allowance": "monthly; the fragment stamps the CONTENT month at its 1st, so age = month length + PPAC's own publication lag. 45 was unsatisfiable by arithmetic: month M stamped M-01 is already 31+ days old the day it could first appear, and ~62 by the time M+1 is due. Measured 2026-09-04: newest content 2026-07-01 = 65 days, and PPAC's FY2026-27 endpoint returned 0 rows, so August genuinely was not out. 75 = 62 + slack; two missed cycles still trip it",
+   "verdict": "OK"
   },
   "vol realized (data/vol/realized.json)": {
    "artifact": "data/vol/realized.json asof",
