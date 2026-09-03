@@ -1,6 +1,6 @@
 {
- "written_at": "2026-09-03T15:50:28",
- "summary": "[freshness] 28 tabs audited \u2014 27 OK, 0 STALE, 1 MISSING",
+ "written_at": "2026-09-03T17:50:23",
+ "summary": "[freshness] 28 tabs audited \u2014 28 OK, 0 STALE, 0 MISSING",
  "tabs": {
   "allocator/market-dashboard": {
    "artifact": "data/dashboard.json meta.asof",
@@ -28,11 +28,11 @@
   },
   "screen (smart-money)": {
    "artifact": "smart_vs_street.json holdings_asof",
-   "asof": null,
-   "age_days": null,
+   "asof": "2026-07",
+   "age_days": 37,
    "allow_days": 45,
    "why_allowance": "monthly SEBI portfolio disclosure (10th of next month)",
-   "verdict": "MISSING"
+   "verdict": "OK"
   },
   "ownership/fii_derivs": {
    "artifact": "ownership/_fii_derivs.json",
