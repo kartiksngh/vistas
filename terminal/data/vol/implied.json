@@ -1,5 +1,5 @@
 {
- "asof": "2026-09-03",
+ "asof": "2026-09-04",
  "coverage_pct": [
   52.57,
   52.57,
@@ -22,6 +22,7 @@
   52.57,
   52.57,
   52.57,
+  97.18,
   97.18
  ],
  "dates": [
@@ -46,12 +47,131 @@
   "2026-08-31",
   "2026-09-01",
   "2026-09-02",
-  "2026-09-03"
+  "2026-09-03",
+  "2026-09-04"
+ ],
+ "expiry_pair": [
+  {
+   "index": "28-Jul-2026",
+   "matched": true,
+   "members_modal": "28-Jul-2026"
+  },
+  {
+   "index": "04-Aug-2026",
+   "matched": false,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "04-Aug-2026",
+   "matched": false,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "11-Aug-2026",
+   "matched": false,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "11-Aug-2026",
+   "matched": false,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "11-Aug-2026",
+   "matched": false,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "11-Aug-2026",
+   "matched": false,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "18-Aug-2026",
+   "matched": false,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "18-Aug-2026",
+   "matched": false,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "18-Aug-2026",
+   "matched": false,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "18-Aug-2026",
+   "matched": false,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "18-Aug-2026",
+   "matched": false,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "25-Aug-2026",
+   "matched": true,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "25-Aug-2026",
+   "matched": true,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "25-Aug-2026",
+   "matched": true,
+   "members_modal": "25-Aug-2026"
+  },
+  {
+   "index": "01-Sep-2026",
+   "matched": false,
+   "members_modal": "29-Sep-2026"
+  },
+  {
+   "index": "01-Sep-2026",
+   "matched": false,
+   "members_modal": "29-Sep-2026"
+  },
+  {
+   "index": "01-Sep-2026",
+   "matched": false,
+   "members_modal": "29-Sep-2026"
+  },
+  {
+   "index": "01-Sep-2026",
+   "matched": false,
+   "members_modal": "29-Sep-2026"
+  },
+  {
+   "index": "01-Sep-2026",
+   "matched": false,
+   "members_modal": "29-Sep-2026"
+  },
+  {
+   "index": "08-Sep-2026",
+   "matched": false,
+   "members_modal": "29-Sep-2026"
+  },
+  {
+   "index": "2026-09-08",
+   "matched": false,
+   "members_modal": "2026-09-29"
+  },
+  {
+   "index": "2026-09-08",
+   "matched": false,
+   "members_modal": "2026-09-29"
+  }
  ],
  "meta": {
   "formula": "rho_imp = (sigma_idx^2 - sum(w^2*sigma^2)) / ((sum(w*sigma))^2 - sum(w^2*sigma^2)); w = w_ffmcap renormalised over members with an ATM IV that day; sigma = ATM IV / 100 (mean of call/put ATM IV)",
-  "history_note": "stock ATM IV banked from 2026-09-03; implied correlation requires >=80% weight coverage"
+  "history_note": "stock ATM IV banked from 2026-09-03; implied correlation requires >=80% weight coverage AND both legs priced to the same expiry"
  },
+ "n_horizon_blocked": 19,
  "n_members_with_iv": [
   10,
   10,
@@ -74,20 +194,21 @@
   10,
   10,
   10,
+  49,
   49
  ],
  "pctile": {
   "1y": {
-   "n": 1,
-   "value": 100.0
+   "n": 0,
+   "value": null
   },
   "3y": {
-   "n": 1,
-   "value": 100.0
+   "n": 0,
+   "value": null
   },
   "5y": {
-   "n": 1,
-   "value": 100.0
+   "n": 0,
+   "value": null
   }
  },
  "rho_imp": [
@@ -112,6 +233,7 @@
   null,
   null,
   null,
-  0.23897966872162682
+  null,
+  null
  ]
 }
