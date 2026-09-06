@@ -1,21 +1,21 @@
 {
-  "asof": "2026-09-02",
+  "asof": "2026-09-04",
   "tiles": {
     "vix": {
-      "level": 11.59,
-      "pctile_20d": 70.0,
-      "pctile_50d": 28.0,
-      "pctile_252d": 32.54,
-      "trend": 0.15,
-      "momentum": 1.02,
-      "regime": "Normal"
+      "level": 10.68,
+      "pctile_20d": 15.0,
+      "pctile_50d": 6.0,
+      "pctile_252d": 16.67,
+      "trend": -0.65,
+      "momentum": 0.0,
+      "regime": "Low"
     },
-    "realized_corr21": 0.05,
+    "realized_corr21": 0.06,
     "realized_corr50": 0.14,
-    "correlation_trend": -0.08,
+    "correlation_trend": -0.09,
     "implied_corr": {
       "rho_imp": null,
-      "coverage_pct": 52.57,
+      "coverage_pct": 97.18,
       "pctile_1y": null,
       "available": false,
       "reason": "implied correlation pending (coverage < 80%)"
@@ -27,14 +27,14 @@
       "reason": "implied correlation pending (coverage < 80%)"
     },
     "dispersion_score": {
-      "value": 23.7,
+      "value": 20.13,
       "regime": "Macro Dominated",
       "legs": {
         "crp": null,
-        "trend": 11.51,
-        "xsdisp": 27.91,
-        "breadth": 32.5,
-        "vix": 32.54
+        "trend": 11.02,
+        "xsdisp": 22.49,
+        "breadth": 34.5,
+        "vix": 16.67
       },
       "dropped_legs": [
         "crp"
@@ -70,14 +70,14 @@
       "reason": "implied correlation pending (coverage < 80%)"
     },
     "regime_shift": {
-      "score": 47.75,
+      "score": 47.22,
       "band": "Watch",
       "legs": {
-        "trend": 11.51,
-        "sector_expansion": 16.09,
-        "breadth_deterioration": 94.99,
-        "xsdisp_collapse": 72.09,
-        "vix_momentum": 70.7,
+        "trend": 11.02,
+        "sector_expansion": 24.54,
+        "breadth_deterioration": 91.04,
+        "xsdisp_collapse": 77.51,
+        "vix_momentum": 50.02,
         "crp": null
       },
       "dropped_legs": [
@@ -93,8 +93,6 @@
     }
   },
   "dates": [
-    "2021-08-05",
-    "2021-08-06",
     "2021-08-09",
     "2021-08-10",
     "2021-08-11",
@@ -1352,12 +1350,12 @@
     "2026-08-28",
     "2026-08-31",
     "2026-09-01",
-    "2026-09-02"
+    "2026-09-02",
+    "2026-09-03",
+    "2026-09-04"
   ],
   "series": {
     "dispersion_score": [
-      47.94,
-      46.5,
       43.67,
       44.33,
       46.07,
@@ -2615,11 +2613,11 @@
       35.0,
       36.76,
       23.93,
-      23.7
+      23.7,
+      22.13,
+      20.13
     ],
     "market_regime": [
-      "C",
-      "C",
       "B",
       "B",
       "B",
@@ -3876,6 +3874,8 @@
       "D",
       "B",
       "B",
+      "C",
+      "C",
       "C",
       "C"
     ],
@@ -6404,8 +6404,6 @@
       null
     ],
     "vix_pctile_252d": [
-      5.95,
-      3.97,
       4.37,
       5.56,
       5.95,
@@ -7663,7 +7661,9 @@
       16.27,
       23.81,
       31.35,
-      32.54
+      32.54,
+      27.78,
+      16.67
     ]
   },
   "alerts": [
@@ -7671,25 +7671,25 @@
       "alert": "m14_1",
       "condition": "RealizedCorr21 > 25%",
       "fired": false,
-      "value": 0.05
+      "value": 0.06
     },
     {
       "alert": "m14_2",
       "condition": "RealizedCorr21 > 30%",
       "fired": false,
-      "value": 0.05
+      "value": 0.06
     },
     {
       "alert": "m14_3",
       "condition": "CorrelationTrend > +3%",
       "fired": false,
-      "value": -0.08
+      "value": -0.09
     },
     {
       "alert": "m14_4",
       "condition": "VIX 252d percentile > 80",
       "fired": false,
-      "value": 32.54
+      "value": 16.67
     },
     {
       "alert": "m14_5",
@@ -7701,33 +7701,33 @@
       "alert": "m14_6",
       "condition": "Dispersion Score below 30",
       "fired": true,
-      "value": 23.7
+      "value": 20.13
     },
     {
       "alert": "m20_1",
       "condition": "Correlation Expansion: RealizedCorr21 > RealizedCorr50 + 3%",
       "fired": false,
-      "value": -0.08
+      "value": -0.09
     },
     {
       "alert": "m20_2",
       "condition": "Sector Synchronization: avg sector Corr21 rose > 10pt in 20 trading days",
       "fired": false,
-      "value": -0.11
+      "value": -0.08
     },
     {
       "alert": "m20_3",
       "condition": "Dispersion Collapse: CrossSectionalDispersion below its 20th 3y-percentile",
       "fired": false,
-      "value": 37.57
+      "value": 23.41
     },
     {
       "alert": "m20_4",
       "condition": "Macro Regime Warning: CorrelationTrend > +3% AND VIX 252d percentile > 70",
       "fired": false,
       "value": {
-        "trend": -0.08,
-        "vix_pctile252": 32.54
+        "trend": -0.09,
+        "vix_pctile252": 16.67
       }
     },
     {
@@ -7735,8 +7735,8 @@
       "condition": "Correlation Shock: RealizedCorr21 > 35% AND CorrelationTrend > +5%",
       "fired": false,
       "value": {
-        "realized_corr21": 0.05,
-        "corr_trend": -0.08
+        "realized_corr21": 0.06,
+        "corr_trend": -0.09
       }
     },
     {
@@ -7759,7 +7759,7 @@
       "fired": false,
       "value": {
         "crp21": null,
-        "corr_trend": -0.08
+        "corr_trend": -0.09
       }
     }
   ],
@@ -7767,14 +7767,14 @@
     "inputs": {
       "realized_json": {
         "path": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\vol\\realized.json",
-        "asof": "2026-09-02"
+        "asof": "2026-09-04"
       },
       "implied_json": {
         "path": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\vol\\implied.json",
         "asof": "2026-09-04",
         "coverage_min_pct": 80.0
       },
-      "vix_csv": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\World Data PX till Sep 4, 2026.csv"
+      "vix_csv": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\World Data PX till Sep 5, 2026.csv"
     },
     "backbone_date_note": "asof = realized.json's own last date, the daily equity-return backbone; VIX and implied correlation are joined onto it by AS-OF (latest value on or before that date), never by looking ahead.",
     "null_handling": "implied correlation pending (coverage < 80%) -- every implied-dependent tile/leg (CRP, the Dispersion Score's CRP leg, both dispersion signals, the module-13 hedge color, the module-21 covered-call signal, the regime-shift score's CRP leg) reads null with this reason whenever rho_imp is null/absent for asof. The module-21 Index Hedge Signal does NOT depend on CRP and stays live.",
