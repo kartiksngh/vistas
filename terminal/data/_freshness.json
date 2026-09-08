@@ -1,6 +1,6 @@
 {
- "written_at": "2026-09-08T09:02:20",
- "summary": "[freshness] 40 tabs audited - 35 OK, 5 STALE, 0 MISSING, 0 FUTURE-DATED",
+ "written_at": "2026-09-08T13:20:45",
+ "summary": "[freshness] 40 tabs audited - 37 OK, 3 STALE, 0 MISSING, 0 FUTURE-DATED",
  "tabs": {
   "allocator/market-dashboard": {
    "artifact": "data/dashboard.json meta.asof",
@@ -84,27 +84,27 @@
   },
   "ownership/mf_liquidity": {
    "artifact": "ownership/_mf_liquidity.json",
-   "asof": "2026-08",
-   "age_days": 8,
+   "asof": "2026-07",
+   "age_days": 39,
    "allow_days": 45,
    "why_allowance": "monthly AUM/flow",
    "verdict": "OK"
   },
   "quant/arm (StarMine)": {
    "artifact": "arm_repo/compiled/arm_india_meta.json date_max",
-   "asof": "2026-08-31",
-   "age_days": 8,
+   "asof": "2026-09-07",
+   "age_days": 1,
    "allow_days": 5,
    "why_allowance": "daily StarMine ARM top-up; VPN-gated, weekend+holiday allowance",
-   "verdict": "STALE"
+   "verdict": "OK"
   },
   "revisions (Earnings Revisions tab)": {
    "artifact": "data/revisions/_snapshot.json meta.asof",
-   "asof": "2026-08-31",
-   "age_days": 8,
+   "asof": "2026-09-07",
+   "age_days": 1,
    "allow_days": 5,
    "why_allowance": "daily off the compiled ARM cache; VPN-gated weekend allowance",
-   "verdict": "STALE"
+   "verdict": "OK"
   },
   "power (NPP daily generation store -> data/macro/power.json)": {
    "artifact": "data/macro/power.json asof",
