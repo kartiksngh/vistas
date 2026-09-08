@@ -1,5 +1,5 @@
 {
- "written_at": "2026-09-08T20:29:04",
+ "written_at": "2026-09-08T23:37:59",
  "summary": "[freshness] 41 tabs audited - 39 OK, 2 STALE, 0 MISSING, 0 FUTURE-DATED",
  "tabs": {
   "allocator/market-dashboard": {
@@ -12,8 +12,8 @@
   },
   "allocator/breadth": {
    "artifact": "breadth.json meta.asof",
-   "asof": "2026-09-07",
-   "age_days": 1,
+   "asof": "2026-09-08",
+   "age_days": 0,
    "allow_days": 4,
    "why_allowance": "daily off the stock panel (weekend+holiday allowance)",
    "verdict": "OK"
@@ -36,8 +36,8 @@
   },
   "ownership/fii_derivs": {
    "artifact": "ownership/_fii_derivs.json",
-   "asof": "2026-09-07",
-   "age_days": 1,
+   "asof": "2026-09-08",
+   "age_days": 0,
    "allow_days": 5,
    "why_allowance": "daily NSE participant OI",
    "verdict": "OK"
@@ -292,16 +292,16 @@
   },
   "discovery screens": {
    "artifact": "data/discovery/screens.json asof",
-   "asof": "2026-09-07",
-   "age_days": 1,
+   "asof": "2026-09-08",
+   "age_days": 0,
    "allow_days": 4,
    "why_allowance": "daily local compute off the stock panel; weekend + holiday allowance",
    "verdict": "OK"
   },
   "quant insights": {
    "artifact": "data/quant/insights.json asof",
-   "asof": "2026-09-07",
-   "age_days": 1,
+   "asof": "2026-09-08",
+   "age_days": 0,
    "allow_days": 4,
    "why_allowance": "daily local compute (regime/factors/cross-asset); weekend allowance",
    "verdict": "OK"
