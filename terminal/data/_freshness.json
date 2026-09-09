@@ -1,6 +1,6 @@
 {
- "written_at": "2026-09-09T03:23:56",
- "summary": "[freshness] 41 tabs audited - 38 OK, 2 STALE, 1 MISSING, 0 FUTURE-DATED",
+ "written_at": "2026-09-09T12:48:06",
+ "summary": "[freshness] 41 tabs audited - 39 OK, 2 STALE, 0 MISSING, 0 FUTURE-DATED",
  "tabs": {
   "allocator/market-dashboard": {
    "artifact": "data/dashboard.json meta.asof",
@@ -28,11 +28,11 @@
   },
   "screen (smart-money)": {
    "artifact": "smart_vs_street.json holdings_asof",
-   "asof": null,
-   "age_days": null,
+   "asof": "2026-07",
+   "age_days": 40,
    "allow_days": 45,
    "why_allowance": "monthly SEBI portfolio disclosure (10th of next month)",
-   "verdict": "MISSING"
+   "verdict": "OK"
   },
   "ownership/fii_derivs": {
    "artifact": "ownership/_fii_derivs.json",
@@ -92,16 +92,16 @@
   },
   "quant/arm (StarMine)": {
    "artifact": "arm_repo/compiled/arm_india_meta.json date_max",
-   "asof": "2026-09-07",
-   "age_days": 2,
+   "asof": "2026-09-08",
+   "age_days": 1,
    "allow_days": 5,
    "why_allowance": "daily StarMine ARM top-up; VPN-gated, weekend+holiday allowance",
    "verdict": "OK"
   },
   "revisions (Earnings Revisions tab)": {
    "artifact": "data/revisions/_snapshot.json meta.asof",
-   "asof": "2026-09-07",
-   "age_days": 2,
+   "asof": "2026-09-08",
+   "age_days": 1,
    "allow_days": 5,
    "why_allowance": "daily off the compiled ARM cache; VPN-gated weekend allowance",
    "verdict": "OK"
