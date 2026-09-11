@@ -1,5 +1,5 @@
 {
- "written_at": "2026-09-11T20:21:41",
+ "written_at": "2026-09-11T23:24:35",
  "summary": "[freshness] 41 tabs audited - 41 OK, 0 STALE, 0 MISSING, 0 FUTURE-DATED",
  "tabs": {
   "allocator/market-dashboard": {
@@ -12,8 +12,8 @@
   },
   "allocator/breadth": {
    "artifact": "breadth.json meta.asof",
-   "asof": "2026-09-10",
-   "age_days": 1,
+   "asof": "2026-09-11",
+   "age_days": 0,
    "allow_days": 4,
    "why_allowance": "daily off the stock panel (weekend+holiday allowance)",
    "verdict": "OK"
@@ -36,8 +36,8 @@
   },
   "ownership/fii_derivs": {
    "artifact": "ownership/_fii_derivs.json",
-   "asof": "2026-09-10",
-   "age_days": 1,
+   "asof": "2026-09-11",
+   "age_days": 0,
    "allow_days": 5,
    "why_allowance": "daily NSE participant OI",
    "verdict": "OK"
@@ -116,24 +116,24 @@
   },
   "npp reports (coal stock / installed capacity -> data/macro/npp.json)": {
    "artifact": "data/macro/npp.json asof",
-   "asof": "2026-09-03",
-   "age_days": 8,
+   "asof": "2026-09-10",
+   "age_days": 1,
    "allow_days": 40,
    "why_allowance": "monthly reports, ~5-week lag; daily coal leg inside",
    "verdict": "OK"
   },
   "ppac (petroleum consumption -> data/macro/ppac.json)": {
    "artifact": "data/macro/ppac.json asof",
-   "asof": "2026-07-01",
-   "age_days": 72,
+   "asof": "2026-08-01",
+   "age_days": 41,
    "allow_days": 75,
    "why_allowance": "monthly; the fragment stamps the CONTENT month at its 1st, so age = month length + PPAC's own publication lag. 45 was unsatisfiable by arithmetic: month M stamped M-01 is already 31+ days old the day it could first appear, and ~62 by the time M+1 is due. Measured 2026-09-04: newest content 2026-07-01 = 65 days, and PPAC's FY2026-27 endpoint returned 0 rows, so August genuinely was not out. 75 = 62 + slack; two missed cycles still trip it",
    "verdict": "OK"
   },
   "vol realized (data/vol/realized.json)": {
    "artifact": "data/vol/realized.json asof",
-   "asof": "2026-09-10",
-   "age_days": 1,
+   "asof": "2026-09-11",
+   "age_days": 0,
    "allow_days": 5,
    "why_allowance": "daily off the TR csv",
    "verdict": "OK"
@@ -148,8 +148,8 @@
   },
   "pair corr (F&O pairwise correlation -> data/derivs/pair_corr.json)": {
    "artifact": "data/derivs/pair_corr.json asof",
-   "asof": "2026-09-10",
-   "age_days": 1,
+   "asof": "2026-09-11",
+   "age_days": 0,
    "allow_days": 5,
    "why_allowance": "daily off the bhav TR csv + the F&O universe; content date = the newest TR day used",
    "verdict": "OK"
@@ -172,24 +172,24 @@
   },
   "gold/lbma": {
    "artifact": "gold_tab.json meta.asof_by_feed.lbma",
-   "asof": "2026-09-09",
-   "age_days": 2,
+   "asof": "2026-09-10",
+   "age_days": 1,
    "allow_days": 5,
    "why_allowance": "LBMA business-daily auction (weekend+holiday allowance)",
    "verdict": "OK"
   },
   "gold/gld": {
    "artifact": "gold_tab.json meta.asof_by_feed.gld",
-   "asof": "2026-09-09",
-   "age_days": 2,
+   "asof": "2026-09-10",
+   "age_days": 1,
    "allow_days": 5,
    "why_allowance": "SPDR GLD business-daily archive",
    "verdict": "OK"
   },
   "gold/gvz": {
    "artifact": "gold_tab.json meta.asof_by_feed.gvz",
-   "asof": "2026-09-09",
-   "age_days": 2,
+   "asof": "2026-09-10",
+   "age_days": 1,
    "allow_days": 5,
    "why_allowance": "CBOE GVZ business-daily CSV",
    "verdict": "OK"
@@ -228,32 +228,32 @@
   },
   "gold/bake": {
    "artifact": "gold_tab.json meta.asof",
-   "asof": "2026-09-09",
-   "age_days": 2,
+   "asof": "2026-09-10",
+   "age_days": 1,
    "allow_days": 5,
    "why_allowance": "the Gold bake itself must run nightly",
    "verdict": "OK"
   },
   "oil/wti": {
    "artifact": "oil_tab.json meta.asof_by_feed.wti",
-   "asof": "2026-09-01",
-   "age_days": 10,
+   "asof": "2026-09-09",
+   "age_days": 2,
    "allow_days": 12,
    "why_allowance": "FRED WTI spot; business-daily observations, ~8d publication lag measured 2026-09-02",
    "verdict": "OK"
   },
   "oil/brent": {
    "artifact": "oil_tab.json meta.asof_by_feed.brent",
-   "asof": "2026-09-01",
-   "age_days": 10,
+   "asof": "2026-09-09",
+   "age_days": 2,
    "allow_days": 12,
    "why_allowance": "FRED Brent spot; same measured publication lag",
    "verdict": "OK"
   },
   "oil/products": {
    "artifact": "oil_tab.json meta.asof_by_feed.products",
-   "asof": "2026-09-01",
-   "age_days": 10,
+   "asof": "2026-09-09",
+   "age_days": 2,
    "allow_days": 12,
    "why_allowance": "FRED Gulf product prices (the crack legs); same measured lag",
    "verdict": "OK"
@@ -276,32 +276,32 @@
   },
   "oil/bake": {
    "artifact": "oil_tab.json meta.asof",
-   "asof": "2026-09-01",
-   "age_days": 10,
+   "asof": "2026-09-09",
+   "age_days": 2,
    "allow_days": 12,
    "why_allowance": "the Oil bake stamps its FRED leg's content date, so it inherits that feed's ~8d publication lag (see the measured note above)",
    "verdict": "OK"
   },
   "events (shell embed)": {
    "artifact": "data/events/events.json meta (dev-side source)",
-   "asof": "2026-09-10",
-   "age_days": 1,
+   "asof": "2026-09-11",
+   "age_days": 0,
    "allow_days": 4,
    "why_allowance": "daily NSE calendar",
    "verdict": "OK"
   },
   "discovery screens": {
    "artifact": "data/discovery/screens.json asof",
-   "asof": "2026-09-10",
-   "age_days": 1,
+   "asof": "2026-09-11",
+   "age_days": 0,
    "allow_days": 4,
    "why_allowance": "daily local compute off the stock panel; weekend + holiday allowance",
    "verdict": "OK"
   },
   "quant insights": {
    "artifact": "data/quant/insights.json asof",
-   "asof": "2026-09-10",
-   "age_days": 1,
+   "asof": "2026-09-11",
+   "age_days": 0,
    "allow_days": 4,
    "why_allowance": "daily local compute (regime/factors/cross-asset); weekend allowance",
    "verdict": "OK"
@@ -324,8 +324,8 @@
   },
   "derivs (options summary)": {
    "artifact": "data/derivs/Options Summary till <date>.json",
-   "asof": "2026-09-10",
-   "age_days": 1,
+   "asof": "2026-09-11",
+   "age_days": 0,
    "allow_days": 5,
    "why_allowance": "daily NSE F&O summary; weekend + holiday allowance",
    "verdict": "OK"
