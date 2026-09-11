@@ -1,5 +1,5 @@
 {
- "written_at": "2026-09-11T11:02:29",
+ "written_at": "2026-09-11T14:37:37",
  "summary": "[freshness] 41 tabs audited - 41 OK, 0 STALE, 0 MISSING, 0 FUTURE-DATED",
  "tabs": {
   "allocator/market-dashboard": {
@@ -20,8 +20,8 @@
   },
   "fundskill (SKILL verdict)": {
    "artifact": "funds_attribution/<scheme>.json ts[-1].ym",
-   "asof": "2026-08",
-   "age_days": 11,
+   "asof": "2026-07",
+   "age_days": 42,
    "allow_days": 50,
    "why_allowance": "newest holdings month scored on the forward MTD (updates daily; holdings disclose by the 10th of the next month)",
    "verdict": "OK"
@@ -92,16 +92,16 @@
   },
   "quant/arm (StarMine)": {
    "artifact": "arm_repo/compiled/arm_india_meta.json date_max",
-   "asof": "2026-09-08",
-   "age_days": 3,
+   "asof": "2026-09-10",
+   "age_days": 1,
    "allow_days": 5,
    "why_allowance": "daily StarMine ARM top-up; VPN-gated, weekend+holiday allowance",
    "verdict": "OK"
   },
   "revisions (Earnings Revisions tab)": {
    "artifact": "data/revisions/_snapshot.json meta.asof",
-   "asof": "2026-09-08",
-   "age_days": 3,
+   "asof": "2026-09-10",
+   "age_days": 1,
    "allow_days": 5,
    "why_allowance": "daily off the compiled ARM cache; VPN-gated weekend allowance",
    "verdict": "OK"
@@ -132,8 +132,8 @@
   },
   "vol realized (data/vol/realized.json)": {
    "artifact": "data/vol/realized.json asof",
-   "asof": "2026-09-09",
-   "age_days": 2,
+   "asof": "2026-09-10",
+   "age_days": 1,
    "allow_days": 5,
    "why_allowance": "daily off the TR csv",
    "verdict": "OK"
@@ -148,24 +148,24 @@
   },
   "pair corr (F&O pairwise correlation -> data/derivs/pair_corr.json)": {
    "artifact": "data/derivs/pair_corr.json asof",
-   "asof": "2026-09-09",
-   "age_days": 2,
+   "asof": "2026-09-10",
+   "age_days": 1,
    "allow_days": 5,
    "why_allowance": "daily off the bhav TR csv + the F&O universe; content date = the newest TR day used",
    "verdict": "OK"
   },
   "MTF moneyness (NSE margin-trading disclosure -> data/derivs/mtf_moneyness.json)": {
    "artifact": "data/derivs/mtf_moneyness.json asof",
-   "asof": "2026-09-08",
-   "age_days": 3,
+   "asof": "2026-09-09",
+   "age_days": 2,
    "allow_days": 5,
    "why_allowance": "daily off NSE mrg_trading_<ddmmyy>.zip (published T+1..T+3) + adjusted bhav closes; content date = the newest disclosure day",
    "verdict": "OK"
   },
   "vol intel (data/vol/intel.json)": {
    "artifact": "data/vol/intel.json asof",
-   "asof": "2026-09-09",
-   "age_days": 2,
+   "asof": "2026-09-10",
+   "age_days": 1,
    "allow_days": 6,
    "why_allowance": "MEASURED, not guessed. This bake's asof is the newest day carrying BOTH a NIFTY 50 TR level and an India VIX print, so its allowance is the arithmetic of that JOINT calendar. Measured 2026-09-04 on the bake's own date list: the largest gap between consecutive joint days over the last 3 years is 4 calendar days (732 gaps: 549x1d, 27x2d, 133x3d, 23x4d, none longer), which is what a Thursday close read on the following Monday looks like. Add 1 day because a single missing Yahoo ^INDIAVIX print pushes the joint date back one further trading day (49 such days since 2008, longest run 1 day, in 2008), and 1 day of slack so a boundary case does not cry wolf every long weekend: 4 + 1 + 1 = 6. The full-history max joint gap is 6 days (12 occurrences, all pre-2023 holiday calendars), so 6 also covers the worst day this feed has ever had.",
    "verdict": "OK"
