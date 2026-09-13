@@ -1,5 +1,5 @@
 {
- "asof": "2026-09-05",
+ "asof": "2026-09-12",
  "mcap_period": "30Jun2026",
  "n_indices": 21,
  "indices": {
@@ -33,8 +33,8 @@
   },
   "NIFTY 500": {
    "slug": "ind_nifty500list",
-   "n": 500,
-   "coverage": 0.994,
+   "n": 501,
+   "coverage": 0.992,
    "broad": true,
    "low_confidence": false
   },
@@ -54,8 +54,8 @@
   },
   "NIFTY SMALLCAP 250": {
    "slug": "ind_niftysmallcap250list",
-   "n": 250,
-   "coverage": 0.996,
+   "n": 251,
+   "coverage": 0.992,
    "broad": true,
    "low_confidence": false
   },
@@ -75,8 +75,8 @@
   },
   "NIFTY MIDSMALLCAP 400": {
    "slug": "ind_niftymidsmallcap400list",
-   "n": 400,
-   "coverage": 0.993,
+   "n": 401,
+   "coverage": 0.99,
    "broad": true,
    "low_confidence": false
   },
