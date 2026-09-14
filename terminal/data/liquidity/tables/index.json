@@ -120,10 +120,10 @@
  },
  "central_banks": {
   "title": "Central bank balance sheets and exchange rates, every observation",
-  "rows": 25058,
+  "rows": 25054,
   "first": "1971-01-04",
   "last": "2026-09-09",
-  "bytes": 1661537
+  "bytes": 1661009
  },
  "us_net_liquidity": {
   "title": "US net liquidity and its three parts, every week",
@@ -551,5 +551,1454 @@
   "first": "2000-12-31",
   "last": "2026-06-30",
   "bytes": 179634
+ },
+ "central_bank_assets": {
+  "title": "Every central bank the BIS covers: total assets each month, in its own currency and in US dollars",
+  "rows": 58877,
+  "first": "1840-06",
+  "last": "2026-07",
+  "bytes": 5206335
+ },
+ "ca_owner_types__CA_LISTED_SHARES": {
+  "title": "Every line of Statistics Canada's balance sheets on who holds Canadian listed shares, every quarter",
+  "rows": 4380,
+  "first": "1990-03-31",
+  "last": "2026-06-30",
+  "bytes": 526648
+ },
+ "ca_owner_types__CA_GOVT_CANADA_BONDS": {
+  "title": "Every line of Statistics Canada's balance sheets on who holds Government of Canada bonds, every quarter",
+  "rows": 4380,
+  "first": "1990-03-31",
+  "last": "2026-06-30",
+  "bytes": 525987
+ },
+ "ca_owner_types__CA_GOVT_CANADA_SHORT_TERM": {
+  "title": "Every line of Statistics Canada's balance sheets on who holds Government of Canada short-term paper, every quarter",
+  "rows": 4380,
+  "first": "1990-03-31",
+  "last": "2026-06-30",
+  "bytes": 524703
+ },
+ "ca_owner_types__CA_PROVINCIAL_BONDS": {
+  "title": "Every line of Statistics Canada's balance sheets on who holds provincial and territorial government bonds, every quarter",
+  "rows": 4380,
+  "first": "1990-03-31",
+  "last": "2026-06-30",
+  "bytes": 525650
+ },
+ "ca_owner_types__CA_LOCAL_BONDS": {
+  "title": "Every line of Statistics Canada's balance sheets on who holds local government bonds, every quarter",
+  "rows": 4380,
+  "first": "1990-03-31",
+  "last": "2026-06-30",
+  "bytes": 521354
+ },
+ "ca_owner_types__CA_CORPORATE_BONDS": {
+  "title": "Every line of Statistics Canada's balance sheets on who holds other Canadian bonds, mostly corporate, every quarter",
+  "rows": 4380,
+  "first": "1990-03-31",
+  "last": "2026-06-30",
+  "bytes": 526682
+ },
+ "ca_owner_types__CA_MUTUAL_FUND_UNITS": {
+  "title": "Every line of Statistics Canada's balance sheets on who holds Canadian mutual fund units, every quarter",
+  "rows": 4380,
+  "first": "1990-03-31",
+  "last": "2026-06-30",
+  "bytes": 520672
+ },
+ "bank_credit_by_lender": {
+  "title": "Every BIS row on banks' cross-border claims and liabilities, by reporting country",
+  "rows": 12912,
+  "first": "1977-12-31",
+  "last": "2026-03-31",
+  "bytes": 2305488
+ },
+ "bank_credit_to_borrower": {
+  "title": "Every BIS row on all reporting banks' cross-border claims by the borrower's country (TO1)",
+  "rows": 41451,
+  "first": "1977-12-31",
+  "last": "2026-03-31",
+  "bytes": 8300664
+ },
+ "bank_credit_to_borrower__USD": {
+  "title": "Every BIS row on all reporting banks' cross-border claims by the borrower's country (USD)",
+  "rows": 40121,
+  "first": "1977-12-31",
+  "last": "2026-03-31",
+  "bytes": 8025450
+ },
+ "bank_credit_to_borrower__EUR": {
+  "title": "Every BIS row on all reporting banks' cross-border claims by the borrower's country (EUR)",
+  "rows": 39844,
+  "first": "1977-12-31",
+  "last": "2026-03-31",
+  "bytes": 7966944
+ },
+ "bank_credit_to_borrower__JPY": {
+  "title": "Every BIS row on all reporting banks' cross-border claims by the borrower's country (JPY)",
+  "rows": 32183,
+  "first": "1977-12-31",
+  "last": "2026-03-31",
+  "bytes": 6424190
+ },
+ "total_credit__5A": {
+  "title": "Every BIS total-credit row for all BIS reporting countries: by borrower, valuation, in US dollars and as a share of GDP",
+  "rows": 1048,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 154007
+ },
+ "total_credit__US": {
+  "title": "Every BIS total-credit row for the United States: by borrower, valuation, in US dollars and as a share of GDP",
+  "rows": 3816,
+  "first": "1945-12-31",
+  "last": "2026-03-31",
+  "bytes": 516202
+ },
+ "total_credit__CN": {
+  "title": "Every BIS total-credit row for China: by borrower, valuation, in US dollars and as a share of GDP",
+  "rows": 1136,
+  "first": "1985-12-31",
+  "last": "2026-03-31",
+  "bytes": 146221
+ },
+ "total_credit__XM": {
+  "title": "Every BIS total-credit row for the euro area: by borrower, valuation, in US dollars and as a share of GDP",
+  "rows": 1310,
+  "first": "1997-12-31",
+  "last": "2026-03-31",
+  "bytes": 173296
+ },
+ "total_credit__JP": {
+  "title": "Every BIS total-credit row for Japan: by borrower, valuation, in US dollars and as a share of GDP",
+  "rows": 2160,
+  "first": "1964-12-31",
+  "last": "2026-03-31",
+  "bytes": 275459
+ },
+ "total_credit__GB": {
+  "title": "Every BIS total-credit row for the United Kingdom: by borrower, valuation, in US dollars and as a share of GDP",
+  "rows": 2830,
+  "first": "1963-03-31",
+  "last": "2026-03-31",
+  "bytes": 385007
+ },
+ "total_credit__IN": {
+  "title": "Every BIS total-credit row for India: by borrower, valuation, in US dollars and as a share of GDP",
+  "rows": 1605,
+  "first": "1951-06-30",
+  "last": "2026-03-31",
+  "bytes": 205904
+ },
+ "total_credit__CA": {
+  "title": "Every BIS total-credit row for Canada: by borrower, valuation, in US dollars and as a share of GDP",
+  "rows": 2357,
+  "first": "1954-03-31",
+  "last": "2026-03-31",
+  "bytes": 302239
+ },
+ "total_credit__KR": {
+  "title": "Every BIS total-credit row for South Korea: by borrower, valuation, in US dollars and as a share of GDP",
+  "rows": 2092,
+  "first": "1962-12-31",
+  "last": "2026-03-31",
+  "bytes": 277618
+ },
+ "total_credit__DE": {
+  "title": "Every BIS total-credit row for Germany: by borrower, valuation, in US dollars and as a share of GDP",
+  "rows": 2085,
+  "first": "1955-03-31",
+  "last": "2026-03-31",
+  "bytes": 269678
+ },
+ "total_credit__FR": {
+  "title": "Every BIS total-credit row for France: by borrower, valuation, in US dollars and as a share of GDP",
+  "rows": 1878,
+  "first": "1969-12-31",
+  "last": "2026-03-31",
+  "bytes": 241468
+ },
+ "official_reserves_by_country": {
+  "title": "Every line of each country's official reserves, every month, in US dollars",
+  "rows": 268933,
+  "first": "1996-08",
+  "last": "2026-08",
+  "bytes": 36938191
+ },
+ "fed_securities_held": {
+  "title": "Every week of the Federal Reserve's securities holdings by type, at face value",
+  "rows": 10075,
+  "first": "2003-07-09",
+  "last": "2026-09-09",
+  "bytes": 981493
+ },
+ "fed_reverse_repo_lenders": {
+  "title": "Every business day of cash lent to the Federal Reserve overnight, in total and by kind of lender",
+  "rows": 5739,
+  "first": "2022-01-03",
+  "last": "2026-09-11",
+  "bytes": 432495
+ },
+ "money__AUS": {
+  "title": "Every month of broad and narrow money for Australia, in its own currency",
+  "rows": 1605,
+  "first": "1959-01",
+  "last": "2026-07",
+  "bytes": 133891
+ },
+ "money__BRA": {
+  "title": "Every month of broad and narrow money for Brazil, in its own currency",
+  "rows": 770,
+  "first": "1994-07",
+  "last": "2026-07",
+  "bytes": 63413
+ },
+ "money__CAN": {
+  "title": "Every month of broad and narrow money for Canada, in its own currency",
+  "rows": 1536,
+  "first": "1955-01",
+  "last": "2026-06",
+  "bytes": 124637
+ },
+ "money__CHE": {
+  "title": "Every month of broad and narrow money for Switzerland, in its own currency",
+  "rows": 1515,
+  "first": "1955-01",
+  "last": "2026-07",
+  "bytes": 129937
+ },
+ "money__CHL": {
+  "title": "Every month of broad and narrow money for Chile, in its own currency",
+  "rows": 1215,
+  "first": "1965-12",
+  "last": "2026-07",
+  "bytes": 98101
+ },
+ "money__CHN": {
+  "title": "Every month of broad and narrow money for China, in its own currency",
+  "rows": 660,
+  "first": "1999-01",
+  "last": "2026-06",
+  "bytes": 53770
+ },
+ "money__COL": {
+  "title": "Every month of broad and narrow money for Colombia, in its own currency",
+  "rows": 1070,
+  "first": "1982-01",
+  "last": "2026-07",
+  "bytes": 89916
+ },
+ "money__CRI": {
+  "title": "Every month of broad and narrow money for Costa Rica, in its own currency",
+  "rows": 608,
+  "first": "2001-01",
+  "last": "2026-04",
+  "bytes": 52669
+ },
+ "money__CZE": {
+  "title": "Every month of broad and narrow money for Czech Republic, in its own currency",
+  "rows": 740,
+  "first": "1991-12",
+  "last": "2026-07",
+  "bytes": 66672
+ },
+ "money__DNK": {
+  "title": "Every month of broad and narrow money for Denmark, in its own currency",
+  "rows": 1105,
+  "first": "1970-02",
+  "last": "2026-07",
+  "bytes": 91391
+ },
+ "money__EA20": {
+  "title": "Every month of broad and narrow money for Euro area, in its own currency",
+  "rows": 1358,
+  "first": "1970-01",
+  "last": "2026-07",
+  "bytes": 115916
+ },
+ "money__GBR": {
+  "title": "Every month of broad and narrow money for United Kingdom, in its own currency",
+  "rows": 958,
+  "first": "1986-09",
+  "last": "2026-07",
+  "bytes": 85923
+ },
+ "money__HUN": {
+  "title": "Every month of broad and narrow money for Hungary, in its own currency",
+  "rows": 826,
+  "first": "1990-12",
+  "last": "2026-07",
+  "bytes": 68783
+ },
+ "money__IDN": {
+  "title": "Every month of broad and narrow money for Indonesia, in its own currency",
+  "rows": 878,
+  "first": "1990-01",
+  "last": "2026-07",
+  "bytes": 75267
+ },
+ "money__IND": {
+  "title": "Every month of broad and narrow money for India, in its own currency",
+  "rows": 1809,
+  "first": "1951-03",
+  "last": "2026-07",
+  "bytes": 143644
+ },
+ "money__ISL": {
+  "title": "Every month of broad and narrow money for Iceland, in its own currency",
+  "rows": 1634,
+  "first": "1957-01",
+  "last": "2026-07",
+  "bytes": 132866
+ },
+ "money__ISR": {
+  "title": "Every month of broad and narrow money for Israel, in its own currency",
+  "rows": 956,
+  "first": "1981-04",
+  "last": "2026-06",
+  "bytes": 78631
+ },
+ "money__JPN": {
+  "title": "Every month of broad and narrow money for Japan, in its own currency",
+  "rows": 1418,
+  "first": "1955-01",
+  "last": "2026-07",
+  "bytes": 115336
+ },
+ "money__KOR": {
+  "title": "Every month of broad and narrow money for South Korea, in its own currency",
+  "rows": 1070,
+  "first": "1960-01",
+  "last": "2026-06",
+  "bytes": 92889
+ },
+ "money__MEX": {
+  "title": "Every month of broad and narrow money for Mexico, in its own currency",
+  "rows": 1071,
+  "first": "1978-01",
+  "last": "2026-07",
+  "bytes": 87883
+ },
+ "money__NOR": {
+  "title": "Every month of broad and narrow money for Norway, in its own currency",
+  "rows": 1203,
+  "first": "1960-01",
+  "last": "2026-07",
+  "bytes": 97745
+ },
+ "money__NZL": {
+  "title": "Every month of broad and narrow money for New Zealand, in its own currency",
+  "rows": 1097,
+  "first": "1977-01",
+  "last": "2026-07",
+  "bytes": 94621
+ },
+ "money__POL": {
+  "title": "Every month of broad and narrow money for Poland, in its own currency",
+  "rows": 878,
+  "first": "1990-01",
+  "last": "2026-07",
+  "bytes": 72190
+ },
+ "money__RUS": {
+  "title": "Every month of broad and narrow money for Russia, in its own currency",
+  "rows": 664,
+  "first": "1995-06",
+  "last": "2023-01",
+  "bytes": 53662
+ },
+ "money__SWE": {
+  "title": "Every month of broad and narrow money for Sweden, in its own currency",
+  "rows": 1142,
+  "first": "1960-01",
+  "last": "2026-07",
+  "bytes": 92661
+ },
+ "money__TUR": {
+  "title": "Every month of broad and narrow money for T\u00fcrkiye, in its own currency",
+  "rows": 1354,
+  "first": "1959-12",
+  "last": "2026-07",
+  "bytes": 118974
+ },
+ "money__USA": {
+  "title": "Every month of broad and narrow money for United States, in its own currency",
+  "rows": 1652,
+  "first": "1956-07",
+  "last": "2026-07",
+  "bytes": 143284
+ },
+ "money__ZAF": {
+  "title": "Every month of broad and narrow money for South Africa, in its own currency",
+  "rows": 1474,
+  "first": "1965-03",
+  "last": "2026-07",
+  "bytes": 129586
+ },
+ "futures_long__042601": {
+  "title": "Every weekly CFTC report for 2-year Treasury note futures: long and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1902224
+ },
+ "futures_short__042601": {
+  "title": "Every weekly CFTC report for 2-year Treasury note futures: short and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1913194
+ },
+ "futures_long__044601": {
+  "title": "Every weekly CFTC report for 5-year Treasury note futures: long and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1903918
+ },
+ "futures_short__044601": {
+  "title": "Every weekly CFTC report for 5-year Treasury note futures: short and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1914841
+ },
+ "futures_long__043602": {
+  "title": "Every weekly CFTC report for 10-year Treasury note futures: long and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1915519
+ },
+ "futures_short__043602": {
+  "title": "Every weekly CFTC report for 10-year Treasury note futures: short and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1926382
+ },
+ "futures_long__043607": {
+  "title": "Every weekly CFTC report for Ultra 10-year Treasury note futures: long and spread positions by kind of trader, and open interest",
+  "rows": 5470,
+  "first": "2016-03-08",
+  "last": "2026-09-08",
+  "bytes": 965590
+ },
+ "futures_short__043607": {
+  "title": "Every weekly CFTC report for Ultra 10-year Treasury note futures: short and spread positions by kind of trader, and open interest",
+  "rows": 5470,
+  "first": "2016-03-08",
+  "last": "2026-09-08",
+  "bytes": 970854
+ },
+ "futures_long__020601": {
+  "title": "Every weekly CFTC report for Treasury bond futures: long and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1833118
+ },
+ "futures_short__020601": {
+  "title": "Every weekly CFTC report for Treasury bond futures: short and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1844992
+ },
+ "futures_long__020604": {
+  "title": "Every weekly CFTC report for Ultra Treasury bond futures: long and spread positions by kind of trader, and open interest",
+  "rows": 8630,
+  "first": "2010-03-02",
+  "last": "2026-09-08",
+  "bytes": 1551677
+ },
+ "futures_short__020604": {
+  "title": "Every weekly CFTC report for Ultra Treasury bond futures: short and spread positions by kind of trader, and open interest",
+  "rows": 8630,
+  "first": "2010-03-02",
+  "last": "2026-09-08",
+  "bytes": 1561546
+ },
+ "futures_long__134741": {
+  "title": "Every weekly CFTC report for Three-month SOFR futures: long and spread positions by kind of trader, and open interest",
+  "rows": 4240,
+  "first": "2018-07-24",
+  "last": "2026-09-08",
+  "bytes": 702623
+ },
+ "futures_short__134741": {
+  "title": "Every weekly CFTC report for Three-month SOFR futures: short and spread positions by kind of trader, and open interest",
+  "rows": 4240,
+  "first": "2018-07-24",
+  "last": "2026-09-08",
+  "bytes": 707061
+ },
+ "futures_long__045601": {
+  "title": "Every weekly CFTC report for Federal funds futures: long and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1748946
+ },
+ "futures_short__045601": {
+  "title": "Every weekly CFTC report for Federal funds futures: short and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1759933
+ },
+ "futures_long__13874A": {
+  "title": "Every weekly CFTC report for E-mini S&P 500 futures: long and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1827643
+ },
+ "futures_short__13874A": {
+  "title": "Every weekly CFTC report for E-mini S&P 500 futures: short and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1837618
+ },
+ "futures_long__209742": {
+  "title": "Every weekly CFTC report for Nasdaq mini futures: long and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1927664
+ },
+ "futures_short__209742": {
+  "title": "Every weekly CFTC report for Nasdaq mini futures: short and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1938333
+ },
+ "futures_long__239742": {
+  "title": "Every weekly CFTC report for Russell E-mini futures: long and spread positions by kind of trader, and open interest",
+  "rows": 5930,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1032896
+ },
+ "futures_short__239742": {
+  "title": "Every weekly CFTC report for Russell E-mini futures: short and spread positions by kind of trader, and open interest",
+  "rows": 5930,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1039356
+ },
+ "futures_long__244042": {
+  "title": "Every weekly CFTC report for MSCI Emerging Markets index futures: long and spread positions by kind of trader, and open interest",
+  "rows": 7960,
+  "first": "2011-06-14",
+  "last": "2026-09-08",
+  "bytes": 1356232
+ },
+ "futures_short__244042": {
+  "title": "Every weekly CFTC report for MSCI Emerging Markets index futures: short and spread positions by kind of trader, and open interest",
+  "rows": 7960,
+  "first": "2011-06-14",
+  "last": "2026-09-08",
+  "bytes": 1364010
+ },
+ "futures_long__244041": {
+  "title": "Every weekly CFTC report for MSCI EAFE index futures: long and spread positions by kind of trader, and open interest",
+  "rows": 7960,
+  "first": "2011-06-14",
+  "last": "2026-09-08",
+  "bytes": 1230541
+ },
+ "futures_short__244041": {
+  "title": "Every weekly CFTC report for MSCI EAFE index futures: short and spread positions by kind of trader, and open interest",
+  "rows": 7960,
+  "first": "2011-06-14",
+  "last": "2026-09-08",
+  "bytes": 1238155
+ },
+ "futures_long__099741": {
+  "title": "Every weekly CFTC report for Euro futures: long and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1697795
+ },
+ "futures_short__099741": {
+  "title": "Every weekly CFTC report for Euro futures: short and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1708476
+ },
+ "futures_long__097741": {
+  "title": "Every weekly CFTC report for Japanese yen futures: long and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1777627
+ },
+ "futures_short__097741": {
+  "title": "Every weekly CFTC report for Japanese yen futures: short and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1787701
+ },
+ "futures_long__096742": {
+  "title": "Every weekly CFTC report for British pound futures: long and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1818302
+ },
+ "futures_short__096742": {
+  "title": "Every weekly CFTC report for British pound futures: short and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1829493
+ },
+ "futures_long__098662": {
+  "title": "Every weekly CFTC report for US dollar index futures: long and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1666401
+ },
+ "futures_short__098662": {
+  "title": "Every weekly CFTC report for US dollar index futures: short and spread positions by kind of trader, and open interest",
+  "rows": 10570,
+  "first": "2006-06-13",
+  "last": "2026-09-08",
+  "bytes": 1676346
+ },
+ "futures_long__1170E1": {
+  "title": "Every weekly CFTC report for VIX volatility futures: long and spread positions by kind of trader, and open interest",
+  "rows": 10160,
+  "first": "2006-08-29",
+  "last": "2026-09-08",
+  "bytes": 1499622
+ },
+ "futures_short__1170E1": {
+  "title": "Every weekly CFTC report for VIX volatility futures: short and spread positions by kind of trader, and open interest",
+  "rows": 10160,
+  "first": "2006-08-29",
+  "last": "2026-09-08",
+  "bytes": 1509360
+ },
+ "futures_long__133741": {
+  "title": "Every weekly CFTC report for Bitcoin futures: long and spread positions by kind of trader, and open interest",
+  "rows": 4400,
+  "first": "2018-04-10",
+  "last": "2026-09-08",
+  "bytes": 635186
+ },
+ "futures_short__133741": {
+  "title": "Every weekly CFTC report for Bitcoin futures: short and spread positions by kind of trader, and open interest",
+  "rows": 4400,
+  "first": "2018-04-10",
+  "last": "2026-09-08",
+  "bytes": 639179
+ },
+ "intl_debt_by_nationality": {
+  "title": "Every BIS international debt securities row by the borrower's nationality, every quarter",
+  "rows": 22603,
+  "first": "1962-12-31",
+  "last": "2026-06-30",
+  "bytes": 3016168
+ },
+ "intl_debt_by_residence": {
+  "title": "Every BIS international debt securities row by the borrower's residence, every quarter",
+  "rows": 23182,
+  "first": "1962-12-31",
+  "last": "2026-06-30",
+  "bytes": 3095562
+ },
+ "intl_debt_by_borrower": {
+  "title": "Every BIS international debt securities row for the world by kind of borrower, every quarter",
+  "rows": 2363,
+  "first": "1962-12-31",
+  "last": "2026-06-30",
+  "bytes": 397171
+ },
+ "intl_debt_by_currency": {
+  "title": "Every BIS international debt securities row for the world by currency, every quarter",
+  "rows": 8817,
+  "first": "1962-12-31",
+  "last": "2026-06-30",
+  "bytes": 1326412
+ },
+ "debt_securities__AR": {
+  "title": "Every BIS debt securities row for Argentina, by kind of borrower, every quarter",
+  "rows": 420,
+  "first": "2001-12-31",
+  "last": "2026-03-31",
+  "bytes": 64544
+ },
+ "debt_securities__AT": {
+  "title": "Every BIS debt securities row for Austria, by kind of borrower, every quarter",
+  "rows": 1358,
+  "first": "1989-12-31",
+  "last": "2026-03-31",
+  "bytes": 198670
+ },
+ "debt_securities__BE": {
+  "title": "Every BIS debt securities row for Belgium, by kind of borrower, every quarter",
+  "rows": 1358,
+  "first": "1989-12-31",
+  "last": "2026-03-31",
+  "bytes": 198987
+ },
+ "debt_securities__BG": {
+  "title": "Every BIS debt securities row for Bulgaria, by kind of borrower, every quarter",
+  "rows": 242,
+  "first": "2020-12-31",
+  "last": "2026-03-31",
+  "bytes": 36050
+ },
+ "debt_securities__BR": {
+  "title": "Every BIS debt securities row for Brazil, by kind of borrower, every quarter",
+  "rows": 330,
+  "first": "2018-03-31",
+  "last": "2026-03-31",
+  "bytes": 49229
+ },
+ "debt_securities__CA": {
+  "title": "Every BIS debt securities row for Canada, by kind of borrower, every quarter",
+  "rows": 1379,
+  "first": "1958-09-30",
+  "last": "2026-03-31",
+  "bytes": 204140
+ },
+ "debt_securities__CH": {
+  "title": "Every BIS debt securities row for Switzerland, by kind of borrower, every quarter",
+  "rows": 1060,
+  "first": "1999-12-31",
+  "last": "2026-03-31",
+  "bytes": 160130
+ },
+ "debt_securities__CN": {
+  "title": "Every BIS debt securities row for China, by kind of borrower, every quarter",
+  "rows": 408,
+  "first": "2000-12-31",
+  "last": "2026-03-31",
+  "bytes": 61073
+ },
+ "debt_securities__CY": {
+  "title": "Every BIS debt securities row for Cyprus, by kind of borrower, every quarter",
+  "rows": 845,
+  "first": "2004-03-31",
+  "last": "2026-03-31",
+  "bytes": 121876
+ },
+ "debt_securities__CZ": {
+  "title": "Every BIS debt securities row for Czechia, by kind of borrower, every quarter",
+  "rows": 478,
+  "first": "2006-03-31",
+  "last": "2026-03-31",
+  "bytes": 70928
+ },
+ "debt_securities__DE": {
+  "title": "Every BIS debt securities row for Germany, by kind of borrower, every quarter",
+  "rows": 1234,
+  "first": "1989-12-31",
+  "last": "2026-03-31",
+  "bytes": 182371
+ },
+ "debt_securities__DK": {
+  "title": "Every BIS debt securities row for Denmark, by kind of borrower, every quarter",
+  "rows": 242,
+  "first": "2020-12-31",
+  "last": "2026-03-31",
+  "bytes": 35973
+ },
+ "debt_securities__EE": {
+  "title": "Every BIS debt securities row for Estonia, by kind of borrower, every quarter",
+  "rows": 711,
+  "first": "2001-12-31",
+  "last": "2026-03-31",
+  "bytes": 103207
+ },
+ "debt_securities__ES": {
+  "title": "Every BIS debt securities row for Spain, by kind of borrower, every quarter",
+  "rows": 1358,
+  "first": "1989-12-31",
+  "last": "2026-03-31",
+  "bytes": 196653
+ },
+ "debt_securities__FI": {
+  "title": "Every BIS debt securities row for Finland, by kind of borrower, every quarter",
+  "rows": 1358,
+  "first": "1989-12-31",
+  "last": "2026-03-31",
+  "bytes": 198377
+ },
+ "debt_securities__FR": {
+  "title": "Every BIS debt securities row for France, by kind of borrower, every quarter",
+  "rows": 1622,
+  "first": "1989-12-31",
+  "last": "2026-03-31",
+  "bytes": 236373
+ },
+ "debt_securities__GB": {
+  "title": "Every BIS debt securities row for United Kingdom, by kind of borrower, every quarter",
+  "rows": 242,
+  "first": "2020-12-31",
+  "last": "2026-03-31",
+  "bytes": 38239
+ },
+ "debt_securities__GR": {
+  "title": "Every BIS debt securities row for Greece, by kind of borrower, every quarter",
+  "rows": 1169,
+  "first": "1995-03-31",
+  "last": "2026-03-31",
+  "bytes": 168955
+ },
+ "debt_securities__HK": {
+  "title": "Every BIS debt securities row for Hong Kong, by kind of borrower, every quarter",
+  "rows": 172,
+  "first": "2004-12-31",
+  "last": "2026-03-31",
+  "bytes": 25890
+ },
+ "debt_securities__HR": {
+  "title": "Every BIS debt securities row for Croatia, by kind of borrower, every quarter",
+  "rows": 842,
+  "first": "1995-12-31",
+  "last": "2026-03-31",
+  "bytes": 123044
+ },
+ "debt_securities__HU": {
+  "title": "Every BIS debt securities row for Hungary, by kind of borrower, every quarter",
+  "rows": 242,
+  "first": "2020-12-31",
+  "last": "2026-03-31",
+  "bytes": 35917
+ },
+ "debt_securities__ID": {
+  "title": "Every BIS debt securities row for Indonesia, by kind of borrower, every quarter",
+  "rows": 288,
+  "first": "2006-12-31",
+  "last": "2026-03-31",
+  "bytes": 43449
+ },
+ "debt_securities__IE": {
+  "title": "Every BIS debt securities row for Ireland, by kind of borrower, every quarter",
+  "rows": 861,
+  "first": "1989-12-31",
+  "last": "2026-03-31",
+  "bytes": 126401
+ },
+ "debt_securities__IT": {
+  "title": "Every BIS debt securities row for Italy, by kind of borrower, every quarter",
+  "rows": 1358,
+  "first": "1989-12-31",
+  "last": "2026-03-31",
+  "bytes": 196702
+ },
+ "debt_securities__JP": {
+  "title": "Every BIS debt securities row for Japan, by kind of borrower, every quarter",
+  "rows": 855,
+  "first": "1997-12-31",
+  "last": "2026-03-31",
+  "bytes": 125278
+ },
+ "debt_securities__KR": {
+  "title": "Every BIS debt securities row for South Korea, by kind of borrower, every quarter",
+  "rows": 363,
+  "first": "2018-03-31",
+  "last": "2026-03-31",
+  "bytes": 55629
+ },
+ "debt_securities__LT": {
+  "title": "Every BIS debt securities row for Lithuania, by kind of borrower, every quarter",
+  "rows": 562,
+  "first": "2000-12-31",
+  "last": "2026-03-31",
+  "bytes": 83042
+ },
+ "debt_securities__LU": {
+  "title": "Every BIS debt securities row for Luxembourg, by kind of borrower, every quarter",
+  "rows": 1094,
+  "first": "1989-12-31",
+  "last": "2026-03-31",
+  "bytes": 163804
+ },
+ "debt_securities__LV": {
+  "title": "Every BIS debt securities row for Latvia, by kind of borrower, every quarter",
+  "rows": 557,
+  "first": "2000-12-31",
+  "last": "2026-03-31",
+  "bytes": 81170
+ },
+ "debt_securities__MT": {
+  "title": "Every BIS debt securities row for Malta, by kind of borrower, every quarter",
+  "rows": 845,
+  "first": "2004-03-31",
+  "last": "2026-03-31",
+  "bytes": 121199
+ },
+ "debt_securities__MX": {
+  "title": "Every BIS debt securities row for Mexico, by kind of borrower, every quarter",
+  "rows": 360,
+  "first": "2018-12-31",
+  "last": "2026-03-31",
+  "bytes": 52688
+ },
+ "debt_securities__MY": {
+  "title": "Every BIS debt securities row for Malaysia, by kind of borrower, every quarter",
+  "rows": 340,
+  "first": "2005-03-31",
+  "last": "2026-03-31",
+  "bytes": 51712
+ },
+ "debt_securities__NL": {
+  "title": "Every BIS debt securities row for Netherlands, by kind of borrower, every quarter",
+  "rows": 1358,
+  "first": "1989-12-31",
+  "last": "2026-03-31",
+  "bytes": 204803
+ },
+ "debt_securities__PE": {
+  "title": "Every BIS debt securities row for Peru, by kind of borrower, every quarter",
+  "rows": 296,
+  "first": "2007-12-31",
+  "last": "2026-03-31",
+  "bytes": 43733
+ },
+ "debt_securities__PH": {
+  "title": "Every BIS debt securities row for Philippines, by kind of borrower, every quarter",
+  "rows": 90,
+  "first": "2015-03-31",
+  "last": "2026-03-31",
+  "bytes": 14863
+ },
+ "debt_securities__PL": {
+  "title": "Every BIS debt securities row for Poland, by kind of borrower, every quarter",
+  "rows": 242,
+  "first": "2020-12-31",
+  "last": "2026-03-31",
+  "bytes": 35715
+ },
+ "debt_securities__PT": {
+  "title": "Every BIS debt securities row for Portugal, by kind of borrower, every quarter",
+  "rows": 1358,
+  "first": "1989-12-31",
+  "last": "2026-03-31",
+  "bytes": 199947
+ },
+ "debt_securities__RO": {
+  "title": "Every BIS debt securities row for Romania, by kind of borrower, every quarter",
+  "rows": 220,
+  "first": "2020-12-31",
+  "last": "2026-03-31",
+  "bytes": 32657
+ },
+ "debt_securities__SA": {
+  "title": "Every BIS debt securities row for Saudi Arabia, by kind of borrower, every quarter",
+  "rows": 62,
+  "first": "2018-09-30",
+  "last": "2026-03-31",
+  "bytes": 10108
+ },
+ "debt_securities__SE": {
+  "title": "Every BIS debt securities row for Sweden, by kind of borrower, every quarter",
+  "rows": 198,
+  "first": "2020-12-31",
+  "last": "2026-03-31",
+  "bytes": 29638
+ },
+ "debt_securities__SG": {
+  "title": "Every BIS debt securities row for Singapore, by kind of borrower, every quarter",
+  "rows": 524,
+  "first": "1989-03-31",
+  "last": "2026-03-31",
+  "bytes": 79234
+ },
+ "debt_securities__SI": {
+  "title": "Every BIS debt securities row for Slovenia, by kind of borrower, every quarter",
+  "rows": 1034,
+  "first": "1998-12-31",
+  "last": "2026-03-31",
+  "bytes": 151549
+ },
+ "debt_securities__SK": {
+  "title": "Every BIS debt securities row for Slovakia, by kind of borrower, every quarter",
+  "rows": 1241,
+  "first": "1993-03-31",
+  "last": "2026-03-31",
+  "bytes": 181512
+ },
+ "debt_securities__TR": {
+  "title": "Every BIS debt securities row for Turkey, by kind of borrower, every quarter",
+  "rows": 648,
+  "first": "2004-12-31",
+  "last": "2026-03-31",
+  "bytes": 94437
+ },
+ "debt_securities__U2": {
+  "title": "Every BIS debt securities row for Euro area (Member States and Institutions of the Euro Area) changing composition, by kind of borrower, every quarter",
+  "rows": 1234,
+  "first": "1989-12-31",
+  "last": "2026-03-31",
+  "bytes": 274101
+ },
+ "debt_securities__US": {
+  "title": "Every BIS debt securities row for United States, by kind of borrower, every quarter",
+  "rows": 2674,
+  "first": "1951-12-31",
+  "last": "2026-03-31",
+  "bytes": 407179
+ },
+ "debt_securities__ZA": {
+  "title": "Every BIS debt securities row for South Africa, by kind of borrower, every quarter",
+  "rows": 663,
+  "first": "2001-03-31",
+  "last": "2026-03-31",
+  "bytes": 98322
+ },
+ "debt_securities_by_country": {
+  "title": "Every country's debt securities outstanding, all borrowers, every quarter",
+  "rows": 4169,
+  "first": "1952-03-31",
+  "last": "2026-03-31",
+  "bytes": 601071
+ },
+ "nonres__AUT__F511": {
+  "title": "Every OECD balance-sheet line for Austria F511, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 44593
+ },
+ "nonres__AUT__F3": {
+  "title": "Every OECD balance-sheet line for Austria F3, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 43612
+ },
+ "nonres__BEL__F511": {
+  "title": "Every OECD balance-sheet line for Belgium F511, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 45301
+ },
+ "nonres__BEL__F3": {
+  "title": "Every OECD balance-sheet line for Belgium F3, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 44066
+ },
+ "nonres__BGR__F511": {
+  "title": "Every OECD balance-sheet line for Bulgaria F511, every quarter",
+  "rows": 312,
+  "first": "2006-12-31",
+  "last": "2026-03-31",
+  "bytes": 32402
+ },
+ "nonres__BGR__F3": {
+  "title": "Every OECD balance-sheet line for Bulgaria F3, every quarter",
+  "rows": 312,
+  "first": "2006-12-31",
+  "last": "2026-03-31",
+  "bytes": 31654
+ },
+ "nonres__BRA__F51": {
+  "title": "Every OECD balance-sheet line for Brazil F51, every quarter",
+  "rows": 120,
+  "first": "2018-12-31",
+  "last": "2026-03-31",
+  "bytes": 13038
+ },
+ "nonres__BRA__F3": {
+  "title": "Every OECD balance-sheet line for Brazil F3, every quarter",
+  "rows": 120,
+  "first": "2018-12-31",
+  "last": "2026-03-31",
+  "bytes": 12764
+ },
+ "nonres__CHE__F51": {
+  "title": "Every OECD balance-sheet line for Switzerland F51, every quarter",
+  "rows": 424,
+  "first": "1999-12-31",
+  "last": "2026-03-31",
+  "bytes": 45369
+ },
+ "nonres__CHE__F3": {
+  "title": "Every OECD balance-sheet line for Switzerland F3, every quarter",
+  "rows": 424,
+  "first": "1999-12-31",
+  "last": "2026-03-31",
+  "bytes": 44216
+ },
+ "nonres__CHL__F51": {
+  "title": "Every OECD balance-sheet line for Chile F51, every quarter",
+  "rows": 372,
+  "first": "2003-03-31",
+  "last": "2026-03-31",
+  "bytes": 38736
+ },
+ "nonres__CHL__F3": {
+  "title": "Every OECD balance-sheet line for Chile F3, every quarter",
+  "rows": 372,
+  "first": "2003-03-31",
+  "last": "2026-03-31",
+  "bytes": 37771
+ },
+ "nonres__COL__F511": {
+  "title": "Every OECD balance-sheet line for Colombia F511, every quarter",
+  "rows": 166,
+  "first": "2015-12-31",
+  "last": "2026-03-31",
+  "bytes": 18373
+ },
+ "nonres__COL__F3": {
+  "title": "Every OECD balance-sheet line for Colombia F3, every quarter",
+  "rows": 168,
+  "first": "2015-12-31",
+  "last": "2026-03-31",
+  "bytes": 18195
+ },
+ "nonres__CZE__F511": {
+  "title": "Every OECD balance-sheet line for Czech Republic F511, every quarter",
+  "rows": 356,
+  "first": "2004-03-31",
+  "last": "2026-03-31",
+  "bytes": 39359
+ },
+ "nonres__CZE__F3": {
+  "title": "Every OECD balance-sheet line for Czech Republic F3, every quarter",
+  "rows": 356,
+  "first": "2004-03-31",
+  "last": "2026-03-31",
+  "bytes": 38547
+ },
+ "nonres__DNK__F511": {
+  "title": "Every OECD balance-sheet line for Denmark F511, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 45183
+ },
+ "nonres__DNK__F3": {
+  "title": "Every OECD balance-sheet line for Denmark F3, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 43989
+ },
+ "nonres__ESP__F511": {
+  "title": "Every OECD balance-sheet line for Spain F511, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 44023
+ },
+ "nonres__ESP__F3": {
+  "title": "Every OECD balance-sheet line for Spain F3, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 42905
+ },
+ "nonres__EST__F511": {
+  "title": "Every OECD balance-sheet line for Estonia F511, every quarter",
+  "rows": 356,
+  "first": "2004-03-31",
+  "last": "2026-03-31",
+  "bytes": 36485
+ },
+ "nonres__EST__F3": {
+  "title": "Every OECD balance-sheet line for Estonia F3, every quarter",
+  "rows": 356,
+  "first": "2004-03-31",
+  "last": "2026-03-31",
+  "bytes": 35475
+ },
+ "nonres__FIN__F511": {
+  "title": "Every OECD balance-sheet line for Finland F511, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 44770
+ },
+ "nonres__FIN__F3": {
+  "title": "Every OECD balance-sheet line for Finland F3, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 43533
+ },
+ "nonres__GRC__F511": {
+  "title": "Every OECD balance-sheet line for Greece F511, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 44388
+ },
+ "nonres__GRC__F3": {
+  "title": "Every OECD balance-sheet line for Greece F3, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 43435
+ },
+ "nonres__HRV__F511": {
+  "title": "Every OECD balance-sheet line for Croatia F511, every quarter",
+  "rows": 500,
+  "first": "1995-03-31",
+  "last": "2026-03-31",
+  "bytes": 51026
+ },
+ "nonres__HRV__F3": {
+  "title": "Every OECD balance-sheet line for Croatia F3, every quarter",
+  "rows": 500,
+  "first": "1995-03-31",
+  "last": "2026-03-31",
+  "bytes": 49670
+ },
+ "nonres__HUN__F511": {
+  "title": "Every OECD balance-sheet line for Hungary F511, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 45331
+ },
+ "nonres__HUN__F3": {
+  "title": "Every OECD balance-sheet line for Hungary F3, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 44317
+ },
+ "nonres__IRL__F511": {
+  "title": "Every OECD balance-sheet line for Ireland F511, every quarter",
+  "rows": 388,
+  "first": "2002-03-31",
+  "last": "2026-03-31",
+  "bytes": 40228
+ },
+ "nonres__IRL__F3": {
+  "title": "Every OECD balance-sheet line for Ireland F3, every quarter",
+  "rows": 388,
+  "first": "2002-03-31",
+  "last": "2026-03-31",
+  "bytes": 39258
+ },
+ "nonres__ITA__F511": {
+  "title": "Every OECD balance-sheet line for Italy F511, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 44042
+ },
+ "nonres__ITA__F3": {
+  "title": "Every OECD balance-sheet line for Italy F3, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 43027
+ },
+ "nonres__KOR__F51": {
+  "title": "Every OECD balance-sheet line for South Korea F51, every quarter",
+  "rows": 280,
+  "first": "2008-12-31",
+  "last": "2026-03-31",
+  "bytes": 30447
+ },
+ "nonres__KOR__F3": {
+  "title": "Every OECD balance-sheet line for South Korea F3, every quarter",
+  "rows": 280,
+  "first": "2008-12-31",
+  "last": "2026-03-31",
+  "bytes": 29864
+ },
+ "nonres__LTU__F511": {
+  "title": "Every OECD balance-sheet line for Lithuania F511, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 45330
+ },
+ "nonres__LTU__F3": {
+  "title": "Every OECD balance-sheet line for Lithuania F3, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 44241
+ },
+ "nonres__LUX__F511": {
+  "title": "Every OECD balance-sheet line for Luxembourg F511, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 46581
+ },
+ "nonres__LUX__F3": {
+  "title": "Every OECD balance-sheet line for Luxembourg F3, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 45582
+ },
+ "nonres__LVA__F511": {
+  "title": "Every OECD balance-sheet line for Latvia F511, every quarter",
+  "rows": 356,
+  "first": "2004-03-31",
+  "last": "2026-03-31",
+  "bytes": 36140
+ },
+ "nonres__LVA__F3": {
+  "title": "Every OECD balance-sheet line for Latvia F3, every quarter",
+  "rows": 356,
+  "first": "2004-03-31",
+  "last": "2026-03-31",
+  "bytes": 35192
+ },
+ "nonres__MEX__F511": {
+  "title": "Every OECD balance-sheet line for Mexico F511, every quarter",
+  "rows": 292,
+  "first": "2008-03-31",
+  "last": "2026-03-31",
+  "bytes": 30664
+ },
+ "nonres__MEX__F3": {
+  "title": "Every OECD balance-sheet line for Mexico F3, every quarter",
+  "rows": 292,
+  "first": "2008-03-31",
+  "last": "2026-03-31",
+  "bytes": 29778
+ },
+ "nonres__NOR__F511": {
+  "title": "Every OECD balance-sheet line for Norway F511, every quarter",
+  "rows": 488,
+  "first": "1995-12-31",
+  "last": "2026-03-31",
+  "bytes": 49967
+ },
+ "nonres__NOR__F3": {
+  "title": "Every OECD balance-sheet line for Norway F3, every quarter",
+  "rows": 488,
+  "first": "1995-12-31",
+  "last": "2026-03-31",
+  "bytes": 48611
+ },
+ "nonres__NZL__F3": {
+  "title": "Every OECD balance-sheet line for New Zealand F3, every quarter",
+  "rows": 160,
+  "first": "2016-06-30",
+  "last": "2026-03-31",
+  "bytes": 17144
+ },
+ "nonres__POL__F511": {
+  "title": "Every OECD balance-sheet line for Poland F511, every quarter",
+  "rows": 360,
+  "first": "2003-12-31",
+  "last": "2026-03-31",
+  "bytes": 37131
+ },
+ "nonres__POL__F3": {
+  "title": "Every OECD balance-sheet line for Poland F3, every quarter",
+  "rows": 360,
+  "first": "2003-12-31",
+  "last": "2026-03-31",
+  "bytes": 36250
+ },
+ "nonres__PRT__F511": {
+  "title": "Every OECD balance-sheet line for Portugal F511, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 45345
+ },
+ "nonres__PRT__F3": {
+  "title": "Every OECD balance-sheet line for Portugal F3, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 44363
+ },
+ "nonres__ROU__F511": {
+  "title": "Every OECD balance-sheet line for Romania F511, every quarter",
+  "rows": 500,
+  "first": "1995-03-31",
+  "last": "2026-03-31",
+  "bytes": 50986
+ },
+ "nonres__ROU__F3": {
+  "title": "Every OECD balance-sheet line for Romania F3, every quarter",
+  "rows": 500,
+  "first": "1995-03-31",
+  "last": "2026-03-31",
+  "bytes": 49846
+ },
+ "nonres__RUS__F3": {
+  "title": "Every OECD balance-sheet line for Russia F3, every quarter",
+  "rows": 104,
+  "first": "2015-03-31",
+  "last": "2021-06-30",
+  "bytes": 11122
+ },
+ "nonres__SVK__F511": {
+  "title": "Every OECD balance-sheet line for Slovakia F511, every quarter",
+  "rows": 356,
+  "first": "2004-03-31",
+  "last": "2026-03-31",
+  "bytes": 36854
+ },
+ "nonres__SVK__F3": {
+  "title": "Every OECD balance-sheet line for Slovakia F3, every quarter",
+  "rows": 356,
+  "first": "2004-03-31",
+  "last": "2026-03-31",
+  "bytes": 36106
+ },
+ "nonres__SVN__F511": {
+  "title": "Every OECD balance-sheet line for Slovenia F511, every quarter",
+  "rows": 356,
+  "first": "2004-03-31",
+  "last": "2026-03-31",
+  "bytes": 36884
+ },
+ "nonres__SVN__F3": {
+  "title": "Every OECD balance-sheet line for Slovenia F3, every quarter",
+  "rows": 356,
+  "first": "2004-03-31",
+  "last": "2026-03-31",
+  "bytes": 36054
+ },
+ "nonres__SWE__F511": {
+  "title": "Every OECD balance-sheet line for Sweden F511, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 44942
+ },
+ "nonres__SWE__F3": {
+  "title": "Every OECD balance-sheet line for Sweden F3, every quarter",
+  "rows": 436,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 43601
+ },
+ "nonres__TUR__F51": {
+  "title": "Every OECD balance-sheet line for T\u00fcrkiye F51, every quarter",
+  "rows": 180,
+  "first": "2015-03-31",
+  "last": "2026-03-31",
+  "bytes": 20106
+ },
+ "nonres__TUR__F3": {
+  "title": "Every OECD balance-sheet line for T\u00fcrkiye F3, every quarter",
+  "rows": 180,
+  "first": "2015-03-31",
+  "last": "2026-03-31",
+  "bytes": 19675
  }
 }
