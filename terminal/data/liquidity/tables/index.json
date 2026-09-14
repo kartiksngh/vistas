@@ -306,5 +306,103 @@
   "first": "1997-12-31",
   "last": "2025-06-30",
   "bytes": 1663396
+ },
+ "jp_owner_types__JP_LISTED_SHARES": {
+  "title": "Every line the Bank of Japan publishes on who holds listed Japanese shares, every quarter, with its older accounts",
+  "rows": 23930,
+  "first": "1964-03-31",
+  "last": "2026-03-31",
+  "bytes": 5354644
+ },
+ "jp_owner_types__JP_GOVERNMENT_BONDS": {
+  "title": "Every line the Bank of Japan publishes on who holds Japanese government bonds (including FILP bonds), every quarter, with its older accounts",
+  "rows": 22016,
+  "first": "1964-03-31",
+  "last": "2026-03-31",
+  "bytes": 5494610
+ },
+ "jp_owner_types__JP_TREASURY_BILLS": {
+  "title": "Every line the Bank of Japan publishes on who holds Japanese Treasury bills, every quarter, with its older accounts",
+  "rows": 17180,
+  "first": "1964-03-31",
+  "last": "2026-03-31",
+  "bytes": 3839008
+ },
+ "uk_owner_types__UK_GILTS": {
+  "title": "Every line of the UK Economic Accounts on who holds UK government gilts, every quarter",
+  "rows": 3768,
+  "first": "1987-03-31",
+  "last": "2026-03-31",
+  "bytes": 546658
+ },
+ "uk_owner_types__UK_TREASURY_BILLS": {
+  "title": "Every line of the UK Economic Accounts on who holds UK Treasury bills, every quarter",
+  "rows": 3454,
+  "first": "1987-03-31",
+  "last": "2026-03-31",
+  "bytes": 494642
+ },
+ "uk_owner_types__UK_LISTED_SHARES": {
+  "title": "Every line of the UK Economic Accounts on who holds listed UK shares, every quarter",
+  "rows": 3770,
+  "first": "1990-03-31",
+  "last": "2026-03-31",
+  "bytes": 537255
+ },
+ "ea_owner_types__I10__QSA_LISTED_SHARES": {
+  "title": "Every line of the quarterly sector accounts on who holds listed shares issued in the euro area (21 countries), every quarter",
+  "rows": 1636,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 287540
+ },
+ "ea_owner_types__I10__QSA_GOVERNMENT_DEBT": {
+  "title": "Every line of the quarterly sector accounts on who holds government debt securities issued in the euro area (21 countries), every quarter",
+  "rows": 1693,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 296312
+ },
+ "ea_owner_types__DE__QSA_LISTED_SHARES": {
+  "title": "Every line of the quarterly sector accounts on who holds listed shares issued in Germany, every quarter",
+  "rows": 2008,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 353392
+ },
+ "ea_owner_types__DE__QSA_GOVERNMENT_DEBT": {
+  "title": "Every line of the quarterly sector accounts on who holds government debt securities issued in Germany, every quarter",
+  "rows": 2076,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 362427
+ },
+ "ea_owner_types__FR__QSA_LISTED_SHARES": {
+  "title": "Every line of the quarterly sector accounts on who holds listed shares issued in France, every quarter",
+  "rows": 3740,
+  "first": "1998-12-31",
+  "last": "2026-03-31",
+  "bytes": 667499
+ },
+ "ea_owner_types__FR__QSA_GOVERNMENT_DEBT": {
+  "title": "Every line of the quarterly sector accounts on who holds government debt securities issued in France, every quarter",
+  "rows": 3740,
+  "first": "1998-12-31",
+  "last": "2026-03-31",
+  "bytes": 658981
+ },
+ "ea_owner_types__NL__QSA_LISTED_SHARES": {
+  "title": "Every line of the quarterly sector accounts on who holds listed shares issued in the Netherlands, every quarter",
+  "rows": 2296,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 403825
+ },
+ "ea_owner_types__NL__QSA_GOVERNMENT_DEBT": {
+  "title": "Every line of the quarterly sector accounts on who holds government debt securities issued in the Netherlands, every quarter",
+  "rows": 2388,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 415728
  }
 }
