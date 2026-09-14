@@ -294,6 +294,34 @@
   "bytes": 19323
  },
  {
+  "key": "tw_owner_types__TW_LISTED_SHARES",
+  "group": "Who owns Taiwanese assets, by kind of owner",
+  "title": "Who owns Taiwan's listed shares, by kind of owner",
+  "short": "Taiwan's listed shares",
+  "family": "owner_type",
+  "freq": "A",
+  "unit": "NT$ bn",
+  "first": "2000-12-31",
+  "last": "2024-12-31",
+  "rows": 11,
+  "flows_from": "2000-12-31",
+  "bytes": 9274
+ },
+ {
+  "key": "tw_owner_types__TW_GOVERNMENT_SECURITIES",
+  "group": "Who owns Taiwanese assets, by kind of owner",
+  "title": "Who owns Taiwan's government securities, by kind of owner",
+  "short": "Taiwan's government securities",
+  "family": "owner_type",
+  "freq": "A",
+  "unit": "NT$ bn",
+  "first": "2000-12-31",
+  "last": "2024-12-31",
+  "rows": 11,
+  "flows_from": "2000-12-31",
+  "bytes": 9016
+ },
+ {
   "key": "foreign_owners__CORPORATE_EQUITY",
   "group": "Which countries own American securities",
   "title": "Which countries own American company shares",

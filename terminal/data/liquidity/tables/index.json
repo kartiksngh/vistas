@@ -404,5 +404,19 @@
   "first": "1999-03-31",
   "last": "2026-03-31",
   "bytes": 415728
+ },
+ "tw_owner_types__TW_LISTED_SHARES": {
+  "title": "Every line of Taiwan's flow of funds on who holds and who issued Taiwan's listed shares, every year",
+  "rows": 733,
+  "first": "2000-12-31",
+  "last": "2024-12-31",
+  "bytes": 127682
+ },
+ "tw_owner_types__TW_GOVERNMENT_SECURITIES": {
+  "title": "Every line of Taiwan's flow of funds on who holds and who issued Taiwan's government securities, every year",
+  "rows": 582,
+  "first": "2000-12-31",
+  "last": "2024-12-31",
+  "bytes": 98803
  }
 }
