@@ -201,5 +201,110 @@
   "first": "2000-03-31",
   "last": "2026-06-30",
   "bytes": 13617
+ },
+ "imf_pip__G001": {
+  "title": "Holdings abroad, every reporting country and kind of investor, every filing",
+  "rows": 55407,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 6883964
+ },
+ "imf_pip__USA": {
+  "title": "Holdings of securities issued in the United States, every reporting country and kind of investor, every filing",
+  "rows": 50269,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 6264389
+ },
+ "imf_pip__CHN": {
+  "title": "Holdings of securities issued in China, every reporting country and kind of investor, every filing",
+  "rows": 28076,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 3577731
+ },
+ "imf_pip__JPN": {
+  "title": "Holdings of securities issued in Japan, every reporting country and kind of investor, every filing",
+  "rows": 32027,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 4060904
+ },
+ "imf_pip__HKG": {
+  "title": "Holdings of securities issued in Hong Kong, every reporting country and kind of investor, every filing",
+  "rows": 28505,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 3616192
+ },
+ "imf_pip__IND": {
+  "title": "Holdings of securities issued in India, every reporting country and kind of investor, every filing",
+  "rows": 23229,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 2967368
+ },
+ "imf_pip__GBR": {
+  "title": "Holdings of securities issued in the United Kingdom, every reporting country and kind of investor, every filing",
+  "rows": 44231,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 5520996
+ },
+ "imf_pip__CAN": {
+  "title": "Holdings of securities issued in Canada, every reporting country and kind of investor, every filing",
+  "rows": 38297,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 4818580
+ },
+ "imf_pip__FRA": {
+  "title": "Holdings of securities issued in France, every reporting country and kind of investor, every filing",
+  "rows": 42757,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 5357402
+ },
+ "imf_pip__DEU": {
+  "title": "Holdings of securities issued in Germany, every reporting country and kind of investor, every filing",
+  "rows": 43469,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 5441541
+ },
+ "imf_pip__NLD": {
+  "title": "Holdings of securities issued in the Netherlands, every reporting country and kind of investor, every filing",
+  "rows": 42232,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 5281296
+ },
+ "imf_pip__TWN": {
+  "title": "Holdings of securities issued in Taiwan, every reporting country and kind of investor, every filing",
+  "rows": 17186,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 2222400
+ },
+ "imf_pip__KOR": {
+  "title": "Holdings of securities issued in South Korea, every reporting country and kind of investor, every filing",
+  "rows": 27361,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 3464976
+ },
+ "imf_pip__CHE": {
+  "title": "Holdings of securities issued in Switzerland, every reporting country and kind of investor, every filing",
+  "rows": 36939,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 4649639
+ },
+ "imf_pip__SAU": {
+  "title": "Holdings of securities issued in Saudi Arabia, every reporting country and kind of investor, every filing",
+  "rows": 13021,
+  "first": "1997-12-31",
+  "last": "2025-06-30",
+  "bytes": 1663396
  }
 }
