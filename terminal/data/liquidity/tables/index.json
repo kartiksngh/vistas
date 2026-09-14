@@ -4,49 +4,49 @@
   "rows": 7930,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1453686
+  "bytes": 1499722
  },
  "who_owns_us__CORPORATE_EQUITY": {
   "title": "Who holds corporate equity, every line of the Federal Reserve's table, every quarter",
   "rows": 7930,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1368225
+  "bytes": 1413842
  },
  "who_owns_us__CORPORATE_FOREIGN_BONDS": {
   "title": "Who holds corporate foreign bonds, every line of the Federal Reserve's table, every quarter",
   "rows": 9455,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1722736
+  "bytes": 1776006
  },
  "who_owns_us__MONEY_MARKET_FUND_SHARES": {
   "title": "Who holds money market fund shares, every line of the Federal Reserve's table, every quarter",
   "rows": 4880,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 833844
+  "bytes": 859211
  },
  "who_owns_us__MUNICIPAL_SECURITIES": {
   "title": "Who holds municipal securities, every line of the Federal Reserve's table, every quarter",
   "rows": 7625,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1371559
+  "bytes": 1413521
  },
  "who_owns_us__MUTUAL_FUND_SHARES": {
   "title": "Who holds mutual fund shares, every line of the Federal Reserve's table, every quarter",
   "rows": 3660,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 593779
+  "bytes": 614420
  },
  "who_owns_us__US_TREASURY": {
   "title": "Who holds us treasury, every line of the Federal Reserve's table, every quarter",
   "rows": 8540,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1486337
+  "bytes": 1538368
  },
  "treasury_foreign_holders": {
   "title": "Foreign holders of US Treasury securities, every country row, every month",
@@ -60,49 +60,49 @@
   "rows": 6318,
   "first": "2020-01",
   "last": "2026-06",
-  "bytes": 409480
+  "bytes": 477587
  },
  "foreign_owners__CORPORATE_BONDS": {
   "title": "Corporate bonds held by foreign residents, by the holder's country, every country, every month",
   "rows": 6318,
   "first": "2020-01",
   "last": "2026-06",
-  "bytes": 415262
+  "bytes": 485717
  },
  "foreign_owners__CORPORATE_EQUITY": {
   "title": "Corporate equity held by foreign residents, by the holder's country, every country, every month",
   "rows": 6396,
   "first": "2020-01",
   "last": "2026-06",
-  "bytes": 427926
+  "bytes": 501139
  },
  "foreign_owners__US_TREASURY_LONG_TERM": {
   "title": "Us treasury long term held by foreign residents, by the holder's country, every country, every month",
   "rows": 6318,
   "first": "2020-01",
   "last": "2026-06",
-  "bytes": 417417
+  "bytes": 489055
  },
  "americans_abroad__CORPORATE_BONDS": {
   "title": "Corporate bonds held by Americans, by the issuer's country, every country, every month",
   "rows": 6006,
   "first": "2020-01",
   "last": "2026-06",
-  "bytes": 389251
+  "bytes": 456862
  },
  "americans_abroad__CORPORATE_EQUITY": {
   "title": "Corporate equity held by Americans, by the issuer's country, every country, every month",
   "rows": 6084,
   "first": "2020-01",
   "last": "2026-06",
-  "bytes": 399562
+  "bytes": 467859
  },
  "americans_abroad__GOVERNMENT_BONDS": {
   "title": "Government bonds held by Americans, by the issuer's country, every country, every month",
   "rows": 6006,
   "first": "2020-01",
   "last": "2026-06",
-  "bytes": 385880
+  "bytes": 452432
  },
  "gold_official": {
   "title": "Official gold of every reporting central bank and government, every month",
