@@ -418,5 +418,82 @@
   "first": "2000-12-31",
   "last": "2024-12-31",
   "bytes": 98803
+ },
+ "foreign_owners_survey__ALL": {
+  "title": "Every country row of the Treasury's yearly surveys: US securities, short-term debt included",
+  "rows": 5678,
+  "first": "2002-06-30",
+  "last": "2025-06-30",
+  "bytes": 449150
+ },
+ "foreign_owners_survey__LONG_TERM": {
+  "title": "Every country row of the Treasury's yearly surveys: long-term US securities, shares and bonds",
+  "rows": 12800,
+  "first": "1974-12-31",
+  "last": "2025-06-30",
+  "bytes": 1097964
+ },
+ "foreign_owners_survey__EQUITY": {
+  "title": "Every country row of the Treasury's yearly surveys: American shares, fund shares included",
+  "rows": 6473,
+  "first": "1974-12-31",
+  "last": "2025-06-30",
+  "bytes": 600904
+ },
+ "foreign_owners_survey__LT_TREASURY": {
+  "title": "Every country row of the Treasury's yearly surveys: long-term Treasury notes and bonds",
+  "rows": 6121,
+  "first": "1994-12-31",
+  "last": "2025-06-30",
+  "bytes": 504745
+ },
+ "foreign_owners_survey__LT_AGENCY": {
+  "title": "Every country row of the Treasury's yearly surveys: long-term agency and mortgage-backed bonds",
+  "rows": 6120,
+  "first": "1994-12-31",
+  "last": "2025-06-30",
+  "bytes": 490381
+ },
+ "foreign_owners_survey__LT_CORPORATE": {
+  "title": "Every country row of the Treasury's yearly surveys: long-term corporate bonds",
+  "rows": 6121,
+  "first": "1994-12-31",
+  "last": "2025-06-30",
+  "bytes": 510501
+ },
+ "foreign_owners_survey__ST_DEBT": {
+  "title": "Every country row of the Treasury's yearly surveys: short-term US debt",
+  "rows": 5672,
+  "first": "2002-06-30",
+  "last": "2025-06-30",
+  "bytes": 449614
+ },
+ "americans_abroad_survey__ALL": {
+  "title": "Every country row of the Treasury's yearly surveys: foreign securities, short-term debt included",
+  "rows": 5649,
+  "first": "1994-03-31",
+  "last": "2024-12-31",
+  "bytes": 441964
+ },
+ "americans_abroad_survey__EQUITY": {
+  "title": "Every country row of the Treasury's yearly surveys: foreign shares",
+  "rows": 5609,
+  "first": "1994-03-31",
+  "last": "2024-12-31",
+  "bytes": 515894
+ },
+ "americans_abroad_survey__LT_DEBT": {
+  "title": "Every country row of the Treasury's yearly surveys: long-term foreign bonds",
+  "rows": 5674,
+  "first": "1994-03-31",
+  "last": "2024-12-31",
+  "bytes": 442359
+ },
+ "americans_abroad_survey__ST_DEBT": {
+  "title": "Every country row of the Treasury's yearly surveys: short-term foreign debt",
+  "rows": 5239,
+  "first": "2001-12-31",
+  "last": "2024-12-31",
+  "bytes": 409936
  }
 }
