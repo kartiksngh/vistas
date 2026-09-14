@@ -1,0 +1,205 @@
+{
+ "who_owns_us__AGENCY_GSE_SECURITIES": {
+  "title": "Who holds agency gse securities, every line of the Federal Reserve's table, every quarter",
+  "rows": 7930,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 1453686
+ },
+ "who_owns_us__CORPORATE_EQUITY": {
+  "title": "Who holds corporate equity, every line of the Federal Reserve's table, every quarter",
+  "rows": 7930,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 1368225
+ },
+ "who_owns_us__CORPORATE_FOREIGN_BONDS": {
+  "title": "Who holds corporate foreign bonds, every line of the Federal Reserve's table, every quarter",
+  "rows": 9455,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 1722736
+ },
+ "who_owns_us__MONEY_MARKET_FUND_SHARES": {
+  "title": "Who holds money market fund shares, every line of the Federal Reserve's table, every quarter",
+  "rows": 4880,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 833844
+ },
+ "who_owns_us__MUNICIPAL_SECURITIES": {
+  "title": "Who holds municipal securities, every line of the Federal Reserve's table, every quarter",
+  "rows": 7625,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 1371559
+ },
+ "who_owns_us__MUTUAL_FUND_SHARES": {
+  "title": "Who holds mutual fund shares, every line of the Federal Reserve's table, every quarter",
+  "rows": 3660,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 593779
+ },
+ "who_owns_us__US_TREASURY": {
+  "title": "Who holds us treasury, every line of the Federal Reserve's table, every quarter",
+  "rows": 8540,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 1486337
+ },
+ "treasury_foreign_holders": {
+  "title": "Foreign holders of US Treasury securities, every country row, every month",
+  "rows": 12493,
+  "first": "2000-03",
+  "last": "2026-06",
+  "bytes": 788610
+ },
+ "foreign_owners__AGENCY_GSE_SECURITIES": {
+  "title": "Agency gse securities held by foreign residents, by the holder's country, every country, every month",
+  "rows": 6318,
+  "first": "2020-01",
+  "last": "2026-06",
+  "bytes": 409480
+ },
+ "foreign_owners__CORPORATE_BONDS": {
+  "title": "Corporate bonds held by foreign residents, by the holder's country, every country, every month",
+  "rows": 6318,
+  "first": "2020-01",
+  "last": "2026-06",
+  "bytes": 415262
+ },
+ "foreign_owners__CORPORATE_EQUITY": {
+  "title": "Corporate equity held by foreign residents, by the holder's country, every country, every month",
+  "rows": 6396,
+  "first": "2020-01",
+  "last": "2026-06",
+  "bytes": 427926
+ },
+ "foreign_owners__US_TREASURY_LONG_TERM": {
+  "title": "Us treasury long term held by foreign residents, by the holder's country, every country, every month",
+  "rows": 6318,
+  "first": "2020-01",
+  "last": "2026-06",
+  "bytes": 417417
+ },
+ "americans_abroad__CORPORATE_BONDS": {
+  "title": "Corporate bonds held by Americans, by the issuer's country, every country, every month",
+  "rows": 6006,
+  "first": "2020-01",
+  "last": "2026-06",
+  "bytes": 389251
+ },
+ "americans_abroad__CORPORATE_EQUITY": {
+  "title": "Corporate equity held by Americans, by the issuer's country, every country, every month",
+  "rows": 6084,
+  "first": "2020-01",
+  "last": "2026-06",
+  "bytes": 399562
+ },
+ "americans_abroad__GOVERNMENT_BONDS": {
+  "title": "Government bonds held by Americans, by the issuer's country, every country, every month",
+  "rows": 6006,
+  "first": "2020-01",
+  "last": "2026-06",
+  "bytes": 385880
+ },
+ "gold_official": {
+  "title": "Official gold of every reporting central bank and government, every month",
+  "rows": 20739,
+  "first": "2000-01",
+  "last": "2026-08",
+  "bytes": 2034516
+ },
+ "gold_us_funds_treasury": {
+  "title": "Gold owned by the US Treasury and held by the two largest US gold funds",
+  "rows": 5663,
+  "first": "2004-11-18",
+  "last": "2026-09-11",
+  "bytes": 484329
+ },
+ "central_banks": {
+  "title": "Central bank balance sheets and exchange rates, every observation",
+  "rows": 25058,
+  "first": "1971-01-04",
+  "last": "2026-09-09",
+  "bytes": 1661537
+ },
+ "us_net_liquidity": {
+  "title": "US net liquidity and its three parts, every week",
+  "rows": 1239,
+  "first": "2002-12-18",
+  "last": "2026-09-09",
+  "bytes": 51640
+ },
+ "dollar_credit": {
+  "title": "Credit to borrowers outside each currency's home area, every quarter",
+  "rows": 315,
+  "first": "2000-03-31",
+  "last": "2026-03-31",
+  "bytes": 11094
+ },
+ "fund_flows_monthly": {
+  "title": "US fund flows, every month, all funds that reported both sales and redemptions",
+  "rows": 83,
+  "first": "2019-07",
+  "last": "2026-05",
+  "bytes": 5548
+ },
+ "fund_flows_by_vehicle_and_class": {
+  "title": "Net new cash by fund type and by asset class, every month",
+  "rows": 1245,
+  "first": "2019-07",
+  "last": "2026-05",
+  "bytes": 56882
+ },
+ "fund_flows_by_country": {
+  "title": "Fund net new cash split by where the funds invest, every month",
+  "rows": 76659,
+  "first": "2019-07",
+  "last": "2026-05",
+  "bytes": 5549407
+ },
+ "fund_flows_by_industry": {
+  "title": "Equity fund net new cash split by SEC industry, every month",
+  "rows": 33131,
+  "first": "2019-07",
+  "last": "2026-05",
+  "bytes": 3284410
+ },
+ "checks_flows_vs_fed": {
+  "title": "Fund flows filed with the SEC against the Federal Reserve's figures, every quarter",
+  "rows": 25,
+  "first": "2019Q4",
+  "last": "2025Q4",
+  "bytes": 10070
+ },
+ "checks_coverage": {
+  "title": "How much of the Fed's fund total the SEC filings cover, every quarter",
+  "rows": 26,
+  "first": "2019-12-31",
+  "last": "2026-03-31",
+  "bytes": 2761
+ },
+ "checks_disagreement_by_quarter": {
+  "title": "Fund-by-fund check of reported flows against assets, by finding and quarter",
+  "rows": 560,
+  "first": "2019-12-31",
+  "last": "2026-05-31",
+  "bytes": 30719
+ },
+ "checks_largest_gaps": {
+  "title": "The 2,000 largest fund-quarter gaps between reported flows and assets",
+  "rows": 2000,
+  "first": "2019-12-31",
+  "last": "2026-04-30",
+  "bytes": 271746
+ },
+ "checks_tic_vs_fed": {
+  "title": "Treasury figures against the Federal Reserve's own, every quarter",
+  "rows": 132,
+  "first": "2000-03-31",
+  "last": "2026-06-30",
+  "bytes": 13617
+ }
+}
