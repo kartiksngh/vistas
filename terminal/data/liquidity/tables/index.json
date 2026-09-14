@@ -502,5 +502,54 @@
   "first": "1999-03-31",
   "last": "2026-03-31",
   "bytes": 131244
+ },
+ "ea_funds__U2": {
+  "title": "Every monthly ECB fund series for funds set up in the euro area: total assets, fund shares and net money in, by kind",
+  "rows": 6238,
+  "first": "2008-12-31",
+  "last": "2026-06-30",
+  "bytes": 931016
+ },
+ "ea_funds__IE": {
+  "title": "Every monthly ECB fund series for funds set up in Ireland: total assets, fund shares and net money in, by kind",
+  "rows": 6100,
+  "first": "2008-12-31",
+  "last": "2026-06-30",
+  "bytes": 858007
+ },
+ "ea_funds__LU": {
+  "title": "Every monthly ECB fund series for funds set up in Luxembourg: total assets, fund shares and net money in, by kind",
+  "rows": 6100,
+  "first": "2008-12-31",
+  "last": "2026-06-30",
+  "bytes": 870693
+ },
+ "ea_funds__DE": {
+  "title": "Every monthly ECB fund series for funds set up in Germany: total assets, fund shares and net money in, by kind",
+  "rows": 6100,
+  "first": "2008-12-31",
+  "last": "2026-06-30",
+  "bytes": 868794
+ },
+ "ea_funds__FR": {
+  "title": "Every monthly ECB fund series for funds set up in France: total assets, fund shares and net money in, by kind",
+  "rows": 6100,
+  "first": "2008-12-31",
+  "last": "2026-06-30",
+  "bytes": 845165
+ },
+ "ea_funds__NL": {
+  "title": "Every monthly ECB fund series for funds set up in the Netherlands: total assets, fund shares and net money in, by kind",
+  "rows": 6100,
+  "first": "2008-12-31",
+  "last": "2026-06-30",
+  "bytes": 903528
+ },
+ "ea_fund_holders": {
+  "title": "Every quarterly ECB series on where the investors in euro-area funds live",
+  "rows": 1192,
+  "first": "2000-12-31",
+  "last": "2026-06-30",
+  "bytes": 179634
  }
 }
