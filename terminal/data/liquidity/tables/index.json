@@ -495,5 +495,12 @@
   "first": "2001-12-31",
   "last": "2024-12-31",
   "bytes": 409936
+ },
+ "reserve_currencies": {
+  "title": "Every COFER series: the world's official foreign exchange reserves by currency, every quarter",
+  "rows": 1130,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 131244
  }
 }

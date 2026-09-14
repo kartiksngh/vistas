@@ -602,6 +602,20 @@
   "bytes": 208039
  },
  {
+  "key": "reserve_currencies",
+  "group": "Which currencies the world's central banks hold",
+  "title": "Which currencies the world's official foreign exchange reserves are held in",
+  "short": "Official reserves by currency",
+  "family": "reserve_currency",
+  "freq": "Q",
+  "unit": "US$ bn",
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "rows": 12,
+  "flows_from": null,
+  "bytes": 15099
+ },
+ {
   "key": "held_abroad__PORTFOLIO_ALL",
   "group": "What each country's investors hold abroad, by kind of investor",
   "title": "What investors in each country hold abroad: shares and bonds, by kind of investor",
