@@ -420,6 +420,20 @@
   "bytes": 17198
  },
  {
+  "key": "in_owner_types__listed_shares",
+  "group": "Who owns Indian assets, by kind of owner",
+  "title": "Who owns India's listed companies, by kind of owner",
+  "short": "Indian listed shares",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u20b9 bn",
+  "first": "2024-03-31",
+  "last": "2026-06-30",
+  "rows": 15,
+  "flows_from": null,
+  "bytes": 7829
+ },
+ {
   "key": "foreign_owners__CORPORATE_EQUITY",
   "group": "Which countries own American securities",
   "title": "Which countries own American company shares",
@@ -1271,7 +1285,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22059
+  "bytes": 22042
  },
  {
   "key": "futures_short__042601",
@@ -1285,7 +1299,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22164
+  "bytes": 22147
  },
  {
   "key": "futures_long__044601",
@@ -1299,7 +1313,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22337
+  "bytes": 22322
  },
  {
   "key": "futures_short__044601",
@@ -1313,7 +1327,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22433
+  "bytes": 22418
  },
  {
   "key": "futures_long__043602",
@@ -1327,7 +1341,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22412
+  "bytes": 22395
  },
  {
   "key": "futures_short__043602",
@@ -1341,7 +1355,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22493
+  "bytes": 22476
  },
  {
   "key": "futures_long__043607",
@@ -1383,7 +1397,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21428
+  "bytes": 21415
  },
  {
   "key": "futures_short__020601",
@@ -1397,7 +1411,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21756
+  "bytes": 21743
  },
  {
   "key": "futures_long__020604",
@@ -1411,7 +1425,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 17812
+  "bytes": 17795
  },
  {
   "key": "futures_short__020604",
@@ -1425,7 +1439,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18107
+  "bytes": 18090
  },
  {
   "key": "futures_long__134741",
@@ -1495,7 +1509,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22452
+  "bytes": 22438
  },
  {
   "key": "futures_short__13874A",
@@ -1509,7 +1523,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22320
+  "bytes": 22306
  },
  {
   "key": "futures_long__209742",
@@ -1523,7 +1537,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20666
+  "bytes": 20646
  },
  {
   "key": "futures_short__209742",
@@ -1537,7 +1551,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20699
+  "bytes": 20679
  },
  {
   "key": "futures_long__239742",
@@ -1551,7 +1565,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 11539
+  "bytes": 11528
  },
  {
   "key": "futures_short__239742",
@@ -1565,7 +1579,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 11614
+  "bytes": 11603
  },
  {
   "key": "futures_long__244042",
@@ -1579,7 +1593,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16917
+  "bytes": 16906
  },
  {
   "key": "futures_short__244042",
@@ -1593,7 +1607,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16863
+  "bytes": 16852
  },
  {
   "key": "futures_long__244041",
@@ -1607,7 +1621,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16102
+  "bytes": 16092
  },
  {
   "key": "futures_short__244041",
@@ -1621,7 +1635,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16034
+  "bytes": 16024
  },
  {
   "key": "futures_long__099741",
@@ -1635,7 +1649,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20710
+  "bytes": 20708
  },
  {
   "key": "futures_short__099741",
@@ -1649,7 +1663,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20754
+  "bytes": 20752
  },
  {
   "key": "futures_long__097741",
@@ -1663,7 +1677,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20347
+  "bytes": 20345
  },
  {
   "key": "futures_short__097741",
@@ -1677,7 +1691,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20238
+  "bytes": 20236
  },
  {
   "key": "futures_long__096742",
@@ -1691,7 +1705,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20105
+  "bytes": 20094
  },
  {
   "key": "futures_short__096742",
@@ -1705,7 +1719,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20278
+  "bytes": 20267
  },
  {
   "key": "futures_long__098662",
@@ -1719,7 +1733,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 19145
+  "bytes": 19135
  },
  {
   "key": "futures_short__098662",
@@ -1733,7 +1747,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 19003
+  "bytes": 18993
  },
  {
   "key": "futures_long__1170E1",
@@ -1747,7 +1761,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18227
+  "bytes": 18225
  },
  {
   "key": "futures_short__1170E1",
@@ -1761,7 +1775,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18190
+  "bytes": 18188
  },
  {
   "key": "futures_long__133741",
