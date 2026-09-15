@@ -1,0 +1,12 @@
+{
+ "built": "2026-09-15T16:31:47",
+ "months": 122,
+ "last_month": "2026-08",
+ "stocks": 1614,
+ "schemes_kept": 181256,
+ "scheme_series_below_floor": 15510,
+ "keep_cr": 0.1,
+ "stock_bytes": 117867401,
+ "books_bytes": 657598,
+ "seconds": 875
+}

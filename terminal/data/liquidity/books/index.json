@@ -1285,7 +1285,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22042
+  "bytes": 22057
  },
  {
   "key": "futures_short__042601",
@@ -1299,7 +1299,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22147
+  "bytes": 22162
  },
  {
   "key": "futures_long__044601",
@@ -1313,7 +1313,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22322
+  "bytes": 22337
  },
  {
   "key": "futures_short__044601",
@@ -1327,7 +1327,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22418
+  "bytes": 22433
  },
  {
   "key": "futures_long__043602",
@@ -1341,7 +1341,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22395
+  "bytes": 22410
  },
  {
   "key": "futures_short__043602",
@@ -1355,7 +1355,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22476
+  "bytes": 22491
  },
  {
   "key": "futures_long__043607",
@@ -1369,7 +1369,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 13057
+  "bytes": 13070
  },
  {
   "key": "futures_short__043607",
@@ -1383,7 +1383,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 13020
+  "bytes": 13033
  },
  {
   "key": "futures_long__020601",
@@ -1397,7 +1397,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21415
+  "bytes": 21426
  },
  {
   "key": "futures_short__020601",
@@ -1411,7 +1411,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21743
+  "bytes": 21754
  },
  {
   "key": "futures_long__020604",
@@ -1425,7 +1425,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 17795
+  "bytes": 17806
  },
  {
   "key": "futures_short__020604",
@@ -1439,7 +1439,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18090
+  "bytes": 18101
  },
  {
   "key": "futures_long__134741",
@@ -1453,7 +1453,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 10758
+  "bytes": 10763
  },
  {
   "key": "futures_short__134741",
@@ -1467,7 +1467,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 10825
+  "bytes": 10830
  },
  {
   "key": "futures_long__045601",
@@ -1481,7 +1481,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21089
+  "bytes": 21100
  },
  {
   "key": "futures_short__045601",
@@ -1495,7 +1495,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21160
+  "bytes": 21171
  },
  {
   "key": "futures_long__13874A",
@@ -1509,7 +1509,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22438
+  "bytes": 22452
  },
  {
   "key": "futures_short__13874A",
@@ -1523,7 +1523,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22306
+  "bytes": 22320
  },
  {
   "key": "futures_long__209742",
@@ -1537,7 +1537,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20646
+  "bytes": 20666
  },
  {
   "key": "futures_short__209742",
@@ -1551,7 +1551,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20679
+  "bytes": 20699
  },
  {
   "key": "futures_long__239742",
@@ -1565,7 +1565,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 11528
+  "bytes": 11539
  },
  {
   "key": "futures_short__239742",
@@ -1579,7 +1579,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 11603
+  "bytes": 11614
  },
  {
   "key": "futures_long__244042",
@@ -1593,7 +1593,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16906
+  "bytes": 16922
  },
  {
   "key": "futures_short__244042",
@@ -1607,7 +1607,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16852
+  "bytes": 16868
  },
  {
   "key": "futures_long__244041",
@@ -1621,7 +1621,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16092
+  "bytes": 16102
  },
  {
   "key": "futures_short__244041",
@@ -1635,7 +1635,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16024
+  "bytes": 16034
  },
  {
   "key": "futures_long__099741",
@@ -1649,7 +1649,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20708
+  "bytes": 20710
  },
  {
   "key": "futures_short__099741",
@@ -1663,7 +1663,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20752
+  "bytes": 20754
  },
  {
   "key": "futures_long__097741",
@@ -1705,7 +1705,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20094
+  "bytes": 20103
  },
  {
   "key": "futures_short__096742",
@@ -1719,7 +1719,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20267
+  "bytes": 20276
  },
  {
   "key": "futures_long__098662",
@@ -1733,7 +1733,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 19135
+  "bytes": 19143
  },
  {
   "key": "futures_short__098662",
@@ -1747,7 +1747,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18993
+  "bytes": 19001
  },
  {
   "key": "futures_long__1170E1",
@@ -1761,7 +1761,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18225
+  "bytes": 18227
  },
  {
   "key": "futures_short__1170E1",
@@ -1775,7 +1775,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18188
+  "bytes": 18190
  },
  {
   "key": "futures_long__133741",
