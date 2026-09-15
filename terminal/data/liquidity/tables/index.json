@@ -120,10 +120,10 @@
  },
  "central_banks": {
   "title": "Central bank balance sheets and exchange rates, every observation",
-  "rows": 25054,
+  "rows": 25063,
   "first": "1971-01-04",
-  "last": "2026-09-09",
-  "bytes": 1661009
+  "last": "2026-09-11",
+  "bytes": 1661579
  },
  "us_net_liquidity": {
   "title": "US net liquidity and its three parts, every week",
@@ -736,10 +736,10 @@
  },
  "fed_reverse_repo_lenders": {
   "title": "Every business day of cash lent to the Federal Reserve overnight, in total and by kind of lender",
-  "rows": 5739,
+  "rows": 5740,
   "first": "2022-01-03",
-  "last": "2026-09-11",
-  "bytes": 432495
+  "last": "2026-09-14",
+  "bytes": 432573
  },
  "money__AUS": {
   "title": "Every month of broad and narrow money for Australia, in its own currency",
@@ -2000,5 +2000,180 @@
   "first": "2015-03-31",
   "last": "2026-03-31",
   "bytes": 19675
+ },
+ "money_sources__ARG": {
+  "title": "Every line of the IMF depository corporations survey for Argentina, every period, in its own currency",
+  "rows": 916,
+  "first": "2010-03-31",
+  "last": "2026-03-31",
+  "bytes": 113858
+ },
+ "money_sources__AUS": {
+  "title": "Every line of the IMF depository corporations survey for Australia, every period, in its own currency",
+  "rows": 7057,
+  "first": "2001-12-31",
+  "last": "2026-06-30",
+  "bytes": 868040
+ },
+ "money_sources__BGD": {
+  "title": "Every line of the IMF depository corporations survey for Bangladesh, every period, in its own currency",
+  "rows": 7080,
+  "first": "2001-12-31",
+  "last": "2026-06-30",
+  "bytes": 863730
+ },
+ "money_sources__BRA": {
+  "title": "Every line of the IMF depository corporations survey for Brazil, every period, in its own currency",
+  "rows": 7080,
+  "first": "2001-12-31",
+  "last": "2026-06-30",
+  "bytes": 851643
+ },
+ "money_sources__CHE": {
+  "title": "Every line of the IMF depository corporations survey for Switzerland, every period, in its own currency",
+  "rows": 3048,
+  "first": "2015-11-30",
+  "last": "2026-05-31",
+  "bytes": 380375
+ },
+ "money_sources__EGY": {
+  "title": "Every line of the IMF depository corporations survey for Egypt, every period, in its own currency",
+  "rows": 7008,
+  "first": "2001-12-31",
+  "last": "2026-03-31",
+  "bytes": 828639
+ },
+ "money_sources__G163": {
+  "title": "Every line of the IMF depository corporations survey for Euro area, every period, in its own currency",
+  "rows": 6807,
+  "first": "1997-09-30",
+  "last": "2025-05-31",
+  "bytes": 844224
+ },
+ "money_sources__HKG": {
+  "title": "Every line of the IMF depository corporations survey for Hong Kong, every period, in its own currency",
+  "rows": 2736,
+  "first": "2016-12-31",
+  "last": "2026-05-31",
+  "bytes": 336935
+ },
+ "money_sources__IDN": {
+  "title": "Every line of the IMF depository corporations survey for Indonesia, every period, in its own currency",
+  "rows": 7057,
+  "first": "2001-12-31",
+  "last": "2026-06-30",
+  "bytes": 887410
+ },
+ "money_sources__IND": {
+  "title": "Every line of the IMF depository corporations survey for India, every period, in its own currency",
+  "rows": 2832,
+  "first": "2016-10-31",
+  "last": "2026-07-31",
+  "bytes": 339954
+ },
+ "money_sources__JPN": {
+  "title": "Every line of the IMF depository corporations survey for Japan, every period, in its own currency",
+  "rows": 7056,
+  "first": "2001-12-31",
+  "last": "2026-05-31",
+  "bytes": 827660
+ },
+ "money_sources__KOR": {
+  "title": "Every line of the IMF depository corporations survey for South Korea, every period, in its own currency",
+  "rows": 6888,
+  "first": "2001-12-31",
+  "last": "2025-10-31",
+  "bytes": 867600
+ },
+ "money_sources__MEX": {
+  "title": "Every line of the IMF depository corporations survey for Mexico, every period, in its own currency",
+  "rows": 7080,
+  "first": "2001-12-31",
+  "last": "2026-06-30",
+  "bytes": 850144
+ },
+ "money_sources__MYS": {
+  "title": "Every line of the IMF depository corporations survey for Malaysia, every period, in its own currency",
+  "rows": 7081,
+  "first": "2001-12-31",
+  "last": "2026-07-31",
+  "bytes": 860323
+ },
+ "money_sources__NGA": {
+  "title": "Every line of the IMF depository corporations survey for Nigeria, every period, in its own currency",
+  "rows": 6552,
+  "first": "2001-12-31",
+  "last": "2024-08-31",
+  "bytes": 795649
+ },
+ "money_sources__PAK": {
+  "title": "Every line of the IMF depository corporations survey for Pakistan, every period, in its own currency",
+  "rows": 7104,
+  "first": "2001-12-31",
+  "last": "2026-07-31",
+  "bytes": 866904
+ },
+ "money_sources__PHL": {
+  "title": "Every line of the IMF depository corporations survey for Philippines, every period, in its own currency",
+  "rows": 6942,
+  "first": "2001-12-31",
+  "last": "2026-06-30",
+  "bytes": 870677
+ },
+ "money_sources__SAU": {
+  "title": "Every line of the IMF depository corporations survey for Saudi Arabia, every period, in its own currency",
+  "rows": 50,
+  "first": "2022-01-31",
+  "last": "2026-02-28",
+  "bytes": 6846
+ },
+ "money_sources__THA": {
+  "title": "Every line of the IMF depository corporations survey for Thailand, every period, in its own currency",
+  "rows": 7080,
+  "first": "2001-12-31",
+  "last": "2026-06-30",
+  "bytes": 867570
+ },
+ "money_sources__TUR": {
+  "title": "Every line of the IMF depository corporations survey for T\u00fcrkiye, every period, in its own currency",
+  "rows": 7008,
+  "first": "2001-12-31",
+  "last": "2026-03-31",
+  "bytes": 880112
+ },
+ "money_sources__USA": {
+  "title": "Every line of the IMF depository corporations survey for United States, every period, in its own currency",
+  "rows": 2328,
+  "first": "2001-12-31",
+  "last": "2025-12-31",
+  "bytes": 295040
+ },
+ "money_sources__ZAF": {
+  "title": "Every line of the IMF depository corporations survey for South Africa, every period, in its own currency",
+  "rows": 7058,
+  "first": "2001-12-31",
+  "last": "2026-07-31",
+  "bytes": 891180
+ },
+ "world_money_usd": {
+  "title": "Every economy and month behind world money in dollars: amount in its own currency, the rate, the dollar amount",
+  "rows": 48349,
+  "first": "1956-07",
+  "last": "2026-06",
+  "bytes": 3346822
+ },
+ "world_debt_usd__private": {
+  "title": "Every economy and year behind world private debt (loans and debt securities of households and companies) in dollars: share of GDP, GDP, the rate, the dollar amount",
+  "rows": 8353,
+  "first": "1950",
+  "last": "2024",
+  "bytes": 936646
+ },
+ "world_debt_usd__government": {
+  "title": "Every economy and year behind world government debt in dollars: share of GDP, GDP, the rate, the dollar amount",
+  "rows": 8281,
+  "first": "1950",
+  "last": "2024",
+  "bytes": 780466
  }
 }

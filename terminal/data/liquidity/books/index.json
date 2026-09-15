@@ -431,7 +431,7 @@
   "last": "2026-06-30",
   "rows": 15,
   "flows_from": null,
-  "bytes": 7829
+  "bytes": 7687
  },
  {
   "key": "foreign_owners__CORPORATE_EQUITY",
@@ -893,7 +893,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 30501
+  "bytes": 30523
  },
  {
   "key": "money__BRA",
@@ -907,7 +907,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 16820
+  "bytes": 16842
  },
  {
   "key": "money__CAN",
@@ -921,7 +921,7 @@
   "last": "2026-06-30",
   "rows": 3,
   "flows_from": null,
-  "bytes": 27211
+  "bytes": 27233
  },
  {
   "key": "money__CHE",
@@ -935,7 +935,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 26211
+  "bytes": 26233
  },
  {
   "key": "money__CHL",
@@ -949,7 +949,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 21260
+  "bytes": 21282
  },
  {
   "key": "money__CHN",
@@ -963,7 +963,7 @@
   "last": "2026-06-30",
   "rows": 3,
   "flows_from": null,
-  "bytes": 15450
+  "bytes": 15472
  },
  {
   "key": "money__COL",
@@ -977,7 +977,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 23630
+  "bytes": 23652
  },
  {
   "key": "money__CRI",
@@ -991,7 +991,7 @@
   "last": "2026-04-30",
   "rows": 3,
   "flows_from": null,
-  "bytes": 14251
+  "bytes": 14273
  },
  {
   "key": "money__CZE",
@@ -1005,7 +1005,7 @@
   "last": "2018-12-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 14477
+  "bytes": 14499
  },
  {
   "key": "money__DNK",
@@ -1019,7 +1019,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 18343
+  "bytes": 18365
  },
  {
   "key": "money__EA20",
@@ -1033,7 +1033,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 27994
+  "bytes": 28016
  },
  {
   "key": "money__GBR",
@@ -1047,7 +1047,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 20565
+  "bytes": 20587
  },
  {
   "key": "money__HUN",
@@ -1061,7 +1061,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 17972
+  "bytes": 17994
  },
  {
   "key": "money__IDN",
@@ -1075,7 +1075,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 20375
+  "bytes": 20397
  },
  {
   "key": "money__IND",
@@ -1089,7 +1089,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 34380
+  "bytes": 34402
  },
  {
   "key": "money__ISL",
@@ -1103,7 +1103,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 29928
+  "bytes": 29950
  },
  {
   "key": "money__ISR",
@@ -1117,7 +1117,7 @@
   "last": "2026-05-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 17295
+  "bytes": 17317
  },
  {
   "key": "money__JPN",
@@ -1131,7 +1131,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 25040
+  "bytes": 25062
  },
  {
   "key": "money__KOR",
@@ -1145,7 +1145,7 @@
   "last": "2026-06-30",
   "rows": 3,
   "flows_from": null,
-  "bytes": 13705
+  "bytes": 13727
  },
  {
   "key": "money__MEX",
@@ -1159,7 +1159,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 20955
+  "bytes": 20977
  },
  {
   "key": "money__NOR",
@@ -1173,7 +1173,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 17450
+  "bytes": 17472
  },
  {
   "key": "money__NZL",
@@ -1187,7 +1187,7 @@
   "last": "2018-12-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 18931
+  "bytes": 18953
  },
  {
   "key": "money__POL",
@@ -1201,7 +1201,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 18323
+  "bytes": 18345
  },
  {
   "key": "money__RUS",
@@ -1215,7 +1215,7 @@
   "last": "2023-01-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 13970
+  "bytes": 13992
  },
  {
   "key": "money__SWE",
@@ -1229,7 +1229,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 15447
+  "bytes": 15469
  },
  {
   "key": "money__TUR",
@@ -1243,7 +1243,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 21660
+  "bytes": 21682
  },
  {
   "key": "money__USA",
@@ -1257,7 +1257,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 29564
+  "bytes": 29586
  },
  {
   "key": "money__ZAF",
@@ -1271,7 +1271,7 @@
   "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 28623
+  "bytes": 28645
  },
  {
   "key": "futures_long__042601",
@@ -1285,7 +1285,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22057
+  "bytes": 22042
  },
  {
   "key": "futures_short__042601",
@@ -1299,7 +1299,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22162
+  "bytes": 22147
  },
  {
   "key": "futures_long__044601",
@@ -1313,7 +1313,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22337
+  "bytes": 22322
  },
  {
   "key": "futures_short__044601",
@@ -1327,7 +1327,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22433
+  "bytes": 22418
  },
  {
   "key": "futures_long__043602",
@@ -1341,7 +1341,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22410
+  "bytes": 22395
  },
  {
   "key": "futures_short__043602",
@@ -1355,7 +1355,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22491
+  "bytes": 22476
  },
  {
   "key": "futures_long__043607",
@@ -1369,7 +1369,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 13070
+  "bytes": 13057
  },
  {
   "key": "futures_short__043607",
@@ -1383,7 +1383,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 13033
+  "bytes": 13020
  },
  {
   "key": "futures_long__020601",
@@ -1397,7 +1397,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21426
+  "bytes": 21415
  },
  {
   "key": "futures_short__020601",
@@ -1411,7 +1411,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21754
+  "bytes": 21743
  },
  {
   "key": "futures_long__020604",
@@ -1425,7 +1425,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 17806
+  "bytes": 17795
  },
  {
   "key": "futures_short__020604",
@@ -1439,7 +1439,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18101
+  "bytes": 18090
  },
  {
   "key": "futures_long__134741",
@@ -1481,7 +1481,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21100
+  "bytes": 21089
  },
  {
   "key": "futures_short__045601",
@@ -1495,7 +1495,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21171
+  "bytes": 21160
  },
  {
   "key": "futures_long__13874A",
@@ -1509,7 +1509,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22452
+  "bytes": 22450
  },
  {
   "key": "futures_short__13874A",
@@ -1523,7 +1523,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22320
+  "bytes": 22318
  },
  {
   "key": "futures_long__209742",
@@ -1537,7 +1537,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20666
+  "bytes": 20646
  },
  {
   "key": "futures_short__209742",
@@ -1551,7 +1551,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20699
+  "bytes": 20679
  },
  {
   "key": "futures_long__239742",
@@ -1649,7 +1649,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20710
+  "bytes": 20708
  },
  {
   "key": "futures_short__099741",
@@ -1663,7 +1663,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20754
+  "bytes": 20752
  },
  {
   "key": "futures_long__097741",
@@ -1705,7 +1705,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20103
+  "bytes": 20094
  },
  {
   "key": "futures_short__096742",
@@ -1719,7 +1719,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20276
+  "bytes": 20267
  },
  {
   "key": "futures_long__098662",
@@ -1733,7 +1733,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 19143
+  "bytes": 19135
  },
  {
   "key": "futures_short__098662",
@@ -1747,7 +1747,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 19001
+  "bytes": 18993
  },
  {
   "key": "futures_long__1170E1",
@@ -1761,7 +1761,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18227
+  "bytes": 18225
  },
  {
   "key": "futures_short__1170E1",
@@ -1775,7 +1775,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18190
+  "bytes": 18188
  },
  {
   "key": "futures_long__133741",
@@ -4394,5 +4394,341 @@
   "rows": 22,
   "flows_from": null,
   "bytes": 10950
+ },
+ {
+  "key": "money_sources__IND",
+  "group": "Where each country's money came from",
+  "title": "Where the money in India came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: India",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "\u20b9 bn",
+  "first": "2016-10-31",
+  "last": "2026-07-31",
+  "rows": 11,
+  "flows_from": null,
+  "bytes": 19118
+ },
+ {
+  "key": "money_sources__JPN",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Japan came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Japan",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "\u00a5 bn",
+  "first": "2001-12-31",
+  "last": "2026-05-31",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 34673
+ },
+ {
+  "key": "money_sources__USA",
+  "group": "Where each country's money came from",
+  "title": "Where the money in United States came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: United States",
+  "family": "money_sources",
+  "freq": "Q",
+  "unit": "US$ bn",
+  "first": "2001-12-31",
+  "last": "2025-12-31",
+  "rows": 9,
+  "flows_from": null,
+  "bytes": 13456
+ },
+ {
+  "key": "money_sources__G163",
+  "group": "Where each country's money came from",
+  "title": "Where the money in the euro area came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: The euro area",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "\u20ac bn",
+  "first": "2001-12-31",
+  "last": "2025-05-31",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 33251
+ },
+ {
+  "key": "money_sources__BRA",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Brazil came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Brazil",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "R$ bn",
+  "first": "2001-12-31",
+  "last": "2026-06-30",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 32981
+ },
+ {
+  "key": "money_sources__MEX",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Mexico came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Mexico",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "Mex$ bn",
+  "first": "2001-12-31",
+  "last": "2026-06-30",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 33792
+ },
+ {
+  "key": "money_sources__IDN",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Indonesia came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Indonesia",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "Rp bn",
+  "first": "2001-12-31",
+  "last": "2026-05-31",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 40826
+ },
+ {
+  "key": "money_sources__TUR",
+  "group": "Where each country's money came from",
+  "title": "Where the money in T\u00fcrkiye came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: T\u00fcrkiye",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "\u20ba bn",
+  "first": "2001-12-31",
+  "last": "2026-03-31",
+  "rows": 11,
+  "flows_from": null,
+  "bytes": 32637
+ },
+ {
+  "key": "money_sources__CHE",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Switzerland came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Switzerland",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "CHF bn",
+  "first": "2015-11-30",
+  "last": "2026-05-31",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 16329
+ },
+ {
+  "key": "money_sources__ZAF",
+  "group": "Where each country's money came from",
+  "title": "Where the money in South Africa came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: South Africa",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "R bn",
+  "first": "2001-12-31",
+  "last": "2026-05-31",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 32047
+ },
+ {
+  "key": "money_sources__HKG",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Hong Kong came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Hong Kong",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "HK$ bn",
+  "first": "2016-12-31",
+  "last": "2026-05-31",
+  "rows": 8,
+  "flows_from": null,
+  "bytes": 13939
+ },
+ {
+  "key": "money_sources__AUS",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Australia came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Australia",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "A$ bn",
+  "first": "2001-12-31",
+  "last": "2026-05-31",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 31855
+ },
+ {
+  "key": "money_sources__KOR",
+  "group": "Where each country's money came from",
+  "title": "Where the money in South Korea came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: South Korea",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "\u20a9 bn",
+  "first": "2001-12-31",
+  "last": "2025-10-31",
+  "rows": 11,
+  "flows_from": null,
+  "bytes": 41676
+ },
+ {
+  "key": "money_sources__THA",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Thailand came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Thailand",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "\u0e3f bn",
+  "first": "2001-12-31",
+  "last": "2026-06-30",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 34152
+ },
+ {
+  "key": "money_sources__MYS",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Malaysia came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Malaysia",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "RM bn",
+  "first": "2001-12-31",
+  "last": "2026-06-30",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 31073
+ },
+ {
+  "key": "money_sources__PHL",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Philippines came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Philippines",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "\u20b1 bn",
+  "first": "2001-12-31",
+  "last": "2025-12-31",
+  "rows": 11,
+  "flows_from": null,
+  "bytes": 34573
+ },
+ {
+  "key": "money_sources__ARG",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Argentina came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Argentina",
+  "family": "money_sources",
+  "freq": "Q",
+  "unit": "ARS bn",
+  "first": "2017-03-31",
+  "last": "2026-03-31",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 8405
+ },
+ {
+  "key": "money_sources__EGY",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Egypt came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Egypt",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "EGP bn",
+  "first": "2001-12-31",
+  "last": "2026-03-31",
+  "rows": 11,
+  "flows_from": null,
+  "bytes": 33070
+ },
+ {
+  "key": "money_sources__NGA",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Nigeria came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Nigeria",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "\u20a6 bn",
+  "first": "2001-12-31",
+  "last": "2024-08-31",
+  "rows": 11,
+  "flows_from": null,
+  "bytes": 34115
+ },
+ {
+  "key": "money_sources__PAK",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Pakistan came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Pakistan",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "PKR bn",
+  "first": "2001-12-31",
+  "last": "2026-07-31",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 33783
+ },
+ {
+  "key": "money_sources__BGD",
+  "group": "Where each country's money came from",
+  "title": "Where the money in Bangladesh came from: what its banks and central bank lent or bought, against the broad money they owe, in its own currency",
+  "short": "Money sources: Bangladesh",
+  "family": "money_sources",
+  "freq": "M",
+  "unit": "\u09f3 bn",
+  "first": "2001-12-31",
+  "last": "2026-06-30",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 32211
+ },
+ {
+  "key": "world_money_usd",
+  "group": "How much money and debt there is in the world",
+  "title": "How much money there is in the world: broad money in US dollars, economy by economy, month by month",
+  "short": "World money in dollars",
+  "family": "world_money",
+  "freq": "M",
+  "unit": "US$ bn",
+  "first": "2001-12-31",
+  "last": "2026-06-30",
+  "rows": 22,
+  "flows_from": null,
+  "bytes": 66477
+ },
+ {
+  "key": "world_debt_usd__private",
+  "group": "How much money and debt there is in the world",
+  "title": "How much households and companies owe (loans and debt securities), economy by economy, in US dollars, year by year",
+  "short": "Private debt in dollars",
+  "family": "world_debt",
+  "freq": "A",
+  "unit": "US$ bn",
+  "first": "1950-12-31",
+  "last": "2024-12-31",
+  "rows": 22,
+  "flows_from": null,
+  "bytes": 23715
+ },
+ {
+  "key": "world_debt_usd__government",
+  "group": "How much money and debt there is in the world",
+  "title": "How much governments owe, economy by economy, in US dollars, year by year",
+  "short": "Government debt in dollars",
+  "family": "world_debt",
+  "freq": "A",
+  "unit": "US$ bn",
+  "first": "1950-12-31",
+  "last": "2024-12-31",
+  "rows": 22,
+  "flows_from": null,
+  "bytes": 23466
  }
 ]
