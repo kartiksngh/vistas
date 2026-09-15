@@ -2175,5 +2175,26 @@
   "first": "1950",
   "last": "2024",
   "bytes": 780466
+ },
+ "us_gov__treasury_statement_table_9": {
+  "title": "Every line of the Monthly Treasury Statement's receipts by source and outlays by purpose, every month",
+  "rows": 4140,
+  "first": "2015-03",
+  "last": "2026-08",
+  "bytes": 538324
+ },
+ "us_gov__treasury_statement_table_5": {
+  "title": "What each department, agency, bureau and account spent, every month",
+  "rows": 86526,
+  "first": "2015-03",
+  "last": "2026-08",
+  "bytes": 18385859
+ },
+ "us_gov__omb_historical_tables": {
+  "title": "Every line and year of OMB historical tables 2.1, 3.1 and 7.1: receipts by source, outlays by purpose, debt",
+  "rows": 7749,
+  "first": "1901",
+  "last": "2025",
+  "bytes": 967907
  }
 }

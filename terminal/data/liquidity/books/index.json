@@ -1285,7 +1285,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22042
+  "bytes": 22059
  },
  {
   "key": "futures_short__042601",
@@ -1299,7 +1299,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22147
+  "bytes": 22164
  },
  {
   "key": "futures_long__044601",
@@ -1313,7 +1313,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22322
+  "bytes": 22337
  },
  {
   "key": "futures_short__044601",
@@ -1327,7 +1327,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22418
+  "bytes": 22433
  },
  {
   "key": "futures_long__043602",
@@ -1341,7 +1341,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22395
+  "bytes": 22412
  },
  {
   "key": "futures_short__043602",
@@ -1355,7 +1355,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22476
+  "bytes": 22493
  },
  {
   "key": "futures_long__043607",
@@ -1369,7 +1369,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 13057
+  "bytes": 13070
  },
  {
   "key": "futures_short__043607",
@@ -1383,7 +1383,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 13020
+  "bytes": 13033
  },
  {
   "key": "futures_long__020601",
@@ -1397,7 +1397,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21415
+  "bytes": 21428
  },
  {
   "key": "futures_short__020601",
@@ -1411,7 +1411,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21743
+  "bytes": 21756
  },
  {
   "key": "futures_long__020604",
@@ -1425,7 +1425,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 17795
+  "bytes": 17812
  },
  {
   "key": "futures_short__020604",
@@ -1439,7 +1439,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18090
+  "bytes": 18107
  },
  {
   "key": "futures_long__134741",
@@ -1453,7 +1453,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 10763
+  "bytes": 10758
  },
  {
   "key": "futures_short__134741",
@@ -1467,7 +1467,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 10830
+  "bytes": 10825
  },
  {
   "key": "futures_long__045601",
@@ -1509,7 +1509,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22450
+  "bytes": 22438
  },
  {
   "key": "futures_short__13874A",
@@ -1523,7 +1523,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22318
+  "bytes": 22306
  },
  {
   "key": "futures_long__209742",
@@ -1565,7 +1565,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 11539
+  "bytes": 11528
  },
  {
   "key": "futures_short__239742",
@@ -1579,7 +1579,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 11614
+  "bytes": 11603
  },
  {
   "key": "futures_long__244042",
@@ -1593,7 +1593,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16922
+  "bytes": 16917
  },
  {
   "key": "futures_short__244042",
@@ -1607,7 +1607,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16868
+  "bytes": 16863
  },
  {
   "key": "futures_long__244041",
@@ -1621,7 +1621,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16102
+  "bytes": 16092
  },
  {
   "key": "futures_short__244041",
@@ -1635,7 +1635,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16034
+  "bytes": 16024
  },
  {
   "key": "futures_long__099741",
@@ -1649,7 +1649,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20708
+  "bytes": 20710
  },
  {
   "key": "futures_short__099741",
@@ -1663,7 +1663,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20752
+  "bytes": 20754
  },
  {
   "key": "futures_long__097741",
@@ -1677,7 +1677,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20345
+  "bytes": 20347
  },
  {
   "key": "futures_short__097741",
@@ -1691,7 +1691,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20236
+  "bytes": 20238
  },
  {
   "key": "futures_long__096742",
@@ -1705,7 +1705,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20094
+  "bytes": 20105
  },
  {
   "key": "futures_short__096742",
@@ -1719,7 +1719,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20267
+  "bytes": 20278
  },
  {
   "key": "futures_long__098662",
@@ -1733,7 +1733,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 19135
+  "bytes": 19145
  },
  {
   "key": "futures_short__098662",
@@ -1747,7 +1747,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18993
+  "bytes": 19003
  },
  {
   "key": "futures_long__1170E1",
@@ -1761,7 +1761,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18225
+  "bytes": 18227
  },
  {
   "key": "futures_short__1170E1",
@@ -1775,7 +1775,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18188
+  "bytes": 18190
  },
  {
   "key": "futures_long__133741",
@@ -4730,5 +4730,89 @@
   "rows": 22,
   "flows_from": null,
   "bytes": 23466
+ },
+ {
+  "key": "us_gov__receipts_monthly",
+  "group": "Every dollar the US federal government collects, spends and owes",
+  "title": "What the US federal government collected each month, by source",
+  "short": "Collected each month, by source",
+  "family": "us_government",
+  "freq": "M",
+  "unit": "US$ bn",
+  "first": "2015-03-31",
+  "last": "2026-08-31",
+  "rows": 10,
+  "flows_from": null,
+  "bytes": 15304
+ },
+ {
+  "key": "us_gov__outlays_by_purpose_monthly",
+  "group": "Every dollar the US federal government collects, spends and owes",
+  "title": "What the US federal government spent each month, by purpose",
+  "short": "Spent each month, by purpose",
+  "family": "us_government",
+  "freq": "M",
+  "unit": "US$ bn",
+  "first": "2015-03-31",
+  "last": "2026-08-31",
+  "rows": 20,
+  "flows_from": null,
+  "bytes": 27440
+ },
+ {
+  "key": "us_gov__outlays_by_agency_monthly",
+  "group": "Every dollar the US federal government collects, spends and owes",
+  "title": "What each US federal department and agency spent each month",
+  "short": "Spent each month, by agency",
+  "family": "us_government",
+  "freq": "M",
+  "unit": "US$ bn",
+  "first": "2015-03-31",
+  "last": "2026-08-31",
+  "rows": 31,
+  "flows_from": null,
+  "bytes": 41731
+ },
+ {
+  "key": "us_gov__receipts_yearly",
+  "group": "Every dollar the US federal government collects, spends and owes",
+  "title": "What the US federal government collected each year since 1934, by source",
+  "short": "Collected each year, by source, since 1934",
+  "family": "us_government",
+  "freq": "A",
+  "unit": "US$ bn",
+  "first": "1934-06-30",
+  "last": "2025-09-30",
+  "rows": 6,
+  "flows_from": null,
+  "bytes": 8163
+ },
+ {
+  "key": "us_gov__outlays_by_purpose_yearly",
+  "group": "Every dollar the US federal government collects, spends and owes",
+  "title": "What the US federal government spent each year since 1940, by purpose",
+  "short": "Spent each year, by purpose, since 1940",
+  "family": "us_government",
+  "freq": "A",
+  "unit": "US$ bn",
+  "first": "1940-06-30",
+  "last": "2025-09-30",
+  "rows": 7,
+  "flows_from": null,
+  "bytes": 9149
+ },
+ {
+  "key": "us_gov__debt_holders_yearly",
+  "group": "Every dollar the US federal government collects, spends and owes",
+  "title": "Who the US federal government owed at the end of each year since 1940",
+  "short": "Who holds the federal debt, since 1940",
+  "family": "us_government",
+  "freq": "A",
+  "unit": "US$ bn",
+  "first": "1940-06-30",
+  "last": "2025-09-30",
+  "rows": 4,
+  "flows_from": null,
+  "bytes": 6610
  }
 ]
