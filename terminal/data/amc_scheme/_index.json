@@ -1,5 +1,5 @@
 {
- "built": "2026-09-16T01:54:26",
+ "built": "2026-09-16T04:51:33",
  "months": 122,
  "last_month": "2026-08",
  "stocks": 1614,
@@ -8,5 +8,5 @@
  "keep_cr": 0.1,
  "stock_bytes": 117867401,
  "books_bytes": 657598,
- "seconds": 598
+ "seconds": 562
 }

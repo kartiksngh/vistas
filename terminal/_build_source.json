@@ -1,5 +1,10 @@
 {
- "process_started": "2026-09-16T00:00:01",
- "build_finished": "2026-09-16T02:19:06",
- "changed_during_build": []
+ "process_started": "2026-09-16T05:36:55",
+ "build_finished": "2026-09-16T05:36:55",
+ "changed_during_build": [],
+ "restitched": true,
+ "restitched_at": "2026-09-16T05:36:55",
+ "js_bytes": 1452187,
+ "data_from_build": "2026-09-16T05:14:54",
+ "note": "front-end code swapped into the shell already on disk; every data file is from the build named in data_from_build"
 }
