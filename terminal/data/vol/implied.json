@@ -1,5 +1,5 @@
 {
- "asof": "2026-09-11",
+ "asof": "2026-09-17",
  "coverage_pct": [
   53.23,
   53.23,
@@ -28,6 +28,9 @@
   97.14,
   97.14,
   97.14,
+  97.14,
+  53.23,
+  53.23,
   97.14
  ],
  "dates": [
@@ -58,7 +61,10 @@
   "2026-09-08",
   "2026-09-09",
   "2026-09-10",
-  "2026-09-11"
+  "2026-09-11",
+  "2026-09-15",
+  "2026-09-16",
+  "2026-09-17"
  ],
  "expiry_pair": [
   {
@@ -200,13 +206,28 @@
    "index": "2026-09-29",
    "matched": true,
    "members_modal": "2026-09-29"
+  },
+  {
+   "index": "15-Sep-2026",
+   "matched": false,
+   "members_modal": "29-Sep-2026"
+  },
+  {
+   "index": "22-Sep-2026",
+   "matched": false,
+   "members_modal": "29-Sep-2026"
+  },
+  {
+   "index": "2026-09-29",
+   "matched": true,
+   "members_modal": "2026-09-29"
   }
  ],
  "meta": {
   "formula": "rho_imp = (sigma_idx^2 - sum(w^2*sigma^2)) / ((sum(w*sigma))^2 - sum(w^2*sigma^2)); w = w_ffmcap renormalised over members with an ATM IV that day; sigma = ATM IV / 100 (mean of call/put ATM IV)",
   "history_note": "stock ATM IV banked from 2026-09-03; implied correlation requires >=80% weight coverage AND both legs priced to the same expiry"
  },
- "n_horizon_blocked": 21,
+ "n_horizon_blocked": 23,
  "n_members_with_iv": [
   10,
   10,
@@ -235,20 +256,23 @@
   49,
   49,
   49,
+  49,
+  10,
+  10,
   49
  ],
  "pctile": {
   "1y": {
-   "n": 3,
-   "value": 100.0
+   "n": 4,
+   "value": 75.0
   },
   "3y": {
-   "n": 3,
-   "value": 100.0
+   "n": 4,
+   "value": 75.0
   },
   "5y": {
-   "n": 3,
-   "value": 100.0
+   "n": 4,
+   "value": 75.0
   }
  },
  "rho_imp": [
@@ -279,6 +303,9 @@
   null,
   0.2675059707931071,
   0.26322569660631845,
-  0.3059481223235583
+  0.3059481223235583,
+  null,
+  null,
+  0.30447381795504874
  ]
 }
