@@ -50,73 +50,73 @@
  },
  "treasury_foreign_holders": {
   "title": "Foreign holders of US Treasury securities, every country row, every month",
-  "rows": 12493,
+  "rows": 12518,
   "first": "2000-03",
-  "last": "2026-06",
-  "bytes": 788610
+  "last": "2026-07",
+  "bytes": 790398
  },
  "foreign_owners__AGENCY_GSE_SECURITIES": {
   "title": "Agency gse securities held by foreign residents, by the holder's country, every country, every month",
-  "rows": 6318,
+  "rows": 6399,
   "first": "2020-01",
-  "last": "2026-06",
-  "bytes": 477587
+  "last": "2026-07",
+  "bytes": 483790
  },
  "foreign_owners__CORPORATE_BONDS": {
   "title": "Corporate bonds held by foreign residents, by the holder's country, every country, every month",
-  "rows": 6318,
+  "rows": 6399,
   "first": "2020-01",
-  "last": "2026-06",
-  "bytes": 485717
+  "last": "2026-07",
+  "bytes": 492060
  },
  "foreign_owners__CORPORATE_EQUITY": {
   "title": "Corporate equity held by foreign residents, by the holder's country, every country, every month",
-  "rows": 6396,
+  "rows": 6478,
   "first": "2020-01",
-  "last": "2026-06",
-  "bytes": 501139
+  "last": "2026-07",
+  "bytes": 507708
  },
  "foreign_owners__US_TREASURY_LONG_TERM": {
   "title": "Us treasury long term held by foreign residents, by the holder's country, every country, every month",
-  "rows": 6318,
+  "rows": 6399,
   "first": "2020-01",
-  "last": "2026-06",
-  "bytes": 489055
+  "last": "2026-07",
+  "bytes": 495446
  },
  "americans_abroad__CORPORATE_BONDS": {
   "title": "Corporate bonds held by Americans, by the issuer's country, every country, every month",
-  "rows": 6006,
+  "rows": 6083,
   "first": "2020-01",
-  "last": "2026-06",
-  "bytes": 456862
+  "last": "2026-07",
+  "bytes": 462822
  },
  "americans_abroad__CORPORATE_EQUITY": {
   "title": "Corporate equity held by Americans, by the issuer's country, every country, every month",
-  "rows": 6084,
+  "rows": 6162,
   "first": "2020-01",
-  "last": "2026-06",
-  "bytes": 467859
+  "last": "2026-07",
+  "bytes": 473961
  },
  "americans_abroad__GOVERNMENT_BONDS": {
   "title": "Government bonds held by Americans, by the issuer's country, every country, every month",
-  "rows": 6006,
+  "rows": 6083,
   "first": "2020-01",
-  "last": "2026-06",
-  "bytes": 452432
+  "last": "2026-07",
+  "bytes": 458311
  },
  "gold_official": {
   "title": "Official gold of every reporting central bank and government, every month",
-  "rows": 20739,
+  "rows": 20755,
   "first": "2000-01",
   "last": "2026-08",
-  "bytes": 2034516
+  "bytes": 2036064
  },
  "gold_us_funds_treasury": {
   "title": "Gold owned by the US Treasury and held by the two largest US gold funds",
-  "rows": 5663,
+  "rows": 5666,
   "first": "2004-11-18",
-  "last": "2026-09-11",
-  "bytes": 484329
+  "last": "2026-09-16",
+  "bytes": 484589
  },
  "central_banks": {
   "title": "Central bank balance sheets and exchange rates, every observation",
@@ -200,7 +200,7 @@
   "rows": 132,
   "first": "2000-03-31",
   "last": "2026-06-30",
-  "bytes": 13617
+  "bytes": 13619
  },
  "imf_pip__G001": {
   "title": "Holdings abroad, every reporting country and kind of investor, every filing",
@@ -309,24 +309,24 @@
  },
  "jp_owner_types__JP_LISTED_SHARES": {
   "title": "Every line the Bank of Japan publishes on who holds listed Japanese shares, every quarter, with its older accounts",
-  "rows": 23930,
+  "rows": 24064,
   "first": "1964-03-31",
-  "last": "2026-03-31",
-  "bytes": 5354644
+  "last": "2026-06-30",
+  "bytes": 5385903
  },
  "jp_owner_types__JP_GOVERNMENT_BONDS": {
   "title": "Every line the Bank of Japan publishes on who holds Japanese government bonds (including FILP bonds), every quarter, with its older accounts",
-  "rows": 22016,
+  "rows": 22162,
   "first": "1964-03-31",
-  "last": "2026-03-31",
-  "bytes": 5494610
+  "last": "2026-06-30",
+  "bytes": 5532585
  },
  "jp_owner_types__JP_TREASURY_BILLS": {
   "title": "Every line the Bank of Japan publishes on who holds Japanese Treasury bills, every quarter, with its older accounts",
-  "rows": 17180,
+  "rows": 17282,
   "first": "1964-03-31",
-  "last": "2026-03-31",
-  "bytes": 3839008
+  "last": "2026-06-30",
+  "bytes": 3862038
  },
  "uk_owner_types__UK_GILTS": {
   "title": "Every line of the UK Economic Accounts on who holds UK government gilts, every quarter",
@@ -736,10 +736,10 @@
  },
  "fed_reverse_repo_lenders": {
   "title": "Every business day of cash lent to the Federal Reserve overnight, in total and by kind of lender",
-  "rows": 5741,
+  "rows": 5742,
   "first": "2022-01-03",
-  "last": "2026-09-15",
-  "bytes": 432650
+  "last": "2026-09-16",
+  "bytes": 432729
  },
  "money__AUS": {
   "title": "Every month of broad and narrow money for Australia, in its own currency",
