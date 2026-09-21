@@ -140,6 +140,76 @@
   "bytes": 41697
  },
  {
+  "key": "jp_owner_types__JP_CORPORATE_BONDS",
+  "group": "Who owns Japanese assets, by kind of owner",
+  "title": "Who owns Japanese corporate bonds, by kind of owner",
+  "short": "Japanese corporate bonds",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u00a5 bn",
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "rows": 30,
+  "flows_from": "1997-12-31",
+  "bytes": 50610
+ },
+ {
+  "key": "jp_owner_types__JP_INVESTMENT_TRUSTS",
+  "group": "Who owns Japanese assets, by kind of owner",
+  "title": "Who owns Japanese investment trust certificates, by kind of owner",
+  "short": "Japanese investment trust certificates",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u00a5 bn",
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "rows": 25,
+  "flows_from": "1997-12-31",
+  "bytes": 43079
+ },
+ {
+  "key": "jp_owner_types__JP_LOCAL_GOVERNMENT_BONDS",
+  "group": "Who owns Japanese assets, by kind of owner",
+  "title": "Who owns Japanese local government bonds, by kind of owner",
+  "short": "Japanese local government bonds",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u00a5 bn",
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "rows": 28,
+  "flows_from": "1997-12-31",
+  "bytes": 46572
+ },
+ {
+  "key": "jp_owner_types__JP_PUBLIC_CORPORATION_BONDS",
+  "group": "Who owns Japanese assets, by kind of owner",
+  "title": "Who owns Japanese public corporation bonds, by kind of owner",
+  "short": "Japanese public corporation bonds",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u00a5 bn",
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "rows": 29,
+  "flows_from": "1997-12-31",
+  "bytes": 48426
+ },
+ {
+  "key": "jp_owner_types__JP_BANK_DEBENTURES",
+  "group": "Who owns Japanese assets, by kind of owner",
+  "title": "Who owns Japanese bank debentures, by kind of owner",
+  "short": "Japanese bank debentures",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u00a5 bn",
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "rows": 28,
+  "flows_from": "1997-12-31",
+  "bytes": 44659
+ },
+ {
   "key": "uk_owner_types__UK_GILTS",
   "group": "Who owns British assets, by kind of owner",
   "title": "Who owns UK government gilts, by kind of owner",
@@ -1285,7 +1355,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22059
+  "bytes": 22057
  },
  {
   "key": "futures_short__042601",
@@ -1299,7 +1369,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22164
+  "bytes": 22162
  },
  {
   "key": "futures_long__044601",
@@ -1313,7 +1383,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22339
+  "bytes": 22322
  },
  {
   "key": "futures_short__044601",
@@ -1327,7 +1397,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22435
+  "bytes": 22418
  },
  {
   "key": "futures_long__043602",
@@ -1341,7 +1411,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22412
+  "bytes": 22410
  },
  {
   "key": "futures_short__043602",
@@ -1355,7 +1425,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22493
+  "bytes": 22491
  },
  {
   "key": "futures_long__043607",
@@ -1369,7 +1439,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 13057
+  "bytes": 13070
  },
  {
   "key": "futures_short__043607",
@@ -1383,7 +1453,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 13020
+  "bytes": 13033
  },
  {
   "key": "futures_long__020601",
@@ -1481,7 +1551,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21102
+  "bytes": 21089
  },
  {
   "key": "futures_short__045601",
@@ -1495,7 +1565,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21173
+  "bytes": 21160
  },
  {
   "key": "futures_long__13874A",
@@ -1509,7 +1579,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22438
+  "bytes": 22450
  },
  {
   "key": "futures_short__13874A",
@@ -1523,7 +1593,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22306
+  "bytes": 22318
  },
  {
   "key": "futures_long__209742",
@@ -1537,7 +1607,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20646
+  "bytes": 20666
  },
  {
   "key": "futures_short__209742",
@@ -1551,7 +1621,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20679
+  "bytes": 20699
  },
  {
   "key": "futures_long__239742",
@@ -1565,7 +1635,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 11528
+  "bytes": 11539
  },
  {
   "key": "futures_short__239742",
@@ -1579,7 +1649,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 11603
+  "bytes": 11614
  },
  {
   "key": "futures_long__244042",
@@ -1593,7 +1663,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16906
+  "bytes": 16922
  },
  {
   "key": "futures_short__244042",
@@ -1607,7 +1677,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16852
+  "bytes": 16868
  },
  {
   "key": "futures_long__244041",
@@ -1621,7 +1691,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16092
+  "bytes": 16102
  },
  {
   "key": "futures_short__244041",
@@ -1635,7 +1705,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16024
+  "bytes": 16034
  },
  {
   "key": "futures_long__099741",
@@ -1733,7 +1803,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 19135
+  "bytes": 19143
  },
  {
   "key": "futures_short__098662",
@@ -1747,7 +1817,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18993
+  "bytes": 19001
  },
  {
   "key": "futures_long__1170E1",
@@ -1761,7 +1831,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18227
+  "bytes": 18225
  },
  {
   "key": "futures_short__1170E1",
@@ -1775,7 +1845,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18190
+  "bytes": 18188
  },
  {
   "key": "futures_long__133741",
@@ -4825,8 +4895,8 @@
   "unit": "US$ bn",
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "rows": 58,
+  "rows": 64,
   "flows_from": null,
-  "bytes": 146030
+  "bytes": 161030
  }
 ]

@@ -328,6 +328,41 @@
   "last": "2026-06-30",
   "bytes": 3862038
  },
+ "jp_owner_types__JP_CORPORATE_BONDS": {
+  "title": "Every line the Bank of Japan publishes on who holds Japanese corporate bonds, every quarter, with its older accounts",
+  "rows": 16578,
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "bytes": 3893120
+ },
+ "jp_owner_types__JP_INVESTMENT_TRUSTS": {
+  "title": "Every line the Bank of Japan publishes on who holds Japanese investment trust certificates, every quarter, with its older accounts",
+  "rows": 13968,
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "bytes": 3467995
+ },
+ "jp_owner_types__JP_LOCAL_GOVERNMENT_BONDS": {
+  "title": "Every line the Bank of Japan publishes on who holds Japanese local government bonds, every quarter, with its older accounts",
+  "rows": 15982,
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "bytes": 3864032
+ },
+ "jp_owner_types__JP_PUBLIC_CORPORATION_BONDS": {
+  "title": "Every line the Bank of Japan publishes on who holds Japanese public corporation bonds, every quarter, with its older accounts",
+  "rows": 15979,
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "bytes": 3896888
+ },
+ "jp_owner_types__JP_BANK_DEBENTURES": {
+  "title": "Every line the Bank of Japan publishes on who holds Japanese bank debentures, every quarter, with its older accounts",
+  "rows": 15640,
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "bytes": 3672440
+ },
  "uk_owner_types__UK_GILTS": {
   "title": "Every line of the UK Economic Accounts on who holds UK government gilts, every quarter",
   "rows": 3768,
@@ -2199,16 +2234,16 @@
  },
  "world_ledger": {
   "title": "Every market and quarter behind the world ledger: the amount in its own currency, the rate, the dollar amount",
-  "rows": 6927,
+  "rows": 7502,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1030732
+  "bytes": 1117044
  },
  "world_ledger_gaps": {
   "title": "The pools of financial wealth we know exist and cannot yet show, and why",
   "rows": 6,
   "first": "2026-09-21",
   "last": "2026-09-21",
-  "bytes": 1961
+  "bytes": 2028
  }
 }
