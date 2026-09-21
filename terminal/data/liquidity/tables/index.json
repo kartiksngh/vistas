@@ -384,6 +384,20 @@
   "last": "2026-03-31",
   "bytes": 537255
  },
+ "uk_owner_types__UK_CORPORATE_BONDS": {
+  "title": "Every line of the UK Economic Accounts on who holds bonds issued by UK banks and companies, every quarter",
+  "rows": 3770,
+  "first": "1990-03-31",
+  "last": "2026-03-31",
+  "bytes": 542257
+ },
+ "uk_owner_types__UK_FUND_SHARES": {
+  "title": "Every line of the UK Economic Accounts on who holds UK investment fund shares, every quarter",
+  "rows": 2900,
+  "first": "1990-03-31",
+  "last": "2026-03-31",
+  "bytes": 423559
+ },
  "ea_owner_types__I10__QSA_LISTED_SHARES": {
   "title": "Every line of the quarterly sector accounts on who holds listed shares issued in the euro area (21 countries), every quarter",
   "rows": 1636,
@@ -2234,16 +2248,16 @@
  },
  "world_ledger": {
   "title": "Every market and quarter behind the world ledger: the amount in its own currency, the rate, the dollar amount",
-  "rows": 7502,
+  "rows": 7794,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1117044
+  "bytes": 1163298
  },
  "world_ledger_gaps": {
   "title": "The pools of financial wealth we know exist and cannot yet show, and why",
   "rows": 6,
   "first": "2026-09-21",
   "last": "2026-09-21",
-  "bytes": 2028
+  "bytes": 2027
  }
 }

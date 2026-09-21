@@ -165,7 +165,7 @@
   "last": "2026-06-30",
   "rows": 25,
   "flows_from": "1997-12-31",
-  "bytes": 43079
+  "bytes": 43318
  },
  {
   "key": "jp_owner_types__JP_LOCAL_GOVERNMENT_BONDS",
@@ -250,6 +250,34 @@
   "rows": 14,
   "flows_from": "1990-03-31",
   "bytes": 32408
+ },
+ {
+  "key": "uk_owner_types__UK_CORPORATE_BONDS",
+  "group": "Who owns British assets, by kind of owner",
+  "title": "Who owns bonds issued by UK banks and companies, by kind of owner",
+  "short": "Bonds issued by UK banks and companies",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u00a3 bn",
+  "first": "1990-03-31",
+  "last": "2026-03-31",
+  "rows": 13,
+  "flows_from": "1990-03-31",
+  "bytes": 29545
+ },
+ {
+  "key": "uk_owner_types__UK_FUND_SHARES",
+  "group": "Who owns British assets, by kind of owner",
+  "title": "Who owns UK investment fund shares, by kind of owner",
+  "short": "UK investment fund shares",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u00a3 bn",
+  "first": "1990-03-31",
+  "last": "2026-03-31",
+  "rows": 11,
+  "flows_from": "1990-03-31",
+  "bytes": 26012
  },
  {
   "key": "ea_owner_types__I10__QSA_LISTED_SHARES",
@@ -1355,7 +1383,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22057
+  "bytes": 22059
  },
  {
   "key": "futures_short__042601",
@@ -1369,7 +1397,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22162
+  "bytes": 22164
  },
  {
   "key": "futures_long__044601",
@@ -1383,7 +1411,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22322
+  "bytes": 22337
  },
  {
   "key": "futures_short__044601",
@@ -1397,7 +1425,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22418
+  "bytes": 22433
  },
  {
   "key": "futures_long__043602",
@@ -1411,7 +1439,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22410
+  "bytes": 22412
  },
  {
   "key": "futures_short__043602",
@@ -1425,7 +1453,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22491
+  "bytes": 22493
  },
  {
   "key": "futures_long__043607",
@@ -1439,7 +1467,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 13070
+  "bytes": 13057
  },
  {
   "key": "futures_short__043607",
@@ -1453,7 +1481,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 13033
+  "bytes": 13020
  },
  {
   "key": "futures_long__020601",
@@ -1495,7 +1523,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 17812
+  "bytes": 17795
  },
  {
   "key": "futures_short__020604",
@@ -1509,7 +1537,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18107
+  "bytes": 18090
  },
  {
   "key": "futures_long__134741",
@@ -1551,7 +1579,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21089
+  "bytes": 21100
  },
  {
   "key": "futures_short__045601",
@@ -1565,7 +1593,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21160
+  "bytes": 21171
  },
  {
   "key": "futures_long__13874A",
@@ -1579,7 +1607,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22450
+  "bytes": 22438
  },
  {
   "key": "futures_short__13874A",
@@ -1593,7 +1621,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22318
+  "bytes": 22306
  },
  {
   "key": "futures_long__209742",
@@ -1607,7 +1635,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20666
+  "bytes": 20646
  },
  {
   "key": "futures_short__209742",
@@ -1621,7 +1649,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20699
+  "bytes": 20679
  },
  {
   "key": "futures_long__239742",
@@ -1635,7 +1663,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 11539
+  "bytes": 11528
  },
  {
   "key": "futures_short__239742",
@@ -1649,7 +1677,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 11614
+  "bytes": 11603
  },
  {
   "key": "futures_long__244042",
@@ -1663,7 +1691,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16922
+  "bytes": 16906
  },
  {
   "key": "futures_short__244042",
@@ -1677,7 +1705,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16868
+  "bytes": 16852
  },
  {
   "key": "futures_long__244041",
@@ -1691,7 +1719,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16102
+  "bytes": 16092
  },
  {
   "key": "futures_short__244041",
@@ -1705,7 +1733,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16034
+  "bytes": 16024
  },
  {
   "key": "futures_long__099741",
@@ -1803,7 +1831,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 19143
+  "bytes": 19135
  },
  {
   "key": "futures_short__098662",
@@ -1817,7 +1845,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 19001
+  "bytes": 18993
  },
  {
   "key": "futures_long__1170E1",
@@ -4895,8 +4923,8 @@
   "unit": "US$ bn",
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "rows": 64,
+  "rows": 66,
   "flows_from": null,
-  "bytes": 161030
+  "bytes": 166068
  }
 ]
