@@ -377,6 +377,20 @@
   "last": "2026-06-30",
   "bytes": 3672440
  },
+ "jp_owner_types__JP_TRANSFERABLE_DEPOSITS": {
+  "title": "Every line the Bank of Japan publishes on who holds Japanese transferable deposits, every quarter, with its older accounts",
+  "rows": 12734,
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "bytes": 3015687
+ },
+ "jp_owner_types__JP_TIME_AND_SAVINGS_DEPOSITS": {
+  "title": "Every line the Bank of Japan publishes on who holds Japanese time and savings deposits, every quarter, with its older accounts",
+  "rows": 12308,
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "bytes": 2975694
+ },
  "uk_owner_types__UK_GILTS": {
   "title": "Every line of the UK Economic Accounts on who holds UK government gilts, every quarter",
   "rows": 3768,
@@ -411,6 +425,20 @@
   "first": "1990-03-31",
   "last": "2026-03-31",
   "bytes": 423559
+ },
+ "uk_owner_types__UK_BANK_DEPOSITS": {
+  "title": "Every line of the UK Economic Accounts on who holds deposits with UK banks, every quarter",
+  "rows": 3770,
+  "first": "1990-03-31",
+  "last": "2026-03-31",
+  "bytes": 544332
+ },
+ "uk_owner_types__UK_OTHER_DEPOSITS": {
+  "title": "Every line of the UK Economic Accounts on who holds other deposits in the United Kingdom, every quarter",
+  "rows": 4082,
+  "first": "1987-03-31",
+  "last": "2026-03-31",
+  "bytes": 577905
  },
  "ea_owner_types__I10__QSA_LISTED_SHARES": {
   "title": "Every line of the quarterly sector accounts on who holds listed shares issued in the euro area (21 countries), every quarter",
