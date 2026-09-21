@@ -391,6 +391,27 @@
   "last": "2026-06-30",
   "bytes": 2975694
  },
+ "jp_owner_types__JP_CURRENCY": {
+  "title": "Every line the Bank of Japan publishes on who holds Japanese currency, every quarter, with its older accounts",
+  "rows": 11077,
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "bytes": 2450589
+ },
+ "jp_owner_types__JP_CERTIFICATES_OF_DEPOSIT": {
+  "title": "Every line the Bank of Japan publishes on who holds Japanese certificates of deposit, every quarter, with its older accounts",
+  "rows": 12083,
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "bytes": 2874685
+ },
+ "jp_owner_types__JP_FOREIGN_CURRENCY_DEPOSITS": {
+  "title": "Every line the Bank of Japan publishes on who holds foreign currency deposits in Japan, every quarter, with its older accounts",
+  "rows": 13694,
+  "first": "1997-12-31",
+  "last": "2026-06-30",
+  "bytes": 3306224
+ },
  "uk_owner_types__UK_GILTS": {
   "title": "Every line of the UK Economic Accounts on who holds UK government gilts, every quarter",
   "rows": 3768,
@@ -593,6 +614,27 @@
   "first": "2000-12-31",
   "last": "2024-12-31",
   "bytes": 98803
+ },
+ "tw_owner_types__TW_CURRENCY": {
+  "title": "Every line of Taiwan's flow of funds on who holds and who issued Taiwan's currency, every year",
+  "rows": 513,
+  "first": "2000-12-31",
+  "last": "2024-12-31",
+  "bytes": 85030
+ },
+ "tw_owner_types__TW_DEMAND_DEPOSITS": {
+  "title": "Every line of Taiwan's flow of funds on who holds and who issued Taiwan's demand deposits, every year",
+  "rows": 539,
+  "first": "2000-12-31",
+  "last": "2024-12-31",
+  "bytes": 91184
+ },
+ "tw_owner_types__TW_TIME_DEPOSITS": {
+  "title": "Every line of Taiwan's flow of funds on who holds and who issued Taiwan's time and foreign currency deposits, every year",
+  "rows": 539,
+  "first": "2000-12-31",
+  "last": "2024-12-31",
+  "bytes": 91964
  },
  "foreign_owners_survey__ALL": {
   "title": "Every country row of the Treasury's yearly surveys: US securities, short-term debt included",
@@ -2392,5 +2434,12 @@
   "first": "1952-03-31",
   "last": "2026-06-30",
   "bytes": 1755207
+ },
+ "world_debt_securities": {
+  "title": "Every economy and quarter behind the world's debt securities: the total and the issuer split, face value",
+  "rows": 4105,
+  "first": "1952-03-31",
+  "last": "2026-03-31",
+  "bytes": 308856
  }
 }
