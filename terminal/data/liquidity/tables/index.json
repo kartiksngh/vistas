@@ -412,6 +412,27 @@
   "last": "2026-03-31",
   "bytes": 296312
  },
+ "ea_owner_types__I10__QSA_CORPORATE_BONDS": {
+  "title": "Every line of the quarterly sector accounts on who holds company bonds issued in the euro area (21 countries), every quarter",
+  "rows": 1757,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 306353
+ },
+ "ea_owner_types__I10__QSA_FINANCIAL_BONDS": {
+  "title": "Every line of the quarterly sector accounts on who holds bonds of banks and other financial firms issued in the euro area (21 countries), every quarter",
+  "rows": 1698,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 296968
+ },
+ "ea_owner_types__I10__QSA_FUND_SHARES": {
+  "title": "Every line of the quarterly sector accounts on who holds investment fund shares issued in the euro area (21 countries), every quarter",
+  "rows": 1518,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 269228
+ },
  "ea_owner_types__DE__QSA_LISTED_SHARES": {
   "title": "Every line of the quarterly sector accounts on who holds listed shares issued in Germany, every quarter",
   "rows": 2008,
@@ -425,6 +446,27 @@
   "first": "1999-03-31",
   "last": "2026-03-31",
   "bytes": 362427
+ },
+ "ea_owner_types__DE__QSA_CORPORATE_BONDS": {
+  "title": "Every line of the quarterly sector accounts on who holds company bonds issued in Germany, every quarter",
+  "rows": 2132,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 371317
+ },
+ "ea_owner_types__DE__QSA_FINANCIAL_BONDS": {
+  "title": "Every line of the quarterly sector accounts on who holds bonds of banks and other financial firms issued in Germany, every quarter",
+  "rows": 2076,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 362505
+ },
+ "ea_owner_types__DE__QSA_FUND_SHARES": {
+  "title": "Every line of the quarterly sector accounts on who holds investment fund shares issued in Germany, every quarter",
+  "rows": 2008,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 353711
  },
  "ea_owner_types__FR__QSA_LISTED_SHARES": {
   "title": "Every line of the quarterly sector accounts on who holds listed shares issued in France, every quarter",
@@ -440,6 +482,27 @@
   "last": "2026-03-31",
   "bytes": 658981
  },
+ "ea_owner_types__FR__QSA_CORPORATE_BONDS": {
+  "title": "Every line of the quarterly sector accounts on who holds company bonds issued in France, every quarter",
+  "rows": 3920,
+  "first": "1998-12-31",
+  "last": "2026-03-31",
+  "bytes": 688631
+ },
+ "ea_owner_types__FR__QSA_FINANCIAL_BONDS": {
+  "title": "Every line of the quarterly sector accounts on who holds bonds of banks and other financial firms issued in France, every quarter",
+  "rows": 3740,
+  "first": "1998-12-31",
+  "last": "2026-03-31",
+  "bytes": 659608
+ },
+ "ea_owner_types__FR__QSA_FUND_SHARES": {
+  "title": "Every line of the quarterly sector accounts on who holds investment fund shares issued in France, every quarter",
+  "rows": 3740,
+  "first": "1998-12-31",
+  "last": "2026-03-31",
+  "bytes": 667471
+ },
  "ea_owner_types__NL__QSA_LISTED_SHARES": {
   "title": "Every line of the quarterly sector accounts on who holds listed shares issued in the Netherlands, every quarter",
   "rows": 2296,
@@ -453,6 +516,27 @@
   "first": "1999-03-31",
   "last": "2026-03-31",
   "bytes": 415728
+ },
+ "ea_owner_types__NL__QSA_CORPORATE_BONDS": {
+  "title": "Every line of the quarterly sector accounts on who holds company bonds issued in the Netherlands, every quarter",
+  "rows": 2476,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 429634
+ },
+ "ea_owner_types__NL__QSA_FINANCIAL_BONDS": {
+  "title": "Every line of the quarterly sector accounts on who holds bonds of banks and other financial firms issued in the Netherlands, every quarter",
+  "rows": 2388,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 416401
+ },
+ "ea_owner_types__NL__QSA_FUND_SHARES": {
+  "title": "Every line of the quarterly sector accounts on who holds investment fund shares issued in the Netherlands, every quarter",
+  "rows": 2296,
+  "first": "1999-03-31",
+  "last": "2026-03-31",
+  "bytes": 403897
  },
  "tw_owner_types__TW_LISTED_SHARES": {
   "title": "Every line of Taiwan's flow of funds on who holds and who issued Taiwan's listed shares, every year",
@@ -2248,16 +2332,16 @@
  },
  "world_ledger": {
   "title": "Every market and quarter behind the world ledger: the amount in its own currency, the rate, the dollar amount",
-  "rows": 7794,
+  "rows": 7947,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1163298
+  "bytes": 1190803
  },
  "world_ledger_gaps": {
   "title": "The pools of financial wealth we know exist and cannot yet show, and why",
-  "rows": 6,
+  "rows": 5,
   "first": "2026-09-21",
   "last": "2026-09-21",
-  "bytes": 2027
+  "bytes": 1761
  }
 }

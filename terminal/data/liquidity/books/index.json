@@ -308,6 +308,48 @@
   "bytes": 15947
  },
  {
+  "key": "ea_owner_types__I10__QSA_CORPORATE_BONDS",
+  "group": "Who owns euro-area assets, by kind of owner",
+  "title": "Who owns company bonds issued in the euro area (21 countries), by kind of owner",
+  "short": "Company bonds issued in the euro area",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u20ac bn",
+  "first": "2013-12-31",
+  "last": "2026-03-31",
+  "rows": 14,
+  "flows_from": "2013-12-31",
+  "bytes": 16203
+ },
+ {
+  "key": "ea_owner_types__I10__QSA_FINANCIAL_BONDS",
+  "group": "Who owns euro-area assets, by kind of owner",
+  "title": "Who owns bonds of banks and other financial firms issued in the euro area (21 countries), by kind of owner",
+  "short": "Bonds of banks and other financial firms issued in the euro area",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u20ac bn",
+  "first": "2013-12-31",
+  "last": "2026-03-31",
+  "rows": 14,
+  "flows_from": "2013-12-31",
+  "bytes": 16862
+ },
+ {
+  "key": "ea_owner_types__I10__QSA_FUND_SHARES",
+  "group": "Who owns euro-area assets, by kind of owner",
+  "title": "Who owns investment fund shares issued in the euro area (21 countries), by kind of owner",
+  "short": "Investment fund shares issued in the euro area",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u20ac bn",
+  "first": "2013-12-31",
+  "last": "2026-03-31",
+  "rows": 11,
+  "flows_from": "2013-12-31",
+  "bytes": 14279
+ },
+ {
   "key": "ea_owner_types__DE__QSA_LISTED_SHARES",
   "group": "Who owns euro-area assets, by kind of owner",
   "title": "Who owns listed shares issued in Germany, by kind of owner",
@@ -334,6 +376,48 @@
   "rows": 16,
   "flows_from": "2013-03-31",
   "bytes": 18346
+ },
+ {
+  "key": "ea_owner_types__DE__QSA_CORPORATE_BONDS",
+  "group": "Who owns euro-area assets, by kind of owner",
+  "title": "Who owns company bonds issued in Germany, by kind of owner",
+  "short": "Company bonds issued in Germany",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u20ac bn",
+  "first": "2013-03-31",
+  "last": "2026-03-31",
+  "rows": 16,
+  "flows_from": "2013-03-31",
+  "bytes": 17937
+ },
+ {
+  "key": "ea_owner_types__DE__QSA_FINANCIAL_BONDS",
+  "group": "Who owns euro-area assets, by kind of owner",
+  "title": "Who owns bonds of banks and other financial firms issued in Germany, by kind of owner",
+  "short": "Bonds of banks and other financial firms issued in Germany",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u20ac bn",
+  "first": "2013-03-31",
+  "last": "2026-03-31",
+  "rows": 16,
+  "flows_from": "2013-03-31",
+  "bytes": 18593
+ },
+ {
+  "key": "ea_owner_types__DE__QSA_FUND_SHARES",
+  "group": "Who owns euro-area assets, by kind of owner",
+  "title": "Who owns investment fund shares issued in Germany, by kind of owner",
+  "short": "Investment fund shares issued in Germany",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u20ac bn",
+  "first": "2013-03-31",
+  "last": "2026-03-31",
+  "rows": 14,
+  "flows_from": "2013-03-31",
+  "bytes": 17034
  },
  {
   "key": "ea_owner_types__FR__QSA_LISTED_SHARES",
@@ -364,6 +448,48 @@
   "bytes": 24085
  },
  {
+  "key": "ea_owner_types__FR__QSA_CORPORATE_BONDS",
+  "group": "Who owns euro-area assets, by kind of owner",
+  "title": "Who owns company bonds issued in France, by kind of owner",
+  "short": "Company bonds issued in France",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u20ac bn",
+  "first": "1998-12-31",
+  "last": "2026-03-31",
+  "rows": 14,
+  "flows_from": "1998-12-31",
+  "bytes": 26512
+ },
+ {
+  "key": "ea_owner_types__FR__QSA_FINANCIAL_BONDS",
+  "group": "Who owns euro-area assets, by kind of owner",
+  "title": "Who owns bonds of banks and other financial firms issued in France, by kind of owner",
+  "short": "Bonds of banks and other financial firms issued in France",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u20ac bn",
+  "first": "1998-12-31",
+  "last": "2026-03-31",
+  "rows": 13,
+  "flows_from": "1998-12-31",
+  "bytes": 25848
+ },
+ {
+  "key": "ea_owner_types__FR__QSA_FUND_SHARES",
+  "group": "Who owns euro-area assets, by kind of owner",
+  "title": "Who owns investment fund shares issued in France, by kind of owner",
+  "short": "Investment fund shares issued in France",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u20ac bn",
+  "first": "1998-12-31",
+  "last": "2026-03-31",
+  "rows": 13,
+  "flows_from": "1998-12-31",
+  "bytes": 26169
+ },
+ {
   "key": "ea_owner_types__NL__QSA_LISTED_SHARES",
   "group": "Who owns euro-area assets, by kind of owner",
   "title": "Who owns listed shares issued in the Netherlands, by kind of owner",
@@ -390,6 +516,48 @@
   "rows": 15,
   "flows_from": "2010-03-31",
   "bytes": 19323
+ },
+ {
+  "key": "ea_owner_types__NL__QSA_CORPORATE_BONDS",
+  "group": "Who owns euro-area assets, by kind of owner",
+  "title": "Who owns company bonds issued in the Netherlands, by kind of owner",
+  "short": "Company bonds issued in the Netherlands",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u20ac bn",
+  "first": "2010-03-31",
+  "last": "2026-03-31",
+  "rows": 13,
+  "flows_from": "2010-03-31",
+  "bytes": 16837
+ },
+ {
+  "key": "ea_owner_types__NL__QSA_FINANCIAL_BONDS",
+  "group": "Who owns euro-area assets, by kind of owner",
+  "title": "Who owns bonds of banks and other financial firms issued in the Netherlands, by kind of owner",
+  "short": "Bonds of banks and other financial firms issued in the Netherlands",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u20ac bn",
+  "first": "2010-03-31",
+  "last": "2026-03-31",
+  "rows": 15,
+  "flows_from": "2010-03-31",
+  "bytes": 19955
+ },
+ {
+  "key": "ea_owner_types__NL__QSA_FUND_SHARES",
+  "group": "Who owns euro-area assets, by kind of owner",
+  "title": "Who owns investment fund shares issued in the Netherlands, by kind of owner",
+  "short": "Investment fund shares issued in the Netherlands",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "\u20ac bn",
+  "first": "2010-03-31",
+  "last": "2026-03-31",
+  "rows": 14,
+  "flows_from": "2010-03-31",
+  "bytes": 18686
  },
  {
   "key": "tw_owner_types__TW_LISTED_SHARES",
@@ -1411,7 +1579,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22337
+  "bytes": 22339
  },
  {
   "key": "futures_short__044601",
@@ -1425,7 +1593,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22433
+  "bytes": 22435
  },
  {
   "key": "futures_long__043602",
@@ -1523,7 +1691,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 17795
+  "bytes": 17812
  },
  {
   "key": "futures_short__020604",
@@ -1537,7 +1705,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18090
+  "bytes": 18107
  },
  {
   "key": "futures_long__134741",
@@ -1579,7 +1747,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21100
+  "bytes": 21102
  },
  {
   "key": "futures_short__045601",
@@ -1593,7 +1761,7 @@
   "last": "2026-09-08",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21171
+  "bytes": 21173
  },
  {
   "key": "futures_long__13874A",
@@ -4923,8 +5091,8 @@
   "unit": "US$ bn",
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "rows": 66,
+  "rows": 69,
   "flows_from": null,
-  "bytes": 166068
+  "bytes": 172784
  }
 ]
