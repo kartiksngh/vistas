@@ -106,38 +106,38 @@
  },
  "gold_official": {
   "title": "Official gold of every reporting central bank and government, every month",
-  "rows": 20755,
+  "rows": 20762,
   "first": "2000-01",
   "last": "2026-08",
-  "bytes": 2036064
+  "bytes": 2035171
  },
  "gold_us_funds_treasury": {
   "title": "Gold owned by the US Treasury and held by the two largest US gold funds",
-  "rows": 5666,
+  "rows": 5667,
   "first": "2004-11-18",
-  "last": "2026-09-16",
-  "bytes": 484589
+  "last": "2026-09-18",
+  "bytes": 484676
  },
  "central_banks": {
   "title": "Central bank balance sheets and exchange rates, every observation",
-  "rows": 25063,
+  "rows": 25064,
   "first": "1971-01-04",
-  "last": "2026-09-11",
-  "bytes": 1661579
+  "last": "2026-09-16",
+  "bytes": 1661659
  },
  "us_net_liquidity": {
   "title": "US net liquidity and its three parts, every week",
-  "rows": 1239,
+  "rows": 1240,
   "first": "2002-12-18",
-  "last": "2026-09-09",
-  "bytes": 51640
+  "last": "2026-09-16",
+  "bytes": 51682
  },
  "dollar_credit": {
   "title": "Credit to borrowers outside each currency's home area, every quarter",
   "rows": 315,
   "first": "2000-03-31",
   "last": "2026-03-31",
-  "bytes": 11094
+  "bytes": 11101
  },
  "fund_flows_monthly": {
   "title": "US fund flows, every month, all funds that reported both sales and redemptions",
@@ -729,17 +729,17 @@
  },
  "fed_securities_held": {
   "title": "Every week of the Federal Reserve's securities holdings by type, at face value",
-  "rows": 10075,
+  "rows": 10084,
   "first": "2003-07-09",
-  "last": "2026-09-09",
-  "bytes": 981493
+  "last": "2026-09-16",
+  "bytes": 982372
  },
  "fed_reverse_repo_lenders": {
   "title": "Every business day of cash lent to the Federal Reserve overnight, in total and by kind of lender",
-  "rows": 5742,
+  "rows": 5744,
   "first": "2022-01-03",
-  "last": "2026-09-16",
-  "bytes": 432729
+  "last": "2026-09-18",
+  "bytes": 432887
  },
  "money__AUS": {
   "title": "Every month of broad and narrow money for Australia, in its own currency",
@@ -2196,5 +2196,19 @@
   "first": "1901",
   "last": "2025",
   "bytes": 967907
+ },
+ "world_ledger": {
+  "title": "Every market and quarter behind the world ledger: the amount in its own currency, the rate, the dollar amount",
+  "rows": 6927,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 1030732
+ },
+ "world_ledger_gaps": {
+  "title": "The pools of financial wealth we know exist and cannot yet show, and why",
+  "rows": 6,
+  "first": "2026-09-21",
+  "last": "2026-09-21",
+  "bytes": 1961
  }
 }
