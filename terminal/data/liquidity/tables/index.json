@@ -6,6 +6,13 @@
   "last": "2026-06-30",
   "bytes": 1499722
  },
+ "who_owns_us__CHECKABLE_DEPOSITS_AND_CURRENCY": {
+  "title": "Who holds checkable deposits and currency, every line of the Federal Reserve's table, every quarter",
+  "rows": 8845,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 1621567
+ },
  "who_owns_us__CORPORATE_EQUITY": {
   "title": "Who holds corporate equity, every line of the Federal Reserve's table, every quarter",
   "rows": 7930,
@@ -40,6 +47,13 @@
   "first": "1945-12-31",
   "last": "2026-06-30",
   "bytes": 614420
+ },
+ "who_owns_us__TIME_AND_SAVINGS_DEPOSITS": {
+  "title": "Who holds time and savings deposits, every line of the Federal Reserve's table, every quarter",
+  "rows": 3965,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 751161
  },
  "who_owns_us__US_TREASURY": {
   "title": "Who holds us treasury, every line of the Federal Reserve's table, every quarter",
@@ -2339,10 +2353,10 @@
  },
  "world_ledger_gaps": {
   "title": "The pools of financial wealth we know exist and cannot yet show, and why",
-  "rows": 5,
+  "rows": 4,
   "first": "2026-09-21",
   "last": "2026-09-21",
-  "bytes": 1875
+  "bytes": 1715
  },
  "world_listed_equity": {
   "title": "Every market and quarter behind the world's listed equity: the amount, its basis, the rate, the dollar amount",
