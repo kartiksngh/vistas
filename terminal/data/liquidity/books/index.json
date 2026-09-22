@@ -9,9 +9,9 @@
   "unit": "US$ bn",
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "rows": 23,
+  "rows": 26,
   "flows_from": "1945-12-31",
-  "bytes": 93064
+  "bytes": 104940
  },
  {
   "key": "owner_types__US_TREASURY",
@@ -37,9 +37,9 @@
   "unit": "US$ bn",
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "rows": 30,
+  "rows": 31,
   "flows_from": "1945-12-31",
-  "bytes": 117939
+  "bytes": 122707
  },
  {
   "key": "owner_types__AGENCY_GSE_SECURITIES",
@@ -124,6 +124,62 @@
   "rows": 13,
   "flows_from": "1946-12-31",
   "bytes": 58757
+ },
+ {
+  "key": "owner_types__MORTGAGES",
+  "group": "Who owns American assets, by kind of owner",
+  "title": "Who owns American mortgages, by kind of owner",
+  "short": "Mortgages",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "US$ bn",
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "rows": 19,
+  "flows_from": "1946-12-31",
+  "bytes": 85547
+ },
+ {
+  "key": "owner_types__CONSUMER_CREDIT",
+  "group": "Who owns American assets, by kind of owner",
+  "title": "Who owns American consumer credit, by kind of owner",
+  "short": "Consumer credit",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "US$ bn",
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "rows": 10,
+  "flows_from": "1946-12-31",
+  "bytes": 43898
+ },
+ {
+  "key": "owner_types__BANK_LOANS_NEC",
+  "group": "Who owns American assets, by kind of owner",
+  "title": "Who owns American bank loans not elsewhere classified, by kind of owner",
+  "short": "Bank loans not elsewhere classified",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "US$ bn",
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "rows": 7,
+  "flows_from": "1946-12-31",
+  "bytes": 33711
+ },
+ {
+  "key": "owner_types__PRIVATE_CREDIT_LOANS",
+  "group": "Who owns American assets, by kind of owner",
+  "title": "Who owns American private credit loans, by kind of owner",
+  "short": "Private credit loans",
+  "family": "owner_type",
+  "freq": "Q",
+  "unit": "US$ bn",
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "rows": 7,
+  "flows_from": "1945-12-31",
+  "bytes": 26198
  },
  {
   "key": "jp_owner_types__JP_LISTED_SHARES",
@@ -1173,7 +1229,7 @@
   "last": "2026-07-31",
   "rows": 90,
   "flows_from": null,
-  "bytes": 106985
+  "bytes": 106462
  },
  {
   "key": "ea_funds__U2",
@@ -1184,10 +1240,10 @@
   "freq": "M",
   "unit": "\u20ac bn",
   "first": "2008-12-31",
-  "last": "2026-06-30",
+  "last": "2026-07-31",
   "rows": 8,
   "flows_from": "2009-01-31",
-  "bytes": 31803
+  "bytes": 31929
  },
  {
   "key": "ea_funds__IE",
@@ -1198,10 +1254,10 @@
   "freq": "M",
   "unit": "\u20ac bn",
   "first": "2008-12-31",
-  "last": "2026-06-30",
+  "last": "2026-07-31",
   "rows": 8,
   "flows_from": "2009-01-31",
-  "bytes": 30069
+  "bytes": 30203
  },
  {
   "key": "ea_funds__LU",
@@ -1212,10 +1268,10 @@
   "freq": "M",
   "unit": "\u20ac bn",
   "first": "2008-12-31",
-  "last": "2026-06-30",
+  "last": "2026-07-31",
   "rows": 8,
   "flows_from": "2009-01-31",
-  "bytes": 30666
+  "bytes": 30799
  },
  {
   "key": "ea_funds__DE",
@@ -1226,10 +1282,10 @@
   "freq": "M",
   "unit": "\u20ac bn",
   "first": "2008-12-31",
-  "last": "2026-06-30",
+  "last": "2026-07-31",
   "rows": 8,
   "flows_from": "2009-01-31",
-  "bytes": 29781
+  "bytes": 29909
  },
  {
   "key": "ea_funds__FR",
@@ -1240,10 +1296,10 @@
   "freq": "M",
   "unit": "\u20ac bn",
   "first": "2008-12-31",
-  "last": "2026-06-30",
+  "last": "2026-07-31",
   "rows": 8,
   "flows_from": "2009-01-31",
-  "bytes": 29861
+  "bytes": 29985
  },
  {
   "key": "ea_funds__NL",
@@ -1254,10 +1310,10 @@
   "freq": "M",
   "unit": "\u20ac bn",
   "first": "2008-12-31",
-  "last": "2026-06-30",
+  "last": "2026-07-31",
   "rows": 8,
   "flows_from": "2009-01-31",
-  "bytes": 29290
+  "bytes": 29413
  },
  {
   "key": "ea_fund_holders",
@@ -1271,7 +1327,7 @@
   "last": "2026-06-30",
   "rows": 3,
   "flows_from": "2001-03-31",
-  "bytes": 8023
+  "bytes": 8019
  },
  {
   "key": "central_bank_assets",
@@ -1422,10 +1478,10 @@
   "freq": "M",
   "unit": "\u20a1 bn",
   "first": "2001-01-31",
-  "last": "2026-04-30",
+  "last": "2026-05-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 14273
+  "bytes": 14311
  },
  {
   "key": "money__CZE",
@@ -1576,10 +1632,10 @@
   "freq": "M",
   "unit": "\u20a9 bn",
   "first": "2003-11-30",
-  "last": "2026-06-30",
+  "last": "2026-07-31",
   "rows": 3,
   "flows_from": null,
-  "bytes": 13727
+  "bytes": 13770
  },
  {
   "key": "money__MEX",
@@ -1716,10 +1772,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22057
+  "bytes": 22041
  },
  {
   "key": "futures_short__042601",
@@ -1730,10 +1786,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22162
+  "bytes": 22147
  },
  {
   "key": "futures_long__044601",
@@ -1744,10 +1800,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22337
+  "bytes": 22322
  },
  {
   "key": "futures_short__044601",
@@ -1758,10 +1814,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22433
+  "bytes": 22418
  },
  {
   "key": "futures_long__043602",
@@ -1772,10 +1828,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22410
+  "bytes": 22395
  },
  {
   "key": "futures_short__043602",
@@ -1786,10 +1842,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22491
+  "bytes": 22476
  },
  {
   "key": "futures_long__043607",
@@ -1800,10 +1856,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2016-03-22",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 13070
+  "bytes": 13057
  },
  {
   "key": "futures_short__043607",
@@ -1814,10 +1870,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2016-03-22",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 13033
+  "bytes": 13020
  },
  {
   "key": "futures_long__020601",
@@ -1828,10 +1884,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21428
+  "bytes": 21415
  },
  {
   "key": "futures_short__020601",
@@ -1842,10 +1898,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21756
+  "bytes": 21743
  },
  {
   "key": "futures_long__020604",
@@ -1856,10 +1912,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2010-03-30",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 17812
+  "bytes": 17795
  },
  {
   "key": "futures_short__020604",
@@ -1870,10 +1926,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2010-03-30",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18107
+  "bytes": 18090
  },
  {
   "key": "futures_long__134741",
@@ -1884,10 +1940,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2018-07-31",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 10763
+  "bytes": 10758
  },
  {
   "key": "futures_short__134741",
@@ -1898,10 +1954,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2018-07-31",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 10830
+  "bytes": 10825
  },
  {
   "key": "futures_long__045601",
@@ -1912,10 +1968,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21100
+  "bytes": 21089
  },
  {
   "key": "futures_short__045601",
@@ -1926,10 +1982,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21171
+  "bytes": 21160
  },
  {
   "key": "futures_long__13874A",
@@ -1940,10 +1996,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22450
+  "bytes": 22438
  },
  {
   "key": "futures_short__13874A",
@@ -1954,10 +2010,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22318
+  "bytes": 22306
  },
  {
   "key": "futures_long__209742",
@@ -1968,7 +2024,7 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
   "bytes": 20646
@@ -1982,7 +2038,7 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
   "bytes": 20679
@@ -1996,10 +2052,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2017-08-29",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 11539
+  "bytes": 11540
  },
  {
   "key": "futures_short__239742",
@@ -2010,10 +2066,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2017-08-29",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 11614
+  "bytes": 11615
  },
  {
   "key": "futures_long__244042",
@@ -2024,10 +2080,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2011-06-28",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16906
+  "bytes": 16907
  },
  {
   "key": "futures_short__244042",
@@ -2038,10 +2094,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2011-06-28",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16852
+  "bytes": 16854
  },
  {
   "key": "futures_long__244041",
@@ -2052,10 +2108,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2011-06-28",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16102
+  "bytes": 16103
  },
  {
   "key": "futures_short__244041",
@@ -2066,10 +2122,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2011-06-28",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16034
+  "bytes": 16036
  },
  {
   "key": "futures_long__099741",
@@ -2080,10 +2136,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20708
+  "bytes": 20711
  },
  {
   "key": "futures_short__099741",
@@ -2094,10 +2150,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20752
+  "bytes": 20754
  },
  {
   "key": "futures_long__097741",
@@ -2108,10 +2164,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20345
+  "bytes": 20349
  },
  {
   "key": "futures_short__097741",
@@ -2122,10 +2178,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20236
+  "bytes": 20237
  },
  {
   "key": "futures_long__096742",
@@ -2136,10 +2192,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20103
+  "bytes": 20105
  },
  {
   "key": "futures_short__096742",
@@ -2150,10 +2206,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20276
+  "bytes": 20278
  },
  {
   "key": "futures_long__098662",
@@ -2164,10 +2220,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 19143
+  "bytes": 19144
  },
  {
   "key": "futures_short__098662",
@@ -2178,10 +2234,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2006-06-27",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 19001
+  "bytes": 19003
  },
  {
   "key": "futures_long__1170E1",
@@ -2192,10 +2248,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2009-06-30",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18225
+  "bytes": 18226
  },
  {
   "key": "futures_short__1170E1",
@@ -2206,10 +2262,10 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2009-06-30",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18188
+  "bytes": 18189
  },
  {
   "key": "futures_long__133741",
@@ -2220,7 +2276,7 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2018-04-24",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
   "bytes": 9648
@@ -2234,7 +2290,7 @@
   "freq": "M",
   "unit": "contracts",
   "first": "2018-04-24",
-  "last": "2026-09-08",
+  "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
   "bytes": 9560
@@ -5259,9 +5315,9 @@
   "unit": "US$ bn",
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "rows": 74,
+  "rows": 81,
   "flows_from": null,
-  "bytes": 187735
+  "bytes": 208529
  },
  {
   "key": "world_listed_equity",
@@ -5271,11 +5327,11 @@
   "family": "world_ledger",
   "freq": "Q",
   "unit": "US$ bn",
-  "first": "1952-03-31",
+  "first": "1945-12-31",
   "last": "2026-06-30",
   "rows": 110,
   "flows_from": null,
-  "bytes": 226665
+  "bytes": 241602
  },
  {
   "key": "world_debt_securities",
@@ -5290,5 +5346,19 @@
   "rows": 46,
   "flows_from": null,
   "bytes": 103331
+ },
+ {
+  "key": "world_owners",
+  "group": "How much financial wealth there is in the world, and how much of it has a known owner",
+  "title": "Who owns the world's financial wealth: every pool on the ledger added up by kind of owner, in US dollars",
+  "short": "Who owns the world",
+  "family": "world_ledger",
+  "freq": "Q",
+  "unit": "US$ bn",
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "rows": 20,
+  "flows_from": null,
+  "bytes": 63504
  }
 ]

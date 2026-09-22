@@ -6,6 +6,13 @@
   "last": "2026-06-30",
   "bytes": 1499722
  },
+ "who_owns_us__BANK_LOANS_NEC": {
+  "title": "Who holds bank loans nec, every line of the Federal Reserve's table, every quarter",
+  "rows": 3355,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 598039
+ },
  "who_owns_us__CHECKABLE_DEPOSITS_AND_CURRENCY": {
   "title": "Who holds checkable deposits and currency, every line of the Federal Reserve's table, every quarter",
   "rows": 8845,
@@ -13,19 +20,26 @@
   "last": "2026-06-30",
   "bytes": 1621567
  },
- "who_owns_us__CORPORATE_EQUITY": {
-  "title": "Who holds corporate equity, every line of the Federal Reserve's table, every quarter",
-  "rows": 7930,
+ "who_owns_us__CONSUMER_CREDIT": {
+  "title": "Who holds consumer credit, every line of the Federal Reserve's table, every quarter",
+  "rows": 3050,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1413842
+  "bytes": 534969
+ },
+ "who_owns_us__CORPORATE_EQUITY": {
+  "title": "Who holds corporate equity, every line of the Federal Reserve's table, every quarter",
+  "rows": 8845,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 1539546
  },
  "who_owns_us__CORPORATE_FOREIGN_BONDS": {
   "title": "Who holds corporate foreign bonds, every line of the Federal Reserve's table, every quarter",
-  "rows": 9455,
+  "rows": 9760,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1776006
+  "bytes": 1814672
  },
  "who_owns_us__MONEY_MARKET_FUND_SHARES": {
   "title": "Who holds money market fund shares, every line of the Federal Reserve's table, every quarter",
@@ -33,6 +47,13 @@
   "first": "1945-12-31",
   "last": "2026-06-30",
   "bytes": 859211
+ },
+ "who_owns_us__MORTGAGES": {
+  "title": "Who holds mortgages, every line of the Federal Reserve's table, every quarter",
+  "rows": 5795,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 1025027
  },
  "who_owns_us__MUNICIPAL_SECURITIES": {
   "title": "Who holds municipal securities, every line of the Federal Reserve's table, every quarter",
@@ -47,6 +68,13 @@
   "first": "1945-12-31",
   "last": "2026-06-30",
   "bytes": 614420
+ },
+ "who_owns_us__PRIVATE_CREDIT_LOANS": {
+  "title": "Who holds private credit loans, every line of the Federal Reserve's table, every quarter",
+  "rows": 2440,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 395637
  },
  "who_owns_us__TIME_AND_SAVINGS_DEPOSITS": {
   "title": "Who holds time and savings deposits, every line of the Federal Reserve's table, every quarter",
@@ -134,10 +162,10 @@
  },
  "central_banks": {
   "title": "Central bank balance sheets and exchange rates, every observation",
-  "rows": 25064,
+  "rows": 25074,
   "first": "1971-01-04",
-  "last": "2026-09-16",
-  "bytes": 1661659
+  "last": "2026-09-18",
+  "bytes": 1662279
  },
  "us_net_liquidity": {
   "title": "US net liquidity and its three parts, every week",
@@ -722,52 +750,52 @@
  },
  "ea_funds__U2": {
   "title": "Every monthly ECB fund series for funds set up in the euro area: total assets, fund shares and net money in, by kind",
-  "rows": 6238,
+  "rows": 6270,
   "first": "2008-12-31",
-  "last": "2026-06-30",
-  "bytes": 931016
+  "last": "2026-07-31",
+  "bytes": 935806
  },
  "ea_funds__IE": {
   "title": "Every monthly ECB fund series for funds set up in Ireland: total assets, fund shares and net money in, by kind",
-  "rows": 6100,
+  "rows": 6131,
   "first": "2008-12-31",
-  "last": "2026-06-30",
-  "bytes": 858007
+  "last": "2026-07-31",
+  "bytes": 862447
  },
  "ea_funds__LU": {
   "title": "Every monthly ECB fund series for funds set up in Luxembourg: total assets, fund shares and net money in, by kind",
-  "rows": 6100,
+  "rows": 6131,
   "first": "2008-12-31",
-  "last": "2026-06-30",
-  "bytes": 870693
+  "last": "2026-07-31",
+  "bytes": 875135
  },
  "ea_funds__DE": {
   "title": "Every monthly ECB fund series for funds set up in Germany: total assets, fund shares and net money in, by kind",
-  "rows": 6100,
+  "rows": 6131,
   "first": "2008-12-31",
-  "last": "2026-06-30",
-  "bytes": 868794
+  "last": "2026-07-31",
+  "bytes": 873218
  },
  "ea_funds__FR": {
   "title": "Every monthly ECB fund series for funds set up in France: total assets, fund shares and net money in, by kind",
-  "rows": 6100,
+  "rows": 6131,
   "first": "2008-12-31",
-  "last": "2026-06-30",
-  "bytes": 845165
+  "last": "2026-07-31",
+  "bytes": 849487
  },
  "ea_funds__NL": {
   "title": "Every monthly ECB fund series for funds set up in the Netherlands: total assets, fund shares and net money in, by kind",
-  "rows": 6100,
+  "rows": 6131,
   "first": "2008-12-31",
-  "last": "2026-06-30",
-  "bytes": 903528
+  "last": "2026-07-31",
+  "bytes": 908194
  },
  "ea_fund_holders": {
   "title": "Every quarterly ECB series on where the investors in euro-area funds live",
   "rows": 1192,
   "first": "2000-12-31",
   "last": "2026-06-30",
-  "bytes": 179634
+  "bytes": 179633
  },
  "central_bank_assets": {
   "title": "Every central bank the BIS covers: total assets each month, in its own currency and in US dollars",
@@ -939,10 +967,10 @@
  },
  "official_reserves_by_country": {
   "title": "Every line of each country's official reserves, every month, in US dollars",
-  "rows": 268933,
+  "rows": 269208,
   "first": "1996-08",
   "last": "2026-08",
-  "bytes": 36938191
+  "bytes": 36975990
  },
  "fed_securities_held": {
   "title": "Every week of the Federal Reserve's securities holdings by type, at face value",
@@ -953,10 +981,10 @@
  },
  "fed_reverse_repo_lenders": {
   "title": "Every business day of cash lent to the Federal Reserve overnight, in total and by kind of lender",
-  "rows": 5744,
+  "rows": 5745,
   "first": "2022-01-03",
-  "last": "2026-09-18",
-  "bytes": 432887
+  "last": "2026-09-21",
+  "bytes": 432966
  },
  "money__AUS": {
   "title": "Every month of broad and narrow money for Australia, in its own currency",
@@ -1009,10 +1037,10 @@
  },
  "money__CRI": {
   "title": "Every month of broad and narrow money for Costa Rica, in its own currency",
-  "rows": 608,
+  "rows": 610,
   "first": "2001-01",
-  "last": "2026-04",
-  "bytes": 52669
+  "last": "2026-05",
+  "bytes": 52839
  },
  "money__CZE": {
   "title": "Every month of broad and narrow money for Czech Republic, in its own currency",
@@ -1086,10 +1114,10 @@
  },
  "money__KOR": {
   "title": "Every month of broad and narrow money for South Korea, in its own currency",
-  "rows": 1070,
+  "rows": 1072,
   "first": "1960-01",
-  "last": "2026-06",
-  "bytes": 92889
+  "last": "2026-07",
+  "bytes": 93064
  },
  "money__MEX": {
   "title": "Every month of broad and narrow money for Mexico, in its own currency",
@@ -1156,269 +1184,269 @@
  },
  "futures_long__042601": {
   "title": "Every weekly CFTC report for 2-year Treasury note futures: long and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1902224
+  "last": "2026-09-15",
+  "bytes": 1903900
  },
  "futures_short__042601": {
   "title": "Every weekly CFTC report for 2-year Treasury note futures: short and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1913194
+  "last": "2026-09-15",
+  "bytes": 1914881
  },
  "futures_long__044601": {
   "title": "Every weekly CFTC report for 5-year Treasury note futures: long and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1903918
+  "last": "2026-09-15",
+  "bytes": 1905595
  },
  "futures_short__044601": {
   "title": "Every weekly CFTC report for 5-year Treasury note futures: short and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1914841
+  "last": "2026-09-15",
+  "bytes": 1916530
  },
  "futures_long__043602": {
   "title": "Every weekly CFTC report for 10-year Treasury note futures: long and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1915519
+  "last": "2026-09-15",
+  "bytes": 1917206
  },
  "futures_short__043602": {
   "title": "Every weekly CFTC report for 10-year Treasury note futures: short and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1926382
+  "last": "2026-09-15",
+  "bytes": 1928079
  },
  "futures_long__043607": {
   "title": "Every weekly CFTC report for Ultra 10-year Treasury note futures: long and spread positions by kind of trader, and open interest",
-  "rows": 5470,
+  "rows": 5480,
   "first": "2016-03-08",
-  "last": "2026-09-08",
-  "bytes": 965590
+  "last": "2026-09-15",
+  "bytes": 967283
  },
  "futures_short__043607": {
   "title": "Every weekly CFTC report for Ultra 10-year Treasury note futures: short and spread positions by kind of trader, and open interest",
-  "rows": 5470,
+  "rows": 5480,
   "first": "2016-03-08",
-  "last": "2026-09-08",
-  "bytes": 970854
+  "last": "2026-09-15",
+  "bytes": 972557
  },
  "futures_long__020601": {
   "title": "Every weekly CFTC report for Treasury bond futures: long and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1833118
+  "last": "2026-09-15",
+  "bytes": 1834763
  },
  "futures_short__020601": {
   "title": "Every weekly CFTC report for Treasury bond futures: short and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1844992
+  "last": "2026-09-15",
+  "bytes": 1846648
  },
  "futures_long__020604": {
   "title": "Every weekly CFTC report for Ultra Treasury bond futures: long and spread positions by kind of trader, and open interest",
-  "rows": 8630,
+  "rows": 8640,
   "first": "2010-03-02",
-  "last": "2026-09-08",
-  "bytes": 1551677
+  "last": "2026-09-15",
+  "bytes": 1553379
  },
  "futures_short__020604": {
   "title": "Every weekly CFTC report for Ultra Treasury bond futures: short and spread positions by kind of trader, and open interest",
-  "rows": 8630,
+  "rows": 8640,
   "first": "2010-03-02",
-  "last": "2026-09-08",
-  "bytes": 1561546
+  "last": "2026-09-15",
+  "bytes": 1563259
  },
  "futures_long__134741": {
   "title": "Every weekly CFTC report for Three-month SOFR futures: long and spread positions by kind of trader, and open interest",
-  "rows": 4240,
+  "rows": 4250,
   "first": "2018-07-24",
-  "last": "2026-09-08",
-  "bytes": 702623
+  "last": "2026-09-15",
+  "bytes": 704266
  },
  "futures_short__134741": {
   "title": "Every weekly CFTC report for Three-month SOFR futures: short and spread positions by kind of trader, and open interest",
-  "rows": 4240,
+  "rows": 4250,
   "first": "2018-07-24",
-  "last": "2026-09-08",
-  "bytes": 707061
+  "last": "2026-09-15",
+  "bytes": 708715
  },
  "futures_long__045601": {
   "title": "Every weekly CFTC report for Federal funds futures: long and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1748946
+  "last": "2026-09-15",
+  "bytes": 1750511
  },
  "futures_short__045601": {
   "title": "Every weekly CFTC report for Federal funds futures: short and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1759933
+  "last": "2026-09-15",
+  "bytes": 1761508
  },
  "futures_long__13874A": {
   "title": "Every weekly CFTC report for E-mini S&P 500 futures: long and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1827643
+  "last": "2026-09-15",
+  "bytes": 1829270
  },
  "futures_short__13874A": {
   "title": "Every weekly CFTC report for E-mini S&P 500 futures: short and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1837618
+  "last": "2026-09-15",
+  "bytes": 1839254
  },
  "futures_long__209742": {
   "title": "Every weekly CFTC report for Nasdaq mini futures: long and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1927664
+  "last": "2026-09-15",
+  "bytes": 1929340
  },
  "futures_short__209742": {
   "title": "Every weekly CFTC report for Nasdaq mini futures: short and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1938333
+  "last": "2026-09-15",
+  "bytes": 1940018
  },
  "futures_long__239742": {
   "title": "Every weekly CFTC report for Russell E-mini futures: long and spread positions by kind of trader, and open interest",
-  "rows": 5930,
+  "rows": 5940,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1032896
+  "last": "2026-09-15",
+  "bytes": 1034555
  },
  "futures_short__239742": {
   "title": "Every weekly CFTC report for Russell E-mini futures: short and spread positions by kind of trader, and open interest",
-  "rows": 5930,
+  "rows": 5940,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1039356
+  "last": "2026-09-15",
+  "bytes": 1041026
  },
  "futures_long__244042": {
   "title": "Every weekly CFTC report for MSCI Emerging Markets index futures: long and spread positions by kind of trader, and open interest",
-  "rows": 7960,
+  "rows": 7970,
   "first": "2011-06-14",
-  "last": "2026-09-08",
-  "bytes": 1356232
+  "last": "2026-09-15",
+  "bytes": 1357872
  },
  "futures_short__244042": {
   "title": "Every weekly CFTC report for MSCI Emerging Markets index futures: short and spread positions by kind of trader, and open interest",
-  "rows": 7960,
+  "rows": 7970,
   "first": "2011-06-14",
-  "last": "2026-09-08",
-  "bytes": 1364010
+  "last": "2026-09-15",
+  "bytes": 1365660
  },
  "futures_long__244041": {
   "title": "Every weekly CFTC report for MSCI EAFE index futures: long and spread positions by kind of trader, and open interest",
-  "rows": 7960,
+  "rows": 7970,
   "first": "2011-06-14",
-  "last": "2026-09-08",
-  "bytes": 1230541
+  "last": "2026-09-15",
+  "bytes": 1232027
  },
  "futures_short__244041": {
   "title": "Every weekly CFTC report for MSCI EAFE index futures: short and spread positions by kind of trader, and open interest",
-  "rows": 7960,
+  "rows": 7970,
   "first": "2011-06-14",
-  "last": "2026-09-08",
-  "bytes": 1238155
+  "last": "2026-09-15",
+  "bytes": 1239654
  },
  "futures_long__099741": {
   "title": "Every weekly CFTC report for Euro futures: long and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1697795
+  "last": "2026-09-15",
+  "bytes": 1699396
  },
  "futures_short__099741": {
   "title": "Every weekly CFTC report for Euro futures: short and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1708476
+  "last": "2026-09-15",
+  "bytes": 1710088
  },
  "futures_long__097741": {
   "title": "Every weekly CFTC report for Japanese yen futures: long and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1777627
+  "last": "2026-09-15",
+  "bytes": 1779307
  },
  "futures_short__097741": {
   "title": "Every weekly CFTC report for Japanese yen futures: short and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1787701
+  "last": "2026-09-15",
+  "bytes": 1789389
  },
  "futures_long__096742": {
   "title": "Every weekly CFTC report for British pound futures: long and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1818302
+  "last": "2026-09-15",
+  "bytes": 1819944
  },
  "futures_short__096742": {
   "title": "Every weekly CFTC report for British pound futures: short and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1829493
+  "last": "2026-09-15",
+  "bytes": 1831143
  },
  "futures_long__098662": {
   "title": "Every weekly CFTC report for US dollar index futures: long and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1666401
+  "last": "2026-09-15",
+  "bytes": 1667906
  },
  "futures_short__098662": {
   "title": "Every weekly CFTC report for US dollar index futures: short and spread positions by kind of trader, and open interest",
-  "rows": 10570,
+  "rows": 10580,
   "first": "2006-06-13",
-  "last": "2026-09-08",
-  "bytes": 1676346
+  "last": "2026-09-15",
+  "bytes": 1677861
  },
  "futures_long__1170E1": {
   "title": "Every weekly CFTC report for VIX volatility futures: long and spread positions by kind of trader, and open interest",
-  "rows": 10160,
+  "rows": 10170,
   "first": "2006-08-29",
-  "last": "2026-09-08",
-  "bytes": 1499622
+  "last": "2026-09-15",
+  "bytes": 1501091
  },
  "futures_short__1170E1": {
   "title": "Every weekly CFTC report for VIX volatility futures: short and spread positions by kind of trader, and open interest",
-  "rows": 10160,
+  "rows": 10170,
   "first": "2006-08-29",
-  "last": "2026-09-08",
-  "bytes": 1509360
+  "last": "2026-09-15",
+  "bytes": 1510840
  },
  "futures_long__133741": {
   "title": "Every weekly CFTC report for Bitcoin futures: long and spread positions by kind of trader, and open interest",
-  "rows": 4400,
+  "rows": 4410,
   "first": "2018-04-10",
-  "last": "2026-09-08",
-  "bytes": 635186
+  "last": "2026-09-15",
+  "bytes": 636631
  },
  "futures_short__133741": {
   "title": "Every weekly CFTC report for Bitcoin futures: short and spread positions by kind of trader, and open interest",
-  "rows": 4400,
+  "rows": 4410,
   "first": "2018-04-10",
-  "last": "2026-09-08",
-  "bytes": 639179
+  "last": "2026-09-15",
+  "bytes": 640634
  },
  "intl_debt_by_nationality": {
   "title": "Every BIS international debt securities row by the borrower's nationality, every quarter",
@@ -2374,10 +2402,10 @@
  },
  "world_money_usd": {
   "title": "Every economy and month behind world money in dollars: amount in its own currency, the rate, the dollar amount",
-  "rows": 48349,
+  "rows": 48350,
   "first": "1956-07",
   "last": "2026-06",
-  "bytes": 3346822
+  "bytes": 3346889
  },
  "world_debt_usd__private": {
   "title": "Every economy and year behind world private debt (loans and debt securities of households and companies) in dollars: share of GDP, GDP, the rate, the dollar amount",
@@ -2416,10 +2444,10 @@
  },
  "world_ledger": {
   "title": "Every market and quarter behind the world ledger: the amount in its own currency, the rate, the dollar amount",
-  "rows": 7947,
+  "rows": 9239,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1190803
+  "bytes": 1408070
  },
  "world_ledger_gaps": {
   "title": "The pools of financial wealth we know exist and cannot yet show, and why",
@@ -2430,10 +2458,10 @@
  },
  "world_listed_equity": {
   "title": "Every market and quarter behind the world's listed equity: the amount, its basis, the rate, the dollar amount",
-  "rows": 10625,
-  "first": "1952-03-31",
+  "rows": 10650,
+  "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1755207
+  "bytes": 1792272
  },
  "world_debt_securities": {
   "title": "Every economy and quarter behind the world's debt securities: the total and the issuer split, face value",
@@ -2441,5 +2469,12 @@
   "first": "1952-03-31",
   "last": "2026-03-31",
   "bytes": 308856
+ },
+ "world_owners": {
+  "title": "Every owner line behind 'Who owns the world': the pool, the published line, the amount in its own currency, the rate and the dollar amount",
+  "rows": 123173,
+  "first": "1945-12-31",
+  "last": "2026-06-30",
+  "bytes": 22775736
  }
 }
