@@ -2447,7 +2447,7 @@
   "rows": 9239,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1408070
+  "bytes": 1408065
  },
  "world_ledger_gaps": {
   "title": "The pools of financial wealth we know exist and cannot yet show, and why",
@@ -2475,6 +2475,6 @@
   "rows": 123173,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 22775736
+  "bytes": 22787364
  }
 }
