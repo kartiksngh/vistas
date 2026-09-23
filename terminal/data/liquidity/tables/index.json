@@ -148,24 +148,24 @@
  },
  "gold_official": {
   "title": "Official gold of every reporting central bank and government, every month",
-  "rows": 20762,
+  "rows": 20766,
   "first": "2000-01",
   "last": "2026-08",
-  "bytes": 2035171
+  "bytes": 2035548
  },
  "gold_us_funds_treasury": {
   "title": "Gold owned by the US Treasury and held by the two largest US gold funds",
-  "rows": 5667,
+  "rows": 5670,
   "first": "2004-11-18",
-  "last": "2026-09-18",
-  "bytes": 484676
+  "last": "2026-09-22",
+  "bytes": 484937
  },
  "central_banks": {
   "title": "Central bank balance sheets and exchange rates, every observation",
-  "rows": 25074,
+  "rows": 25075,
   "first": "1971-01-04",
   "last": "2026-09-18",
-  "bytes": 1662279
+  "bytes": 1662354
  },
  "us_net_liquidity": {
   "title": "US net liquidity and its three parts, every week",
@@ -981,10 +981,10 @@
  },
  "fed_reverse_repo_lenders": {
   "title": "Every business day of cash lent to the Federal Reserve overnight, in total and by kind of lender",
-  "rows": 5745,
+  "rows": 5746,
   "first": "2022-01-03",
-  "last": "2026-09-21",
-  "bytes": 432966
+  "last": "2026-09-22",
+  "bytes": 433045
  },
  "money__AUS": {
   "title": "Every month of broad and narrow money for Australia, in its own currency",
