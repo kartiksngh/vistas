@@ -1887,7 +1887,7 @@
   "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21415
+  "bytes": 21428
  },
  {
   "key": "futures_short__020601",
@@ -1901,7 +1901,7 @@
   "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21743
+  "bytes": 21756
  },
  {
   "key": "futures_long__020604",
@@ -1915,7 +1915,7 @@
   "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 17795
+  "bytes": 17812
  },
  {
   "key": "futures_short__020604",
@@ -1929,7 +1929,7 @@
   "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18090
+  "bytes": 18107
  },
  {
   "key": "futures_long__134741",
@@ -1943,7 +1943,7 @@
   "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 10758
+  "bytes": 10763
  },
  {
   "key": "futures_short__134741",
@@ -1957,7 +1957,7 @@
   "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 10825
+  "bytes": 10830
  },
  {
   "key": "futures_long__045601",
@@ -1971,7 +1971,7 @@
   "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21102
+  "bytes": 21100
  },
  {
   "key": "futures_short__045601",
@@ -1985,7 +1985,7 @@
   "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21173
+  "bytes": 21171
  },
  {
   "key": "futures_long__13874A",
@@ -1999,7 +1999,7 @@
   "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22438
+  "bytes": 22450
  },
  {
   "key": "futures_short__13874A",
@@ -2013,7 +2013,7 @@
   "last": "2026-09-15",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22306
+  "bytes": 22318
  },
  {
   "key": "futures_long__209742",
