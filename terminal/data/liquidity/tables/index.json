@@ -148,31 +148,31 @@
  },
  "gold_official": {
   "title": "Official gold of every reporting central bank and government, every month",
-  "rows": 20766,
+  "rows": 20777,
   "first": "2000-01",
   "last": "2026-08",
-  "bytes": 2035548
+  "bytes": 2036586
  },
  "gold_us_funds_treasury": {
   "title": "Gold owned by the US Treasury and held by the two largest US gold funds",
-  "rows": 5670,
+  "rows": 5672,
   "first": "2004-11-18",
-  "last": "2026-09-22",
-  "bytes": 484937
+  "last": "2026-09-25",
+  "bytes": 485109
  },
  "central_banks": {
   "title": "Central bank balance sheets and exchange rates, every observation",
-  "rows": 25075,
+  "rows": 25076,
   "first": "1971-01-04",
-  "last": "2026-09-18",
-  "bytes": 1662354
+  "last": "2026-09-23",
+  "bytes": 1662434
  },
  "us_net_liquidity": {
   "title": "US net liquidity and its three parts, every week",
-  "rows": 1240,
+  "rows": 1241,
   "first": "2002-12-18",
-  "last": "2026-09-16",
-  "bytes": 51682
+  "last": "2026-09-23",
+  "bytes": 51725
  },
  "dollar_credit": {
   "title": "Credit to borrowers outside each currency's home area, every quarter",
@@ -974,17 +974,17 @@
  },
  "fed_securities_held": {
   "title": "Every week of the Federal Reserve's securities holdings by type, at face value",
-  "rows": 10084,
+  "rows": 10093,
   "first": "2003-07-09",
-  "last": "2026-09-16",
-  "bytes": 982372
+  "last": "2026-09-23",
+  "bytes": 983251
  },
  "fed_reverse_repo_lenders": {
   "title": "Every business day of cash lent to the Federal Reserve overnight, in total and by kind of lender",
-  "rows": 5747,
+  "rows": 5749,
   "first": "2022-01-03",
-  "last": "2026-09-23",
-  "bytes": 433124
+  "last": "2026-09-25",
+  "bytes": 433281
  },
  "money__AUS": {
   "title": "Every month of broad and narrow money for Australia, in its own currency",
