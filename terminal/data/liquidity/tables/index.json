@@ -442,52 +442,52 @@
  },
  "uk_owner_types__UK_GILTS": {
   "title": "Every line of the UK Economic Accounts on who holds UK government gilts, every quarter",
-  "rows": 3768,
+  "rows": 3792,
   "first": "1987-03-31",
-  "last": "2026-03-31",
-  "bytes": 546658
+  "last": "2026-06-30",
+  "bytes": 550162
  },
  "uk_owner_types__UK_TREASURY_BILLS": {
   "title": "Every line of the UK Economic Accounts on who holds UK Treasury bills, every quarter",
-  "rows": 3454,
+  "rows": 3476,
   "first": "1987-03-31",
-  "last": "2026-03-31",
-  "bytes": 494642
+  "last": "2026-06-30",
+  "bytes": 497790
  },
  "uk_owner_types__UK_LISTED_SHARES": {
   "title": "Every line of the UK Economic Accounts on who holds listed UK shares, every quarter",
-  "rows": 3770,
+  "rows": 3796,
   "first": "1990-03-31",
-  "last": "2026-03-31",
-  "bytes": 537255
+  "last": "2026-06-30",
+  "bytes": 540980
  },
  "uk_owner_types__UK_CORPORATE_BONDS": {
   "title": "Every line of the UK Economic Accounts on who holds bonds issued by UK banks and companies, every quarter",
-  "rows": 3770,
+  "rows": 3796,
   "first": "1990-03-31",
-  "last": "2026-03-31",
-  "bytes": 542257
+  "last": "2026-06-30",
+  "bytes": 545987
  },
  "uk_owner_types__UK_FUND_SHARES": {
   "title": "Every line of the UK Economic Accounts on who holds UK investment fund shares, every quarter",
-  "rows": 2900,
+  "rows": 2920,
   "first": "1990-03-31",
-  "last": "2026-03-31",
-  "bytes": 423559
+  "last": "2026-06-30",
+  "bytes": 426480
  },
  "uk_owner_types__UK_BANK_DEPOSITS": {
   "title": "Every line of the UK Economic Accounts on who holds deposits with UK banks, every quarter",
-  "rows": 3770,
+  "rows": 3796,
   "first": "1990-03-31",
-  "last": "2026-03-31",
-  "bytes": 544332
+  "last": "2026-06-30",
+  "bytes": 548086
  },
  "uk_owner_types__UK_OTHER_DEPOSITS": {
   "title": "Every line of the UK Economic Accounts on who holds other deposits in the United Kingdom, every quarter",
-  "rows": 4082,
+  "rows": 4108,
   "first": "1987-03-31",
-  "last": "2026-03-31",
-  "bytes": 577905
+  "last": "2026-06-30",
+  "bytes": 581593
  },
  "ea_owner_types__I10__QSA_LISTED_SHARES": {
   "title": "Every line of the quarterly sector accounts on who holds listed shares issued in the euro area (21 countries), every quarter",
@@ -981,10 +981,10 @@
  },
  "fed_reverse_repo_lenders": {
   "title": "Every business day of cash lent to the Federal Reserve overnight, in total and by kind of lender",
-  "rows": 5750,
+  "rows": 5751,
   "first": "2022-01-03",
-  "last": "2026-09-28",
-  "bytes": 433360
+  "last": "2026-09-29",
+  "bytes": 433440
  },
  "money__AUS": {
   "title": "Every month of broad and narrow money for Australia, in its own currency",
@@ -2447,7 +2447,7 @@
   "rows": 9239,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 1408065
+  "bytes": 1407826
  },
  "world_ledger_gaps": {
   "title": "The pools of financial wealth we know exist and cannot yet show, and why",
@@ -2472,9 +2472,9 @@
  },
  "world_owners": {
   "title": "Every owner line behind 'Who owns the world': the pool, the published line, the amount in its own currency, the rate and the dollar amount",
-  "rows": 123173,
+  "rows": 123163,
   "first": "1945-12-31",
   "last": "2026-06-30",
-  "bytes": 22787364
+  "bytes": 22784209
  }
 }
