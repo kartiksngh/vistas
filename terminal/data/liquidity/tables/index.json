@@ -157,7 +157,7 @@
   "title": "Gold owned by the US Treasury and held by the two largest US gold funds",
   "rows": 5677,
   "first": "2004-11-18",
-  "last": "2026-10-01",
+  "last": "2026-10-02",
   "bytes": 485542
  },
  "central_banks": {
@@ -981,10 +981,10 @@
  },
  "fed_reverse_repo_lenders": {
   "title": "Every business day of cash lent to the Federal Reserve overnight, in total and by kind of lender",
-  "rows": 5837,
+  "rows": 5838,
   "first": "2022-01-03",
-  "last": "2026-10-01",
-  "bytes": 439694
+  "last": "2026-10-02",
+  "bytes": 439773
  },
  "money__AUS": {
   "title": "Every month of broad and narrow money for Australia, in its own currency",

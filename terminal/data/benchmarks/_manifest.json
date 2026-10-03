@@ -1,5 +1,5 @@
 {
- "asof": "2026-09-27",
+ "asof": "2026-10-04",
  "mcap_period": "30Jun2026",
  "n_indices": 21,
  "indices": {
@@ -62,7 +62,7 @@
   "NIFTY SMALLCAP 100": {
    "slug": "ind_niftysmallcap100list",
    "n": 100,
-   "coverage": 1.0,
+   "coverage": 0.99,
    "broad": true,
    "low_confidence": false
   },
@@ -132,7 +132,7 @@
   "NIFTY ENERGY": {
    "slug": "ind_niftyenergylist",
    "n": 40,
-   "coverage": 1.0,
+   "coverage": 0.975,
    "broad": false,
    "low_confidence": false
   },
