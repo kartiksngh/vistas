@@ -14,15 +14,15 @@
     "realized_corr50": 0.19,
     "correlation_trend": 0.06,
     "implied_corr": {
-      "rho_imp": 0.29,
-      "coverage_pct": 96.01,
+      "rho_imp": 0.28,
+      "coverage_pct": 97.16,
       "pctile_1y": 61.5,
       "available": true,
       "reason": null
     },
     "crp": {
       "crp21": 0.03,
-      "crp50": 0.1,
+      "crp50": 0.09,
       "available": true,
       "reason": null
     },
@@ -51,7 +51,7 @@
       "label": "Macro Emerging"
     },
     "long_dispersion_signal": {
-      "strength": 17.32,
+      "strength": 15.65,
       "available": true,
       "reason": null
     },
@@ -5139,7 +5139,7 @@
       25.0,
       25.0,
       25.0,
-      17.32
+      15.65
     ],
     "short_dispersion_strength": [
       null,
@@ -7774,7 +7774,7 @@
         "asof": "2026-10-01",
         "coverage_min_pct": 80.0
       },
-      "vix_csv": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\World Data PX till Oct 3, 2026.csv"
+      "vix_csv": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\World Data PX till Oct 4, 2026.csv"
     },
     "backbone_date_note": "asof = realized.json's own last date, the daily equity-return backbone; VIX and implied correlation are joined onto it by AS-OF (latest value on or before that date), never by looking ahead.",
     "null_handling": "implied correlation pending (coverage < 80%) -- every implied-dependent tile/leg (CRP, the Dispersion Score's CRP leg, both dispersion signals, the module-13 hedge color, the module-21 covered-call signal, the regime-shift score's CRP leg) reads null with this reason whenever rho_imp is null/absent for asof. The module-21 Index Hedge Signal does NOT depend on CRP and stays live.",
