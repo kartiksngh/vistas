@@ -16,7 +16,7 @@
     "implied_corr": {
       "rho_imp": null,
       "coverage_pct": null,
-      "pctile_1y": 61.5,
+      "pctile_1y": 57.1,
       "available": false,
       "reason": "implied correlation pending (coverage < 80%)"
     },
@@ -7771,7 +7771,7 @@
       },
       "implied_json": {
         "path": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\vol\\implied.json",
-        "asof": "2026-10-01",
+        "asof": "2026-10-08",
         "coverage_min_pct": 80.0
       },
       "vix_csv": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\World Data PX till Oct 7, 2026.csv"
