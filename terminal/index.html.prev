@@ -12870,7 +12870,7 @@ async function _abMerged(amc) {
 // appear in the NAV chart, the rolling-alpha chart, the % ahead chart, the summary-stats table and
 // the calendar-year rows -- rather than in a card of their own, which is what was built first and
 // is not what was asked for.
-const AB_KINDS = [["amc", "Fund house"], ["cat", "Category"], ["scheme", "Scheme"],
+const AB_KINDS = [["amc", "Fund house"], ["inst", "Institution"], ["cat", "Category"], ["scheme", "Scheme"],
                   ["plan", "Gross / Direct / Regular"]];
 const AB_PLAN_BUCKETS = [["plan_gross", "Gross One (the picks)"], ["plan_direct", "Direct One"],
                          ["plan_regular", "Regular One"]];
@@ -12894,11 +12894,47 @@ function _abPlanList() {
   });
   return out;
 }
+// ── INSTITUTIONS: the rest of the owners, one book each (Kyser 2026-10-16/17) ────────────────
+// "I want the ability to see through the book of every Financial entity, and analyse, filter etc
+// the same way AMC book is getting done ... for eg I want to see what HDFC pension funds holding
+// are like ... similarly SBI insurance. LIC holdings."
+//
+// Until now Insurance companies, Pension funds, Banks and the foreign books were ONE anonymous
+// number each on the scheme-type bar -- there was no way to ask WHO. These are the named holders
+// out of the companies' own shareholding filings, folded to one entity per institution by
+// vistas/inst_identity.py, and written in this tab's own payload shape so every filter, chart and
+// export here works on them unchanged.
+//
+// TWO THINGS THE READER MUST KNOW, and the panel says both: a filing names a holder only above
+// roughly 1% of the company, so this is a book of significant stakes and not a portfolio; and
+// filings are quarterly, carried between dates, so a month here is the last filed position.
+const AB_INST_URL = "amc_book/_inst/_inst_index.json";
+let _abInstIx = null, _abInstBusy = false;
+async function _abInstIndex() {
+  if (_abInstIx || _abInstBusy) return _abInstIx;
+  _abInstBusy = true;
+  try { _abInstIx = await fetchJSON(LAZY.base + AB_INST_URL); }
+  catch (e) { _abInstIx = { buckets: [], index: {} }; }
+  _abInstBusy = false;
+  return _abInstIx;
+}
+function _abInstList() {
+  const ix = _abInstIx || {}, idx = ix.index || {}, out = [];
+  (ix.buckets || []).forEach(([b, lbl]) => {
+    Object.keys(idx[b] || {}).forEach((slug) => {
+      const e = idx[b][slug];
+      out.push({ amc: (e.label || slug) + " · " + lbl, _b: b, _slug: slug,
+                 book_cr: e.cr || 0, n: e.n || 0, asof: e.asof || null });
+    });
+  });
+  return out.sort((a, b) => b.book_cr - a.book_cr);
+}
 function _abKindList(kind) {
   const B = _ab() || {};
   if (kind === "cat") return ((B.cat || {}).index) || [];
   if (kind === "scheme") return ((B.scheme || {}).index) || [];
   if (kind === "plan") return _abPlanList();
+  if (kind === "inst") return _abInstList();
   return _abHouses();
 }
 // ---- THE INDUSTRY BOOK AND THE SCHEME PICKER (Kyser 2026-09-07) -----------------------------
@@ -12973,6 +13009,11 @@ async function _abLoadSel(kind, val) {
     const row = _abKindList("scheme").find((x) => x.amc === val || x.uid === val);
     if (row) return await _abLoadOne("_scheme", row.slug);
     return null;
+  }
+  if (kind === "inst") {
+    // one file per institution, under its own bucket folder: _inst/<bucket>/<slug>.json
+    const e = _abInstList().find((x) => x.amc === val);
+    return e ? await _abLoadOne("_inst/" + e._b, e._slug) : null;
   }
   const row = _abKindList(kind).find((x) => x.amc === val);
   if (!row) return null;
@@ -14488,6 +14529,7 @@ async function renderAmcBook() {
   }
   // the plan-book index is small and lazy; load it once so the pickers can offer them
   if (!_abPlanIx && !_abPlanBusy) { await _abPlanIndex(); }
+  if (!_abInstIx && !_abInstBusy) { await _abInstIndex(); }
   const idxA = _abKindList(AB.kindA), idxB = _abKindList(AB.kindB);
   // AB.house is what the left dropdown shows. When the book is a scheme it comes from the scheme's
   // own index row, so arriving on a scheme by any route still leaves the house visible.

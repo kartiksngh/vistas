@@ -14579,7 +14579,13 @@ async function renderAmcBook() {
     $("ab-kindB").onchange = (e) => { AB.kindB = e.target.value; AB.amc2 = ""; renderAmcBook(); };
     $("ab-amc").onchange = (e) => {
       const v = e.target.value;
-      if (AB.kindA === "cat") { AB.amc = v; }
+      // ★ Only the kinds whose dropdown lists FUND HOUSES may rewrite the kind to "amc" -- that is
+      // how picking a house from a scheme view jumps back to the house book. A kind that lists
+      // anything else must keep itself. Measured 2026-10-17 (Kyser: "when I select the institution
+      // ... the terminal resets back to fund house"): only "cat" was exempt, so choosing an
+      // institution fell into the else, set kindA = "amc", and the Book dropdown snapped back
+      // before the book could render. "plan" had the same defect and is fixed with it.
+      if (AB.kindA === "cat" || AB.kindA === "inst" || AB.kindA === "plan") { AB.amc = v; }
       else { AB.house = v; AB.kindA = "amc"; AB.amc = v; AB.scheme = ""; AB.pick = ""; }
       if (AB.amc2 === AB.amc && AB.kindA === AB.kindB) AB.amc2 = "";
       AB.open = null; renderAmcBook();
