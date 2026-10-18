@@ -25529,6 +25529,10 @@ function knStats(row) {
     win: win.length > 1 ? knChange(win[win.length - 1][1], win[0][1], kind) : null,
   };
 }
+function knWinLabel() {                   // 2026-10-18: the header says which dates "Window change" covers
+  const s = $("start") && $("start").value, e = $("end") && $("end").value;
+  return s ? "<div class='kn-sub'>" + knDate(s) + " to " + (e ? knDate(e) : "latest") + "</div>" : "";
+}
 function knRender() {
   const host = $("view-macro"); if (!host) return;
   let box = $("macro-keys");
@@ -25558,7 +25562,7 @@ function knRender() {
   box.hidden = false;
   box.innerHTML = "<h3>Key numbers</h3>" +
     "<table class='gauge-tbl kn-tbl'><thead><tr><th>Measure</th><th>Latest</th><th>As of</th><th>1-year change</th>" +
-    "<th>5-year range</th><th>Window change</th><th></th></tr></thead><tbody>" + rows + "</tbody></table>" +
+    "<th>5-year range</th><th>Window change" + knWinLabel() + "</th><th></th></tr></thead><tbody>" + rows + "</tbody></table>" +
     "<p class='kn-note'>Latest is the most recent reading. 1-year change compares it with the reading a year earlier: in " +
     "percentage points for rates, yields and inflation, in percent for prices and levels. The 5-year bar runs from the " +
     "lowest reading of the last five years (left) to the highest (right), and the mark is the latest. Window change uses " +
@@ -25593,6 +25597,157 @@ function knRender() {
     ".kn-note{font-size:11px;color:var(--muted);margin:8px 0 0;max-width:80ch}.kn-go{white-space:nowrap}" +
     "@media (max-width:760px){.kn-tbl td.name{white-space:normal;min-width:120px;max-width:150px}}";
   if (document.head) document.head.appendChild(st);      // the deck's render test runs without a <head>
+})();
+
+// ===================== FLOWS AND OWNERSHIP in Fundamentals (2026-10-18, session vistas-ae) =====================
+// Kyser (18 Oct): "companies give info on arm, fundamentals, flows into it, ownership". Fundamentals already shows the
+// revision score, the shareholding pattern, valuation, growth and quality; this adds, for the company in view, who is
+// buying and selling it: mutual fund houses month by month (data/ownership_stock/<vst_id>.json, the file behind the
+// Ownership & Flow crowding panel) and the named holders above 1% (data/ownership/_fpi_holders.json). No panel is
+// copied; the source panels stay where they are. Design note: docs/design/company_flows/DESIGN.md.
+// The four flow parts are vistas/flow_waterfall.py's (lines 11-19): change in value = price move + new scheme money
+// spread pro rata + active buying, and they add up exactly; "active buying" is the part a house chose.
+const CF_TYPES = { fpi: "Foreign portfolio investor", foreign_corp: "Foreign company", individual: "Individual",
+  mutual_fund: "Mutual fund", body_corp: "Indian company", insurance: "Insurance company", other: "Other" };
+let _cfSeq = 0;
+
+function cfCr(v) {                               // Rs crore, the terminal's own rounding: whole crore from 100 up
+  if (v === null || v === undefined || !isFinite(v)) return "—";
+  const a = Math.abs(v);
+  return (v < 0 ? "−" : "") + a.toLocaleString("en-IN", { maximumFractionDigits: a >= 100 ? 0 : 1 });
+}
+const CF_MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function cfMonth(ym) { const s = String(ym || ""); return s.length >= 7 ? CF_MON[+s.slice(5, 7) - 1] + " " + s.slice(0, 4) : s; }
+function cfLine(el, txt) { if (!el) return; el.textContent = txt || ""; el.hidden = !txt; }
+function cfSigned(v) { return (v > 0 ? "+" : "") + cfCr(v); }
+function cfEsc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+function cfEnsureDom() {
+  const host = $("fund-panels");
+  if (!host || !host.dataset || !host.dataset.built || !host.insertAdjacentHTML) return false;
+  if ($("fsec-flows")) return true;
+  const nav = $("fund-nav");
+  if (nav && nav.insertAdjacentHTML) nav.insertAdjacentHTML("beforeend", '<a href="#fsec-flows">Flows and ownership</a>');
+  host.insertAdjacentHTML("beforeend",
+    '<div class="fsec" id="fsec-flows">Flows and ownership</div><div class="fgrid">' +
+    '<section class="panel fpanel wide" id="p-fund-cf-mf"><h2><span class="tag-sec">FUNDS</span>Mutual fund houses: holding and active buying</h2>' +
+    '<details><summary>What it shows · How to read it · Why it matters</summary>' +
+    '<p><b>What it shows:</b> each fund house\'s holding in the company at the latest month-end, and how much it actively bought or sold over the last month and the last three months.</p>' +
+    '<p><b>How to read it:</b> a holding changes for three reasons: the share price moved, the house\'s schemes received new money and spread it across what they already own, or the house chose to buy or sell. Active buying is only the third part, so a rising price or a flood of new money cannot make a house look keen. Values are in rupees crore; the total row is every house in the store.</p>' +
+    '<p><b>Why it matters:</b> it shows which houses are adding to the company by choice and which are cutting, one tab away from the rest of its fundamentals.</p>' +
+    '<p class="src">Technical detail: data/ownership_stock/&lt;vst_id&gt;.json, fields mv and net_active; the split is vistas/flow_waterfall.py (lines 11-19).</p></details>' +
+    '<div class="statline" id="cf-mf-line"></div><div class="fund-tblwrap" id="cf-mf"></div></section>' +
+    '<section class="panel fpanel wide" id="p-fund-cf-named"><h2><span class="tag-sec">HOLDERS</span>Named holders above 1%</h2>' +
+    '<details><summary>What it shows · How to read it · Why it matters</summary>' +
+    '<p><b>What it shows:</b> every holder the company names in its quarterly shareholding filing because it owns more than 1%, with its share now and its change from the quarter before.</p>' +
+    '<p><b>How to read it:</b> the change is in percentage points of the company\'s shares. A holder that crosses below 1% drops out of the filing, so a name that disappears may have sold or may simply be under 1%.</p>' +
+    '<p><b>Why it matters:</b> large named holders, foreign funds above all, are the owners whose buying and selling moves the stock.</p>' +
+    '<p class="src">Technical detail: data/ownership/_fpi_holders.json, list "stocks" (the Ownership &amp; Flow foreign-holders panel\'s file).</p></details>' +
+    '<div class="statline" id="cf-named-line"></div><div class="fund-tblwrap" id="cf-named"></div>' +
+    '<p class="src" id="cf-links"></p></section></div>');
+  return true;
+}
+
+function cfMfTable(b) {
+  const months = b.months || [], A = b.amcs || {};
+  const tot = (k, i) => Object.keys(A).reduce((s, h) => s + (((A[h] || {})[k] || [])[i] || 0), 0);
+  let L = months.length - 1;
+  while (L >= 0 && !(tot("mv", L) > 0)) L--;           // the latest month any house holds the stock
+  if (L < 0) return null;
+  const s3 = (arr) => [L - 2, L - 1, L].reduce((s, i) => s + (i >= 0 ? ((arr || [])[i] || 0) : 0), 0);
+  const rows = Object.keys(A).map((h) => {
+    const n = A[h] || {};
+    return { h, mv: (n.mv || [])[L] || 0, na1: (n.net_active || [])[L] || 0, na3: s3(n.net_active) };
+  }).filter((r) => r.mv > 0 || r.na3 !== 0);
+  rows.sort((p, q) => q.mv - p.mv || Math.abs(q.na3) - Math.abs(p.na3));
+  const T = { mv: tot("mv", L), na1: tot("net_active", L), na3: [L - 2, L - 1, L].reduce((s, i) => s + (i >= 0 ? tot("net_active", i) : 0), 0) };
+  return { month: months[L], rows, T, nBuy: rows.filter((r) => r.na1 > 0).length, nSell: rows.filter((r) => r.na1 < 0).length,
+           nHold: rows.filter((r) => r.mv > 0).length };
+}
+
+async function cfRender(sym) {
+  if (!sym || !cfEnsureDom()) return;
+  const seq = ++_cfSeq;
+  const vid = FUND_DATA && FUND_DATA[sym] && FUND_DATA[sym].vst_id;
+  const mfLine = $("cf-mf-line"), mfBox = $("cf-mf"), nmLine = $("cf-named-line"), nmBox = $("cf-named"), links = $("cf-links");
+  if (links) {
+    links.innerHTML = '<a href="#" id="cf-rev">Analyst revision drill-down for ' + cfEsc(sym) + '</a> · <a href="#" id="cf-own">Every house and its history on Ownership &amp; Flow</a>';
+    const r = $("cf-rev"), o = $("cf-own");
+    if (r) r.onclick = (e) => { e.preventDefault(); if (typeof openRevDrill === "function") openRevDrill(sym); };
+    if (o) o.onclick = (e) => { e.preventDefault(); setView("ownership"); };
+  }
+  if (mfBox) mfBox.innerHTML = "<div class='empty-note'>Loading…</div>";
+  const b = vid ? await ensureCrowdStock(vid).catch(() => null) : null;
+  if (seq !== _cfSeq) return;                       // another company was opened meanwhile
+  const t = b ? cfMfTable(b) : null;
+  if (!t) {
+    cfLine(mfLine, "");
+    // vistas/flow_waterfall.py writes a house-by-house file only for a company that all funds together held more
+    // than Rs 300 crore of in some month (_CROWD_MIN_CR), so a missing file means "never above that", not "nobody"
+    if (mfBox) mfBox.innerHTML = "<div class='empty-note'>" + (b
+      ? "The fund-holdings file for " + cfEsc(sym) + " has no month with a holding."
+      : "Mutual funds together have never held more than ₹300 crore of " + cfEsc(sym) + " in any month, and the house-by-house record is kept only above that.") + "</div>";
+  } else {
+    cfLine(mfLine, t.nHold + " houses hold it at the end of " + cfMonth(t.month) + "; in that month " + t.nBuy + " bought actively and " + t.nSell + " sold.");
+    const show = t.rows.slice(0, 15), more = t.rows.length - show.length;
+    let h = "<table class='gauge-tbl cf-tbl'><thead><tr><th>Fund house</th><th>Holding, ₹ cr</th><th>Active buying, last month</th><th>Active buying, last 3 months</th></tr></thead><tbody>";
+    show.forEach((r) => {
+      h += "<tr><td class='name'>" + cfEsc(r.h) + "</td><td class='num'>" + cfCr(r.mv) + "</td><td class='num " + (r.na1 > 0 ? "pos" : r.na1 < 0 ? "neg" : "") + "'>" + cfSigned(r.na1) +
+           "</td><td class='num " + (r.na3 > 0 ? "pos" : r.na3 < 0 ? "neg" : "") + "'>" + cfSigned(r.na3) + "</td></tr>";
+    });
+    h += "<tr class='cf-total'><td class='name'>All houses" + (more > 0 ? " (" + more + " more not listed)" : "") + "</td><td class='num'>" + cfCr(t.T.mv) +
+         "</td><td class='num'>" + cfSigned(t.T.na1) + "</td><td class='num'>" + cfSigned(t.T.na3) + "</td></tr></tbody></table>";
+    if (mfBox) mfBox.innerHTML = h;
+  }
+  // every company's own file once the build writes them (marker "per_stock" on the inline FPI layer, deck.py since
+  // 2026-10-18); before that, the top-320 list in _fpi_holders.json
+  const fm = typeof _fpm === "function" ? _fpm("fpi_holders") : null;
+  const perStock = !!(fm && fm.per_stock && vid && typeof LAZY !== "undefined" && LAZY);
+  let st = perStock ? await fetchJSON(LAZY.base + "ownership/holders/" + lazyURL(vid) + ".json").catch(() => null) : null;
+  const fh = (!st && typeof ensureFP === "function") ? await ensureFP("fpi_holders").catch(() => null) : null;
+  if (seq !== _cfSeq) return;
+  if (!st) st = fh && (fh.stocks || []).find((x) => x.symbol === sym || (vid && x.vid === vid));
+  if (!st && perStock) {
+    cfLine(nmLine, "");
+    if (nmBox) nmBox.innerHTML = "<div class='empty-note'>No holder above 1% is named for " + cfEsc(sym) + " in the shareholding filings in the store.</div>";
+    return;
+  }
+  if (!st) {
+    cfLine(nmLine, "");
+    // vistas/fpi_holders.py publishes only the companies where named foreign investors hold the largest share
+    // (top_stocks=320, ranked by fpi_named_pct), so absence here is that cut, not an empty filing
+    if (nmBox) nmBox.innerHTML = "<div class='empty-note'>The named-holders file publishes the " + ((fh && fh.stocks) || []).length +
+      " companies where named foreign investors hold the largest share" + (fh && fh.asof ? " (filings to " + cfEsc(fh.asof) + ")" : "") +
+      ", and " + cfEsc(sym) + " is not one of them.</div>";
+    return;
+  }
+  cfLine(nmLine, "Quarter ending " + st.q + (st.q_prev ? ", change from " + st.q_prev : "") + ". " + (st.n_named || (st.holders || []).length) +
+    " named holders; foreign portfolio investors among them hold " + (st.fpi_named_pct != null ? st.fpi_named_pct.toFixed(2) + "%" : "—") + ".");
+  let h = "<table class='gauge-tbl cf-tbl'><thead><tr><th>Holder</th><th>Type</th><th>Share held</th><th>Change, pp</th></tr></thead><tbody>";
+  (st.holders || []).slice().sort((p, q) => (q.pct || 0) - (p.pct || 0)).forEach((x) => {
+    const d = x.d_pp;
+    h += "<tr><td class='name'>" + cfEsc(x.holder) + "</td><td>" + cfEsc(CF_TYPES[x.type] || x.type || "") + "</td><td class='num'>" +
+         (x.pct != null ? x.pct.toFixed(2) + "%" : "—") + "</td><td class='num " + (d > 0 ? "pos" : d < 0 ? "neg" : "") + "'>" +
+         (d == null ? (x.action === "new" ? "new" : "—") : (d > 0 ? "+" : d < 0 ? "−" : "") + Math.abs(d).toFixed(2)) + "</td></tr>";
+  });
+  if (nmBox) nmBox.innerHTML = h + "</tbody></table>";
+}
+
+(function cfInstall() {
+  if (typeof renderFundamentals !== "function" || window.__cfWrapped) return;
+  window.__cfWrapped = true;
+  const orig = renderFundamentals;
+  renderFundamentals = async function () {
+    const r = await orig.apply(this, arguments);
+    try { if (typeof FUND_SYM !== "undefined" && FUND_SYM) await cfRender(FUND_SYM); } catch (e) { console.error("flows and ownership:", e); }
+    return r;
+  };
+  if (!document.createElement || !document.head) return;          // the deck's render test runs without a <head>
+  const st = document.createElement("style");
+  st.textContent = ".cf-tbl td.num{text-align:right;white-space:nowrap}.cf-tbl th:not(:first-child){text-align:right}" +
+    ".cf-tbl .pos{color:var(--green)}.cf-tbl .neg{color:var(--red)}.cf-tbl tr.cf-total td{font-weight:700;border-top:1px solid var(--line,#d9dee3)}" +
+    "#p-fund-cf-mf .fund-tblwrap,#p-fund-cf-named .fund-tblwrap{overflow-x:auto}";
+  document.head.appendChild(st);
 })();
 </script>
 <script>/* vistas_derivs.js — the DERIVATIVES cockpit (NSE option-chain positioning diagnostics).
