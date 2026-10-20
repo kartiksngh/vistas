@@ -1284,7 +1284,8 @@ async function init() {
   initScreen();
   initMacro();
   initGPToggle();       // #49 rebase / absolute level toggle on the GP chart
-  initAllocator();      // Asset Allocator tab (market breadth) + relocate the consensus cockpit here
+  initAllocator();      // Breadth tab (Dashboards group) + relocate the consensus cockpit here
+  initDashboard();      // Regular tab (Dashboards group) — the market dashboard, split out 2026-10-20
   initOwnership();      // Ownership & Flow tab (#102) — the money-flow waterfall (AMC -> sector)
   initAmcBook();        // AMC One Portfolio tab (2026-09-05) — a house's schemes collapsed into one book
   initRevisions();
@@ -2058,6 +2059,7 @@ function setView(v) {
   if ($("view-fundskill")) $("view-fundskill").hidden = (v !== "fundskill");
   if ($("view-macro")) $("view-macro").hidden = (v !== "macro");
   if ($("view-allocator")) $("view-allocator").hidden = (v !== "allocator");
+  if ($("view-dashboard")) $("view-dashboard").hidden = (v !== "dashboard");
   if ($("view-ownership")) $("view-ownership").hidden = (v !== "ownership");
   if ($("view-amcbook")) $("view-amcbook").hidden = (v !== "amcbook");
   if ($("view-events")) $("view-events").hidden = (v !== "events");
@@ -2070,7 +2072,7 @@ function setView(v) {
   if ($("view-indiadata")) $("view-indiadata").hidden = (v !== "indiadata");
   // the Universe/Benchmark/range control bar only applies to Performance + Valuation; hide it on
   // the self-contained Fundamentals + Quant + Macro + Allocator + Ownership + Events + Revisions tabs (own pickers / fixed windows).
-  const ctl = $("ctl"); if (ctl) ctl.style.display = (v === "fundamentals" || v === "quant" || v === "screen" || v === "funds" || v === "fundskill" || v === "macro" || v === "allocator" || v === "ownership" || v === "amcbook" || v === "events" || v === "revisions" || v === "gold" || v === "oil" || v === "liquidity" || v === "indiadata") ? "none" : "";
+  const ctl = $("ctl"); if (ctl) ctl.style.display = (v === "fundamentals" || v === "quant" || v === "screen" || v === "funds" || v === "fundskill" || v === "macro" || v === "allocator" || v === "dashboard" || v === "ownership" || v === "amcbook" || v === "events" || v === "revisions" || v === "gold" || v === "oil" || v === "liquidity" || v === "indiadata") ? "none" : "";
   $("tabs").querySelectorAll(".tab[data-view]").forEach((b) => b.classList.toggle("active", b.dataset.view === v));
   if (!linked() && TAB_WIN[v]) { $("start").value = TAB_WIN[v][0]; $("end").value = TAB_WIN[v][1]; }   // restore this tab's own window
   syncDateStrips();
@@ -2107,6 +2109,7 @@ function setView(v) {
     else if (v === "fundskill") renderFundSkill();
     else if (v === "macro") renderMacro();
     else if (v === "allocator") renderAllocator();
+    else if (v === "dashboard") renderDashboard();
     else if (v === "ownership") renderOwnership();
     else if (v === "amcbook") renderAmcBook();
     else if (v === "derivs") { if (typeof renderDerivs === "function") renderDerivs(); }
@@ -7664,7 +7667,6 @@ let ALLOC_SCREEN_RULE = "breakout";   // "breakout" | "golden_cross"
 let ALLOC_RP_HZ = "3";                // sector relative-performance horizon (years; "0" = MAX)
 let _allocBuilt = false;
 // Market-Dashboard subtab (under Asset Allocator): baked market-pulse bundle, lazy-loaded.
-let ALLOC_VIEW = "breadth";           // "breadth" | "dashboard"
 let _DASH = null;                     // the fetched dashboard bundle (data/dashboard.json)
 let _dashLoading = false;
 let _dashUni = {};                    // per-plot isolate selection: {plotId: "all" | seriesKey}
@@ -7712,7 +7714,7 @@ function initAllocator() {
   // 1) the tab button — placed right after the Macro tab (or appended if Macro isn't present)
   if (tabs && !tabs.querySelector('[data-view="allocator"]')) {
     const btn = document.createElement("button");
-    btn.className = "tab"; btn.setAttribute("data-view", "allocator"); btn.textContent = "Asset Allocator";
+    btn.className = "tab"; btn.setAttribute("data-view", "allocator"); btn.textContent = "Breadth";
     btn.addEventListener("click", () => { if (!btn.disabled) setView("allocator"); });
     const macroTab = tabs.querySelector('[data-view="macro"]');
     const note = $("tabnote");
@@ -7728,7 +7730,7 @@ function initAllocator() {
       view.className = "view"; view.id = "view-allocator"; view.hidden = true;
       view.innerHTML =
         `<div class="measurebar">
-           <span class="mlbl">Asset Allocator</span>
+           <span class="mlbl">Market breadth</span>
            <span class="measurenote">Market breadth: how broadly individual stocks are taking part in the move (new highs and lows, the share above their 200-day and 50-day averages, golden crosses). It is a <b>coincident participation gauge</b>, validated on our own total-return data. It tells you how broad the move you are <i>already in</i> is; it is <b>not</b> a forward buy or sell signal.</span>
          </div>
          <div id="alloc-body"></div>`;
@@ -7747,38 +7749,59 @@ function initAllocator() {
   if (btn) { btn.disabled = !has; btn.style.opacity = has ? "" : ".45"; btn.title = has ? "" : "No breadth or consensus data in this deck yet"; }
 }
 
+// build the "Regular" tab + its view pane (idempotent). This is the market dashboard, which until
+// 2026-10-20 was a segment inside Asset Allocator. renderDashboard() still draws into
+// #alloc-pane-dashboard, so the pane keeps that id and only its parent changed.
+function initDashboard() {
+  if (typeof document === "undefined") return;
+  const tabs = $("tabs");
+  if (tabs && !tabs.querySelector('[data-view="dashboard"]')) {
+    const btn = document.createElement("button");
+    btn.className = "tab"; btn.setAttribute("data-view", "dashboard"); btn.textContent = "Regular";
+    btn.addEventListener("click", () => { if (!btn.disabled) setView("dashboard"); });
+    const alloc = tabs.querySelector('[data-view="allocator"]');
+    const note = $("tabnote");
+    if (alloc && alloc.nextSibling) tabs.insertBefore(btn, alloc.nextSibling);
+    else if (note) tabs.insertBefore(btn, note);
+    else tabs.appendChild(btn);
+  }
+  if (!$("view-dashboard")) {
+    const main = document.querySelector("main");
+    if (main) {
+      const view = document.createElement("div");
+      view.className = "view"; view.id = "view-dashboard"; view.hidden = true;
+      view.innerHTML =
+        `<div class="measurebar">
+           <span class="mlbl">Market dashboard</span>
+           <span class="measurenote">Where the market stands today on valuation, participation, and the share of profit and market value the biggest companies hold. Every number is a reading of what has already happened; it is <b>not</b> a forward buy or sell signal.</span>
+         </div>
+         <div id="alloc-pane-dashboard"></div>`;
+      const alloc = $("view-allocator");
+      if (alloc && alloc.nextSibling) main.insertBefore(view, alloc.nextSibling);
+      else main.appendChild(view);
+    }
+  }
+  const btn = tabs && tabs.querySelector('[data-view="dashboard"]');
+  const dm = _dashMeta();
+  const has = !!(dm && dm.ok);
+  if (btn) { btn.disabled = !has; btn.style.opacity = has ? "" : ".45"; btn.title = has ? "" : "No market dashboard baked into this deck yet"; }
+}
+
 function renderAllocator() {
   const host = $("alloc-body"); if (!host) return;
   const B = _breadth();
   // ensure a stable scaffold (built once): a Breadth / Market-Dashboard sub-tab bar, then two panes.
   // The existing breadth scaffold + the relocated consensus cockpit live in the Breadth pane.
   if (!_allocBuilt) {
+    // Until 2026-10-20 this pane held BOTH halves behind a "View" segment (Market Breadth / Market
+    // Dashboard). They are two tabs now, under the Dashboards group, so this pane holds only breadth
+    // and the relocated consensus cockpit; the dashboard has its own pane in initDashboard().
     const consEl = $("consensus-cockpit");
-    const dm = _dashMeta();
-    host.insertAdjacentHTML("afterbegin",
-      `<div class="ab-ctlrow" style="margin-bottom:8px">
-         <span class="ab-ctllbl">View</span>
-         <span class="fs-lvl-seg" id="alloc-subseg">
-           <button type="button" class="fs-lvl on" data-av="breadth">Market Breadth</button>
-           <button type="button" class="fs-lvl" data-av="dashboard">Market Dashboard${dm && dm.asof ? ` · ${fEsc(String(dm.asof))}` : ""}</button>
-         </span>
-       </div>
-       <div id="alloc-pane-breadth"></div>
-       <div id="alloc-pane-dashboard" hidden></div>`);
+    host.insertAdjacentHTML("afterbegin", `<div id="alloc-pane-breadth"></div>`);
     const bp = $("alloc-pane-breadth");
     const scaffold = document.createElement("div"); scaffold.id = "alloc-breadth";
     bp.appendChild(scaffold);
-    if (consEl) bp.appendChild(consEl);   // move the consensus cockpit into the Breadth pane
-    const seg = $("alloc-subseg");
-    if (seg) seg.querySelectorAll(".fs-lvl").forEach((b) => b.addEventListener("click", () => {
-      ALLOC_VIEW = b.dataset.av;
-      seg.querySelectorAll(".fs-lvl").forEach((x) => x.classList.toggle("on", x.dataset.av === ALLOC_VIEW));
-      const pb = $("alloc-pane-breadth"), pd = $("alloc-pane-dashboard");
-      if (pb) pb.hidden = (ALLOC_VIEW !== "breadth");
-      if (pd) pd.hidden = (ALLOC_VIEW !== "dashboard");
-      if (ALLOC_VIEW === "dashboard") renderDashboard();
-      afterPaint(() => viewPlotsResize("allocator"));
-    }));
+    if (consEl) bp.appendChild(consEl);   // the consensus cockpit stays with breadth
     _allocBuilt = true;
   }
   const wrap = $("alloc-breadth");
@@ -7788,7 +7811,6 @@ function renderAllocator() {
   }
   // the relocated consensus cockpit (its own try/catch inside)
   try { renderConsensus(); } catch (e) { console.error("renderConsensus (allocator):", e); }
-  if (ALLOC_VIEW === "dashboard") { try { renderDashboard(); } catch (e) { console.error("renderDashboard:", e); } }
   afterPaint(() => viewPlotsResize("allocator"));
 }
 
@@ -7825,7 +7847,7 @@ async function renderDashboard() {
   }
   if (!host.dataset.built) { _dashBuildScaffold(host, _DASH); host.dataset.built = "1"; }
   _dashDrawAll();
-  afterPaint(() => viewPlotsResize("allocator"));
+  afterPaint(() => viewPlotsResize("dashboard"));
 }
 
 function _dashBuildScaffold(host, D) {
@@ -15997,6 +16019,7 @@ function applyHash() {
       setView("fundamentals");
     } else if (raw.indexOf("valuation") === 0) { setView("valuation"); }
     else if (raw.indexOf("allocator") === 0) { setView("allocator"); }
+    else if (raw.indexOf("dashboard") === 0) { setView("dashboard"); }
     else if (raw.indexOf("ownership") === 0) { setView("ownership"); }
     // an old #earnings= bookmark (the transcript-graph tab removed in Task 6) lands on the tab that replaced it
     else if (raw.indexOf("earnings") === 0) { setView("revisions"); }
@@ -21205,11 +21228,20 @@ async function _arHouse(name) {
    A tab whose data-view is not listed below lands in a "More" group, so a new tab is never hidden.
    window.VISTAS_GROUPS carries the same map for the phone app, so the two never drift apart.
    ========================================================================== */
+// Kyser's arrangement, 2026-10-20. Markets leads with Prices, so an empty address lands there
+// (vgLanding opens VG_GROUPS[0].def). "Dashboards" holds what used to be the Asset Allocator's two
+// halves, now two tabs of their own: Breadth, and Regular -- the market dashboard. Ownership & Flow
+// sits with Global Liquidity under "Liquidity", NOT under Funds. Gold and Oil are "Commodities".
+// A group's `id` is internal and lives in its own namespace: the Liquidity GROUP is `flow` so it
+// cannot be confused with the Global Liquidity VIEW, which is `liquidity`.
 const VG_GROUPS = [
-  { id: "markets",   label: "Markets",   def: "allocator",    views: ["allocator", "performance", "derivs", "liquidity", "gold", "oil"] },
-  { id: "companies", label: "Companies", def: "fundamentals", views: ["fundamentals", "screen", "quant", "ownership", "events"] },
-  { id: "funds",     label: "Funds",     def: "fundskill",    views: ["fundskill", "amcbook"] },
-  { id: "economy",   label: "Economy",   def: "macro",        views: ["macro", "indiadata", "power", "consumption"] },
+  { id: "markets",     label: "Markets",     def: "performance",  views: ["performance", "derivs"] },
+  { id: "dashboards",  label: "Dashboards",  def: "allocator",    views: ["allocator", "dashboard"] },
+  { id: "companies",   label: "Companies",   def: "fundamentals", views: ["fundamentals", "screen", "quant", "events"] },
+  { id: "funds",       label: "Funds",       def: "fundskill",    views: ["fundskill", "amcbook"] },
+  { id: "flow",        label: "Liquidity",   def: "ownership",    views: ["ownership", "liquidity"] },
+  { id: "commodities", label: "Commodities", def: "gold",         views: ["gold", "oil"] },
+  { id: "economy",     label: "Economy",     def: "macro",        views: ["macro", "indiadata", "power", "consumption"] },
 ];
 if (typeof window !== "undefined") window.VISTAS_GROUPS = VG_GROUPS;
 
@@ -21236,8 +21268,13 @@ html.ais-app .vg-groups { display: none !important; }
   main .grid-2 > * { min-width: 0; }
 }
 @media (max-width: 760px) {
-  .vg-groups { display: grid; grid-template-columns: repeat(var(--vg-n, 4), 1fr); gap: 0; padding: 4px 4px 0; }
-  .vg-groups .vg-g { font-size: 14px; padding: 9px 2px 10px; text-align: center; }
+  /* FOUR PER ROW, WRAPPING. One column per group (repeat(var(--vg-n),1fr)) fitted four groups and
+     broke at seven: measured on a 390 px phone, the bar wanted 497 px, which put Commodities half
+     off the screen, Economy entirely off, and made the whole page scroll sideways -- the one thing
+     these phone rules forbid. Four fixed columns wrap to as many rows as the groups need and leave
+     the four-group decks exactly as they were. */
+  .vg-groups { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0 0; padding: 4px 4px 0; }
+  .vg-groups .vg-g { font-size: 13.5px; letter-spacing: 0; padding: 9px 2px 10px; text-align: center; }
   .headctl > nav.tabs.vg { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: 6px 8px 0;
     -webkit-overflow-scrolling: touch; }
   .headctl > nav.tabs.vg::-webkit-scrollbar { display: none; }
