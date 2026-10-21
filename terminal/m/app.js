@@ -2,9 +2,301 @@
    Talks to the Flask JSON API; renders every panel with Plotly. */
 "use strict";
 
+// --------------------------------------------------------------------- theme
+// The terminal has two looks. "classic" is the one everybody sees today. "peer" is the MF peer deck's
+// white-grey look, built behind this switch (docs/design/PEER_THEME_PLAN.md) and shown only to a viewer
+// who asks for it. The look is chosen once, when the page loads:
+//   1. ?theme=peer or ?theme=classic in the address, if present;
+//   2. otherwise the viewer's own choice from Options > Theme, kept in this browser;
+//   3. otherwise DEFAULT_THEME.
+// To give everybody the peer look, change DEFAULT_THEME to "peer" and publish; to go back, change it back
+// (any viewer can also add ?theme=classic). The page carries the choice as <html data-theme="...">, and
+// static/theme-peer.css styles only pages that carry data-theme="peer".
+//
+// THEMES holds every colour and font the charts are drawn with. baseLayout() below and VC_STYLE in
+// static/vistas_charts.js both read the active entry, so the chart colours are written down in one place.
+// It sits in this file rather than in the chart layer because restitch.py replaces only this file: a shell
+// that still carries an older chart layer then keeps drawing with that layer's own built-in values.
+const DEFAULT_THEME = "peer";
+const THEME_STORE = "vistas.theme";
+const THEMES = {
+  classic: {
+    sans: 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    mono: 'ui-monospace, "Cascadia Code", Consolas, monospace',
+    font: { size: 12.5, color: "#33373d" },        // FONT below: the base text of every chart
+    colorway: ["#5b7fa6", "#b06845", "#4f8a5f", "#9d6a86", "#bf9a4e", "#4d8f8a", "#8a6f52", "#9b9a4e", "#7b6a9e", "#868a90"],
+    paper: "#faf9f6",
+    plot: "#faf9f6",
+    gridAxis: "#e4e1d9",   // the axis grid baseLayout() starts from; the chart layer reads it as "not chosen by the caller"
+    gridY: "#ebe6d8",      // the one horizontal grid colour every chart ends up with
+    spike: "#8a7133",      // the vertical crosshair
+    spikeDash: "dot",
+    hover: { bg: "rgba(22,24,29,0.96)", border: "#c1a05a", size: 11.5, color: "#e6e3d9" },
+    layer: {               // text the chart layer adds (static/vistas_charts.js, VC_STYLE)
+      font: { size: 12, color: "#33373d" },
+      tick: { size: 10.5, color: "#6a6f78" },
+      legend: { size: 10.5, color: "#4a4f57" },
+    },
+    // Colours that carry a meaning. up / upAlt / down are the values the draw sites write today; the rest
+    // are named here so new code reads THEME_TOKENS.mean.<name> instead of writing a colour down.
+    mean: { up: "#40795a", upAlt: "#3f7d55", down: "#a94b3a",
+            q1: "#40795a", q2: "#7f9f6a", q3: "#bf9a4e", q4: "#a94b3a", q12: "#5b7fa6",
+            q2Text: "#5d7f4c", q3Text: "#8a6a24", absl: "#a94b3a",
+            aum: "#4d8f8a", ret: "#7b6a9e", dim: "#868a90" },
+    // the neutral greys the draw sites write into charts: card colour, its shade, grid, zero line, text
+    chrome: { card: "#faf9f6", cardAlt: "#efece5", grid: "#ebe6d8", zero: "#bcc3cc",
+              ink: "#33373d", ink2: "#4a4f57", muted: "#6a6f78", faint: "#9aa6b2",
+              warm1: "#b9b4a5", warm2: "#9a9488", warm3: "#8a8174", warm4: "#c9c4b8", warm5: "#cdc7b7",
+              warm6: "#d8d3c8", warm7: "#dcdad3", warm8: "#e6e3d9",
+              warm9: "#8a8578", warm10: "#e2ddcf" },   // warm9/10: the primary benchmark's darker and lighter shade (buildColors)
+    // single colours that the peer look replaces because a chart draws them too close to a neighbour:
+    // flowIndigo / flowRose are AF_COLORS 11 and 12 (6.7 and 7.0 from their neighbours in classic), amberAlt
+    // sits 6.6 from the ARM chart's "Headline ARM" gold; q4grey is the Earnings Revision fourth-quadrant grey, which white
+    // badge text sits on (3.3:1 in classic; the peer value gives 4.8)
+    fix: { flowIndigo: "#5b6fb0", flowRose: "#b0485b", amberAlt: "#d99a2b", q4grey: "#8a8f98" },
+    // colours written straight into draw sites that are not in any family above (measured from the P3 harvest:
+    // they reached the peer charts unchanged). Classic keeps them; the peer look swaps each for its own value.
+    legacy: { tan: "#c08a45", khaki: "#6b6255", umber: "#6b4f2a", steel: "#3a5f8a", goldenrod: "#b8860b", armGold: "#c9a23a",
+              armBlue: "#5b8db8", nearBlack: "#111111", grey9a: "#9a9a9a", pcTraded: "#c9ccd1", gold: "#d4af37",
+              bitcoin: "#f7931a", liqYellow: "#e0b422", liqGreen: "#9bbf5a", halfTime: "#c9c4ba",
+              grey99: "#999999", pale: "#c4c4c4", banks: "#c98a2e", brownGrey: "#6b5b4a", amfiGold: "#c9a227", grey55: "#555555" },
+  },
+  // The MF peer deck's look: white cards on a cool grey page, ink text, the deck's rich colours. Ten series
+  // colours chosen so that any two are at least 8 apart in CIEDE2000 (closest pair 8.4, checked by
+  // _verify/theme_colour_check.js), each one in the place of the classic colour of the same kind.
+  peer: {
+    sans: '"Vistas Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    mono: '"Vistas Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',   // numbers in the text face (as the peer deck draws them)
+    font: { size: 12.5, color: "#1f2937" },
+    colorway: ["#20436b", "#c2410c", "#2e7d4f", "#6b4fb8", "#c97a12", "#0d7490", "#8a5a3c", "#a8892a", "#3576cf", "#6b7a8c"],
+    paper: "#ffffff",
+    plot: "#ffffff",
+    gridAxis: "#e4e1d9",   // kept: the chart layer reads this value as "the caller did not pick a grid"
+    gridY: "#eceef1",
+    spike: "#9ca3af",
+    spikeDash: "solid",
+    hover: { bg: "rgba(255,255,255,0.97)", border: "#d1d5db", size: 11.5, color: "#111827" },
+    layer: {
+      font: { size: 12, color: "#1f2937" },
+      tick: { size: 10.5, color: "#6b7280" },
+      legend: { size: 10.5, color: "#374151" },
+      caption: "#5f6673",   // the small caption a chart draws above itself ("20d trailing mean"); classic keeps #8b8f97
+    },
+    heatRgb: "53,118,207",  // the score chips in tables shade from white to this colour (classic: brass 193,160,90)
+    mean: { up: "#1f5c3d", upAlt: "#1f5c3d", down: "#c0523e",
+            q1: "#1f5c3d", q2: "#6fa37c", q3: "#d6a23f", q4: "#c0523e", q12: "#3576cf",
+            q2Text: "#4a7d58", q3Text: "#8f6516", absl: "#c8392b",
+            aum: "#0d7490", ret: "#6b4fb8", dim: "#556b82" },
+    chrome: { card: "#ffffff", cardAlt: "#f3f4f6", grid: "#eceef1", zero: "#d1d5db",
+              ink: "#1f2937", ink2: "#374151", muted: "#6b7280", faint: "#878e98",
+              warm1: "#a7adb6", warm2: "#8d939c", warm3: "#7d838c", warm4: "#c5cad1", warm5: "#858c96",
+              warm6: "#d6dae0", warm7: "#aab1ba", warm8: "#e5e7eb",
+              warm9: "#4b5563", warm10: "#dfe3e8" },
+    fix: { flowIndigo: "#4338ca", flowRose: "#e11d48", amberAlt: "#c97a12", q4grey: "#6b7280" },
+    legacy: { tan: "#c97a12", khaki: "#4b5563", umber: "#8a5a3c", steel: "#3576cf", goldenrod: "#a8892a", armGold: "#a8892a",
+              armBlue: "#3576cf", nearBlack: "#1f2937", grey9a: "#6b7280", pcTraded: "#858c96", gold: "#a8892a",
+              bitcoin: "#c2410c", liqYellow: "#a8892a", liqGreen: "#5f8f3a", halfTime: "#858c96",
+              grey99: "#6b7280", pale: "#64748b", banks: "#b45309", brownGrey: "#4b5563", amfiGold: "#a8892a", grey55: "#374151" },
+  },
+};
+// Which named colours are swapped when a chart is drawn in a look other than classic. A draw site that
+// writes the classic value of one of these (say "#a94b3a", the classic "down") is drawn with the active
+// look's value for the same name, so the hundred-odd draw sites did not each need editing.
+const THEME_XLATE_KEYS = { mean: ["up", "upAlt", "down"],
+  chrome: ["card", "cardAlt", "grid", "zero", "ink", "ink2", "muted", "faint",
+           "warm1", "warm2", "warm3", "warm4", "warm5", "warm6", "warm7", "warm8", "warm9", "warm10"],
+  fix: ["flowIndigo", "flowRose", "amberAlt", "q4grey"],
+  legacy: ["tan", "khaki", "umber", "steel", "goldenrod", "armGold", "armBlue", "nearBlack", "grey9a", "pcTraded", "gold",
+           "bitcoin", "liqYellow", "liqGreen", "halfTime", "grey99", "pale", "banks", "brownGrey", "amfiGold", "grey55"] };
+function isTheme(t) { return typeof t === "string" && Object.prototype.hasOwnProperty.call(THEMES, t); }
+function themeChoice() {
+  let t = "";
+  try { t = new URLSearchParams(location.search).get("theme") || ""; } catch (e) { t = ""; }
+  if (!isTheme(t)) { try { t = localStorage.getItem(THEME_STORE) || ""; } catch (e) { t = ""; } }
+  return isTheme(t) ? t : DEFAULT_THEME;
+}
+const THEME = themeChoice();
+const THEME_TOKENS = THEMES[THEME];
+try { window.vistasTheme = { name: THEME, tokens: THEME_TOKENS, themes: THEMES, standard: DEFAULT_THEME }; } catch (e) {}
+function themeXlateTable(from, to) {
+  const m = {};
+  const put = (a, b) => { if (a && b) m[String(a).toLowerCase()] = String(b).toLowerCase(); };
+  from.colorway.forEach((c, i) => put(c, to.colorway[i]));
+  Object.keys(THEME_XLATE_KEYS).forEach((grp) => THEME_XLATE_KEYS[grp].forEach((k) => put(from[grp][k], to[grp][k])));
+  return m;
+}
+const THEME_XLATE = (THEME === "classic") ? null : themeXlateTable(THEMES.classic, THEME_TOKENS);
+function _thHex(r, g, b) { return "#" + [r, g, b].map((v) => Math.round(+v).toString(16).padStart(2, "0")).join(""); }
+function _thStr(v) {
+  const c = v.charCodeAt(0);
+  if (c === 35) {   // "#rrggbb" or "#rgb"
+    let k = v.toLowerCase();
+    if (k.length === 4) k = "#" + k[1] + k[1] + k[2] + k[2] + k[3] + k[3];
+    return THEME_XLATE[k] || v;
+  }
+  if (c === 114 || c === 82) {   // "rgb(...)" / "rgba(...)": swap the colour, keep the transparency
+    const m = /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(,\s*[\d.]+\s*)?\)$/i.exec(v);
+    if (!m) return v;
+    const to = THEME_XLATE[_thHex(m[1], m[2], m[3])];
+    if (!to) return v;
+    const r = parseInt(to.substr(1, 2), 16), g = parseInt(to.substr(3, 2), 16), b = parseInt(to.substr(5, 2), 16);
+    return m[4] ? "rgba(" + r + "," + g + "," + b + m[4] + ")" : "rgb(" + r + "," + g + "," + b + ")";
+  }
+  return v;
+}
+// Kyser's rule is no dotted lines. Outside classic every dashed or dotted line is drawn solid. When no other
+// line on the chart has its colour the dash told the reader nothing the colour did not, so only the dash goes.
+// When the dash was the one thing telling two lines of one colour apart (a gold chart's rupee price and the
+// same price in today's rupees; a country chart that runs past ten colours), the dashed line keeps its hue
+// and takes a darker or lighter shade of it instead: hue says what kind of line it is, shade says which one.
+// The shade is the nearest one at least 8 apart in CIEDE2000 from every other colour on that chart and at
+// least 3:1 against white, so it can still be seen; if none exists the line keeps its dash.
+function _thRgb(v) {
+  if (typeof v !== "string") return null;
+  let m = /^#([0-9a-f]{6})$/i.exec(v) || /^#([0-9a-f]{3})$/i.exec(v);
+  if (m) { let h = m[1]; if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2]; return [parseInt(h.substr(0, 2), 16), parseInt(h.substr(2, 2), 16), parseInt(h.substr(4, 2), 16)]; }
+  m = /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+)\s*)?\)$/i.exec(v);
+  if (m && (m[4] === undefined || +m[4] >= 0.6)) return [+m[1], +m[2], +m[3]];
+  return null;
+}
+function _thLin(c) { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+function _thLab(rgb) {
+  const r = _thLin(rgb[0]), g = _thLin(rgb[1]), b = _thLin(rgb[2]);
+  const f = (t) => t > 216 / 24389 ? Math.cbrt(t) : (24389 / 27 * t + 16) / 116;
+  const x = f((0.4124564 * r + 0.3575761 * g + 0.1804375 * b) / 0.95047), y = f(0.2126729 * r + 0.7151522 * g + 0.0721750 * b),
+        z = f((0.0193339 * r + 0.1191920 * g + 0.9503041 * b) / 1.08883);
+  return [116 * y - 16, 500 * (x - y), 200 * (y - z)];
+}
+function _thFromLab(L, A, B) {
+  const fy = (L + 16) / 116, fx = fy + A / 500, fz = fy - B / 200;
+  const inv = (t) => t * t * t > 216 / 24389 ? t * t * t : (116 * t - 16) / (24389 / 27);
+  const x = inv(fx) * 0.95047, y = L > 8 ? Math.pow(fy, 3) : L / (24389 / 27), z = inv(fz) * 1.08883;
+  const lin = [3.2404542 * x - 1.5371385 * y - 0.4985314 * z, -0.9692660 * x + 1.8760108 * y + 0.0415560 * z, 0.0556434 * x - 0.2040259 * y + 1.0572252 * z];
+  const g = (c) => Math.round(255 * Math.min(1, Math.max(0, c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055)));
+  return lin.map(g);
+}
+function _thDE(a, b) {   // CIEDE2000 between two Lab colours (Sharma, Wu and Dalal 2005)
+  const rad = Math.PI / 180, [L1, a1, b1] = a, [L2, a2, b2] = b;
+  const C1 = Math.hypot(a1, b1), C2 = Math.hypot(a2, b2), Cm = (C1 + C2) / 2, G = 0.5 * (1 - Math.sqrt(Math.pow(Cm, 7) / (Math.pow(Cm, 7) + Math.pow(25, 7))));
+  const ap1 = (1 + G) * a1, ap2 = (1 + G) * a2, Cp1 = Math.hypot(ap1, b1), Cp2 = Math.hypot(ap2, b2);
+  const hp = (x, y) => { if (x === 0 && y === 0) return 0; const h = Math.atan2(y, x) / rad; return h < 0 ? h + 360 : h; };
+  const h1 = hp(ap1, b1), h2 = hp(ap2, b2), dL = L2 - L1, dC = Cp2 - Cp1;
+  let dh = 0; if (Cp1 * Cp2 !== 0) { dh = h2 - h1; if (dh > 180) dh -= 360; else if (dh < -180) dh += 360; }
+  const dH = 2 * Math.sqrt(Cp1 * Cp2) * Math.sin(dh / 2 * rad), Lm = (L1 + L2) / 2, Cpm = (Cp1 + Cp2) / 2;
+  let hm = h1 + h2; if (Cp1 * Cp2 !== 0) { if (Math.abs(h1 - h2) > 180) hm = (h1 + h2 < 360) ? (h1 + h2 + 360) / 2 : (h1 + h2 - 360) / 2; else hm = (h1 + h2) / 2; }
+  const T = 1 - 0.17 * Math.cos((hm - 30) * rad) + 0.24 * Math.cos(2 * hm * rad) + 0.32 * Math.cos((3 * hm + 6) * rad) - 0.20 * Math.cos((4 * hm - 63) * rad);
+  const dTh = 30 * Math.exp(-Math.pow((hm - 275) / 25, 2)), RC = 2 * Math.sqrt(Math.pow(Cpm, 7) / (Math.pow(Cpm, 7) + Math.pow(25, 7)));
+  const SL = 1 + 0.015 * Math.pow(Lm - 50, 2) / Math.sqrt(20 + Math.pow(Lm - 50, 2)), SC = 1 + 0.045 * Cpm, SH = 1 + 0.015 * Cpm * T, RT = -Math.sin(2 * dTh * rad) * RC;
+  return Math.sqrt(Math.pow(dL / SL, 2) + Math.pow(dC / SC, 2) + Math.pow(dH / SH, 2) + RT * (dC / SC) * (dH / SH));
+}
+function _thShade(rgb, avoid) {   // nearest darker/lighter shade of rgb's hue, >= 8 from each Lab in avoid, >= 3:1 on white
+  const lab = _thLab(rgb), lum = (c) => 0.2126 * _thLin(c[0]) + 0.7152 * _thLin(c[1]) + 0.0722 * _thLin(c[2]);
+  for (let step = 6; step <= 40; step += 2) {
+    for (const sgn of [-1, 1]) {
+      const L = lab[0] + sgn * step; if (L < 12 || L > 80) continue;
+      const k = sgn < 0 ? 1 : Math.max(0.55, 1 - step / 60);           // a lighter shade also loses a little colour
+      const c = _thFromLab(L, lab[1] * k, lab[2] * k), cl = _thLab(c);
+      if (1.05 / (lum(c) + 0.05) < 3) continue;
+      if (avoid.every((o) => _thDE(o, cl) >= 8)) return c;
+    }
+  }
+  return null;
+}
+function themeSolidLines(traces) {
+  if (!Array.isArray(traces)) return traces;
+  const col = (t) => (t && t.line && typeof t.line.color === "string") ? t.line.color.toLowerCase() : null;
+  const dashed = (t) => !!(t && t.line && t.line.dash && t.line.dash !== "solid");
+  const n = {};
+  traces.forEach((t) => { const c = col(t); if (c) n[c] = (n[c] || 0) + 1; });
+  // every colour drawn on the chart, for the shade search
+  const avoid = [];
+  traces.forEach((t) => {
+    if (!t || t.visible === false) return;
+    [col(t), t.marker && typeof t.marker.color === "string" ? t.marker.color : null, typeof t.fillcolor === "string" ? t.fillcolor : null]
+      .forEach((c) => { const rgb = _thRgb(c); if (rgb) avoid.push(_thLab(rgb)); });
+  });
+  let out = null;
+  traces.forEach((t, i) => {
+    if (!dashed(t)) return;
+    const c = col(t); let line = null;
+    if (!c || n[c] === 1) line = Object.assign({}, t.line, { dash: "solid" });   // (made thin below)
+    else {
+      // the first solid line of this colour keeps it; a dashed twin takes a shade
+      const rgb = _thRgb(c), shade = rgb ? _thShade(rgb, avoid) : null;
+      if (shade) { const hx = _thHex(shade[0], shade[1], shade[2]); avoid.push(_thLab(shade)); line = Object.assign({}, t.line, { dash: "solid", color: hx }); }
+    }
+    if (!line) return;
+    // a dotted line becomes a THIN one (Kyser: "make the lines thinner"), so a dash that marked a kind of line
+    // (a benchmark, a reference, a custody centre) still reads as different; vcKeepWidth stops the chart layer
+    // from setting it back to the house width
+    line.width = Math.min(+line.width || 1.1, 1.1);
+    if (!out) out = traces.slice();
+    out[i] = Object.assign({}, t, { line: line, vcKeepWidth: true });
+  });
+  return out || traces;
+}
+// reference lines (a zero line, a threshold, a date marker) drawn as layout shapes: solid outside classic too
+function themeSolidShapes(layout) {
+  if (!layout || !Array.isArray(layout.shapes) || !layout.shapes.some((s) => s && s.line && s.line.dash && s.line.dash !== "solid")) return layout;
+  return Object.assign({}, layout, { shapes: layout.shapes.map((s) => (s && s.line && s.line.dash && s.line.dash !== "solid") ? Object.assign({}, s, { line: Object.assign({}, s.line, { dash: "solid" }) }) : s) });
+}
+// Copy-on-write walk over a chart's traces or layout: an object or array is copied only when something
+// inside it changes, so the caller's own objects (and long data arrays) are never written to.
+function themeXlate(v, seen) {
+  if (!THEME_XLATE) return v;
+  if (typeof v === "string") return v ? _thStr(v) : v;
+  if (!v || typeof v !== "object") return v;
+  if (typeof ArrayBuffer !== "undefined" && ArrayBuffer.isView && ArrayBuffer.isView(v)) return v;
+  seen = seen || new Map();               // an object met twice gets the same answer both times
+  if (seen.has(v)) return seen.get(v);
+  seen.set(v, v);
+  if (Array.isArray(v)) {
+    let out = null;
+    for (let i = 0; i < v.length; i++) {
+      const e = v[i];
+      if (e === null || e === undefined || typeof e === "number" || typeof e === "boolean") continue;
+      const n = themeXlate(e, seen);
+      if (n !== e) { if (!out) out = v.slice(); out[i] = n; }
+    }
+    if (out) seen.set(v, out);
+    return out || v;
+  }
+  const proto = Object.getPrototypeOf(v);
+  if (proto !== Object.prototype && proto !== null) return v;   // a Date, a DOM node, anything not plain
+  let out = null;
+  for (const k in v) {
+    if (!Object.prototype.hasOwnProperty.call(v, k)) continue;
+    const e = v[k];
+    if (e === null || e === undefined || typeof e === "number" || typeof e === "boolean" || typeof e === "function") continue;
+    const n = themeXlate(e, seen);
+    if (n !== e) { if (!out) out = Object.assign({}, v); out[k] = n; }
+  }
+  if (out) seen.set(v, out);
+  return out || v;
+}
+// Outside classic no chart line is dotted or dashed (themeSolidLines / themeSolidShapes), so a sentence that tells
+// the reader what a line looks like ("the dotted line is ...") is written once for each look: thLook(classic, other).
+function thLook(classic, other) { return THEME_XLATE ? other : classic; }
+// outside classic every axis grows its margin to fit its own title and tick labels (they were cut at a card edge)
+function themeAutomargin(layout) {
+  if (!layout || typeof layout !== "object") return layout;
+  let out = null;
+  ["xaxis", "yaxis", "yaxis2", "yaxis3"].forEach((k) => {
+    const a = layout[k];
+    if (k !== "xaxis" && k !== "yaxis" && !a) return;
+    if (a && a.automargin !== undefined) return;
+    if (!out) out = Object.assign({}, layout);
+    const t = a && a.title;
+    out[k] = Object.assign({}, a || {}, { automargin: true },
+      (t && typeof t === "object") ? { title: Object.assign({ standoff: 8 }, t) } : {});
+  });
+  return out || layout;
+}
+try { document.documentElement.setAttribute("data-theme", THEME); } catch (e) {}
+
 // --------------------------------------------------------------------- utils
 const $ = (id) => document.getElementById(id);
-const FONT = { family: 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif', size: 12.5, color: "#33373d" };
+const FONT = { family: THEME_TOKENS.sans, size: THEME_TOKENS.font.size, color: THEME_TOKENS.font.color };
 
 let CAT = null;          // catalog
 let BUNDLE = null;       // last performance bundle (analyze result)
@@ -410,11 +702,18 @@ function buildColors() {
   names.forEach((nm, i) => {
     const h = Math.round((360 * i) / n);
     COLORS[nm] = { base: hsl(h, 42, 46), light: hsl(h, 40, 62), dark: hsl(h, 48, 32) };  // matte (was 58/62/72 sat)
+    if (THEME_XLATE) {   // outside classic: the look's ten series colours in order, with a darker and a lighter shade of each
+      const base = THEME_TOKENS.colorway[i % THEME_TOKENS.colorway.length], rgb = _thRgb(base), lab = rgb ? _thLab(rgb) : null;
+      const mix = (c, k) => _thHex(c[0] + (255 - c[0]) * k, c[1] + (255 - c[1]) * k, c[2] + (255 - c[2]) * k);
+      const dk = lab ? _thFromLab(Math.max(12, lab[0] - 14), lab[1], lab[2]) : null;
+      COLORS[nm] = { base: base, light: rgb ? mix(rgb, 0.45) : base, dark: dk ? _thHex(dk[0], dk[1], dk[2]) : base };
+    }
   });
   // the PRIMARY benchmark (e.g. NIFTY 500) is the neutral reference — a light warm grey so it
   // reads clearly on the dark canvas (it was black, invisible on the black-&-gold theme).
   const pb = primaryBench();
-  if (pb) COLORS[pb] = { base: "#cdc7b7", light: "#8a8578", dark: "#e2ddcf" };
+  if (pb) COLORS[pb] = THEME_XLATE ? { base: THEME_TOKENS.chrome.warm5, light: THEME_TOKENS.chrome.warm9, dark: THEME_TOKENS.chrome.warm10 }
+                                     : { base: "#cdc7b7", light: "#8a8578", dark: "#e2ddcf" };
 }
 function primaryBench() { return (BUNDLE.meta.benchmarks || [])[0] || null; }
 function cbase(n) { return (COLORS[n] && COLORS[n].base) || "#888"; }
@@ -496,25 +795,28 @@ function buildToggle(key, list) {
 //     draw; only the dormant token changes;
 //   - the x grid is off unless a call site explicitly asked for it, because a vertical grid under
 //     a dense daily line is half of what reads as noise.
-const VC_GRID_Y = "#ebe6d8";
+const VC_GRID_Y = THEME_TOKENS.gridY;
 const VC_GRID_HIDDEN = { "rgba(0,0,0,0)": 1, "transparent": 1, "#faf9f6": 1, "#fff": 1, "#ffffff": 1 };
 
 function baseLayout(extra) {
   extra = extra || {};
   // DEEP-merge the axes so a caller's own xaxis/yaxis can't drop the terminal-wide crosshair spike.
-  const xax = Object.assign({ gridcolor: "#e4e1d9", zeroline: false }, extra.xaxis || {});
-  const yax = Object.assign({ gridcolor: "#e4e1d9", zeroline: false }, extra.yaxis || {});
+  // every colour and font below comes from the active theme (THEMES at the top of this file)
+  const TK = THEME_TOKENS;
+  const xax = Object.assign({ gridcolor: TK.gridAxis, zeroline: false }, extra.xaxis || {});
+  const yax = Object.assign({ gridcolor: TK.gridAxis, zeroline: false }, extra.yaxis || {});
   // ★ Palantir-grade: a unified vertical crosshair on every chart (matte brass, dotted, snaps to cursor).
   xax.showspikes = true; xax.spikemode = "across"; xax.spikethickness = 1;
-  xax.spikecolor = "#8a7133"; xax.spikedash = "dot"; xax.spikesnap = "cursor";
+  xax.spikecolor = TK.spike; xax.spikedash = TK.spikeDash; xax.spikesnap = "cursor";
   const out = Object.assign({
     font: FONT, margin: { l: 56, r: 18, t: 14, b: 36 }, hovermode: "x unified",
     // rich matte hover card — dark chrome, brass keyline, mono numerals (the "terminal readout" look)
-    hoverlabel: { bgcolor: "rgba(22,24,29,0.96)", bordercolor: "#c1a05a", align: "left",
-      font: { family: 'ui-monospace, "Cascadia Code", Consolas, monospace', size: 11.5, color: "#e6e3d9" } },
-    // matte colorway so auto-coloured traces don't fall back to Plotly's bright d3 defaults
-    colorway: ["#5b7fa6", "#b06845", "#4f8a5f", "#9d6a86", "#bf9a4e", "#4d8f8a", "#8a6f52", "#9b9a4e", "#7b6a9e", "#868a90"],
-    paper_bgcolor: "#faf9f6", plot_bgcolor: "#faf9f6",
+    hoverlabel: { bgcolor: TK.hover.bg, bordercolor: TK.hover.border, align: "left",
+      font: { family: TK.mono, size: TK.hover.size, color: TK.hover.color } },
+    // the theme's colourway, so auto-coloured traces don't fall back to Plotly's bright d3 defaults
+    // (a fresh copy per chart, as before, so no caller can change another chart's list)
+    colorway: TK.colorway.slice(),
+    paper_bgcolor: TK.paper, plot_bgcolor: TK.plot,
   }, extra);
   // ---- the house grid: horizontal only, one colour, everywhere -------------------------------
   if (VC_GRID_HIDDEN[String(yax.gridcolor || "").toLowerCase()]) yax.showgrid = false;
@@ -725,6 +1027,7 @@ function _vsDecimals(traces, layout) {
 }
 function vplot(el, traces, layout, opts) {
   opts = opts || {};
+  if (THEME_XLATE) { try { traces = themeSolidLines(themeXlate(traces)); layout = themeAutomargin(themeSolidShapes(themeXlate(layout))); } catch (e) {} }
   try { layout = _vsDecimals(traces, layout); } catch (e) { /* formatting must never stop a chart drawing */ }
   // the ⬇ Data button is mounted from HERE, after vchart has drawn and mounted its strip: the strip
   // is rebuilt from scratch on every draw, so the button has to be re-attached on every draw too.
@@ -1300,7 +1603,7 @@ async function init() {
 }
 
 function refreshCatalogUI() {
-  $("asof").innerHTML = `data as of <b>${CAT.data_asof}</b> · ${CAT.n_local} indices stored locally`;
+  $("asof").innerHTML = THEME_XLATE ? `data as of <b>${CAT.data_asof}</b>` : `data as of <b>${CAT.data_asof}</b> · ${CAT.n_local} indices stored locally`;
   $("datainfo").textContent = (OFFLINE || CAT.n_total === CAT.n_local)
     ? `${CAT.source_file} · ${CAT.n_total} indices (offline deck)`
     : `${CAT.source_file} · ${CAT.n_total} selectable (${CAT.n_local} with local history; the rest can be fetched on demand)`;
@@ -1406,6 +1709,34 @@ function initOptsToggle() {
   let open = false;   // collapsed by default — From/To/Frequency now live on the always-visible control line (KV 2026-06-22)
   set(open);
   btn.addEventListener("click", () => { open = !open; set(open); if (open) { const c = $("ctl"); if (c) c.classList.remove("condensed"); } });
+  initThemePicker(adv);
+}
+
+// Options > Theme: one viewer's own choice between the two looks (THEMES at the top of this file). It is
+// kept in this browser only. The page reloads on a change, so every chart is drawn once, in one look; if
+// the address carries ?theme=, that is changed too, because the address would otherwise win on reload.
+function initThemePicker(adv) {
+  if (!adv || $("themepick")) return;
+  const row = adv.querySelector(".row");
+  if (!row) return;
+  const f = document.createElement("div");
+  f.className = "field";
+  f.innerHTML = '<label>Theme</label><select id="themepick" title="How the terminal looks, for you only">'
+    + '<option value="classic">Classic</option><option value="peer">Peer</option></select>';
+  row.appendChild(f);
+  const sel = $("themepick");
+  if (!sel) return;
+  sel.value = THEME;
+  sel.addEventListener("change", () => {
+    const v = sel.value;
+    if (!isTheme(v) || v === THEME) return;
+    try { localStorage.setItem(THEME_STORE, v); } catch (e) {}
+    try {
+      const u = new URL(location.href);
+      if (u.searchParams.has("theme")) { u.searchParams.set("theme", v); location.replace(u.toString()); return; }
+    } catch (e) {}
+    try { location.reload(); } catch (e) {}
+  });
 }
 
 // The Prices control bar now SCROLLS AWAY with the content (only the tab strip stays pinned), so
@@ -1722,7 +2053,9 @@ function renderAlpha() {
     const t = key.split("|")[0];
     let y = data[key];
     if (isAlpha) y = y.map((v) => v === null ? null : v * 100);
-    return { type: "scatter", mode: "lines", name: key, x, y, connectgaps: false, line: { color: cbase(t), width: 1.9, dash: isBench(t) ? "dot" : "solid" } };
+    // outside classic an index measured against a second benchmark takes the darker shade of its own colour (shade = which benchmark)
+    const col = (THEME_XLATE && key.split("|")[1] !== primaryBench() && COLORS[t] && COLORS[t].dark) ? COLORS[t].dark : cbase(t);
+    return { type: "scatter", mode: "lines", name: key, x, y, connectgaps: false, line: { color: col, width: 1.9, dash: isBench(t) ? "dot" : "solid" } };
   });
   if (!traces.length) { purgePlot("plot-alpha"); $("plot-alpha").innerHTML = "<div class='empty-note'>Select at least one index and one benchmark.</div>"; $("stat-alpha").textContent = ""; return; }
   const title = isAlpha ? (annual ? "Rolling alpha (% p.a.)" : "Rolling alpha (cumulative %)") : "Rolling beta";
@@ -2220,7 +2553,7 @@ function renderValDist() {
   // a density curve: the x-axis is a valuation multiple, not a date
   vplot("plot-valdist", traces, { hovermode: "closest", shapes, xaxis: { title: valUnit(), gridcolor: "#e4e1d9" }, yaxis: { title: "density", gridcolor: "#e4e1d9", showticklabels: false } },
         { id: "valdist", autoscale: false });
-  $("stat-valdist").textContent = "The dotted vertical line marks the current value." + (VAL_MEASURE === "DY" ? " The right tail is high yield, which means cheap." : " The right tail is the expensive end.");
+  $("stat-valdist").textContent = thLook("The dotted vertical line", "The thin vertical line") + " marks the current value." + (VAL_MEASURE === "DY" ? " The right tail is high yield, which means cheap." : " The right tail is the expensive end.");
 }
 
 // =================================================================== Fundamentals tab (Screener)
@@ -2468,7 +2801,7 @@ function renderQuantMarket() {
           + qStat("Stretched more than 2 sigma from the 50-day mean", fEsc(String(ex.stretched ? ex.stretched.length : "—")) + " of " + fEsc(String(ex.n_indices == null ? "—" : ex.n_indices))));
       }
       html += `<section class="panel"><h2><span class="tag-sec">MARKET</span>Market insights — regime, factors, cross-asset, seasonality, extremes</h2>`
-        + (QI.asof ? `<div class="q-conf">As of <b>${fEsc(QI.asof)}</b>. These are pre-computed diagnostic reads, not buy or sell advice.</div>` : "")
+        + (QI.asof ? `<div class="q-conf">As of <b>${fEsc(QI.asof)}</b>.${thLook(" These are pre-computed diagnostic reads, not buy or sell advice.", "")}</div>` : "")
         + `<div class="q-dimgrid">${cards}</div></section>`;
     }
     // ---- B. Derivatives read (VISTAS_DERIVS: nearest-expiry option-chain summary) ----
@@ -3140,7 +3473,7 @@ function cmpMatrixHTML(cols, colOf) {
     }
     h += `<tr${r.desc ? ' class="cmp-desc"' : ""}><td class="cmp-mlabel">${fEsc(r.label)}</td>`;
     vals.forEach((v, i) => {
-      if (r.kind === "badge") { h += `<td class="num">${v == null ? "—" : `<span class="fs-badge" style="background:${_skillColor(v)}">${fEsc(v)}</span>`}</td>`; return; }
+      if (r.kind === "badge") { h += `<td class="num">${v == null ? "—" : `<span class="fs-badge" style="background:${_skillColor(v)}${THEME_XLATE ? ";--sk:" + _skillColor(v) : ""}">${fEsc(v)}</span>`}</td>`; return; }
       if (r.kind === "raw") { h += `<td class="num">${v == null ? "—" : v}</td>`; return; }   // pre-built HTML (sparkline)
       const t = v == null ? "—" : String(v);
       h += `<td class="${r.kind === "num" ? "num" : "lft"}${i === best ? " cmp-best" : ""}">${fEsc(t)}</td>`;
@@ -5259,10 +5592,10 @@ function fsVantagePanelHTML(ctx, f) {
     + `<button type="button" class="fs-lvl${cur === "nav" ? " on" : ""}" data-plot="${plot}" data-lvl="nav">NAV</button></span>`;
   let h = `<section class="panel"><h2><span class="tag-sec">MONEYBALL</span>Where the fund ranks vs its peer set — peer envelope</h2>`;
   h += `<div class="fs-vantbar">Peer category <select id="fs-vant-cat" class="fs-sel">${catOpt}</select>`
-    + `<span class="fs-vant-key"><span class="fs-vk-band"></span> peer worst to best · <span class="fs-vk-dash">– –</span> 25th and 75th percentile · median · <b style="color:#1a7f37">━</b> ${fEsc(f.scheme_name)}</span></div>`;
+    + `<span class="fs-vant-key"><span class="fs-vk-band"></span> peer worst to best · ${thLook(`<span class="fs-vk-dash">– –</span> 25th and 75th percentile · median · <b style="color:#1a7f37">━</b>`, `thin lines: 75th percentile (green), median (grey), 25th percentile (amber) · <b style="color:#1f5fbf">━</b>`)} ${fEsc(f.scheme_name)}</span></div>`;
   h += `<div class="fs-vant-cap"><span>Batting / hit rate — how often the manager beat the benchmark</span>${lvlSeg("bat", FS_VANT.blevel)}</div><div class="plot" id="plot-fs-vant-bat" style="height:430px"></div>`;
   h += `<div class="fs-vant-cap" style="margin-top:12px"><span>Slug rate — how big the wins were against the losses, or how far the book leaned toward the eventual winners</span>${lvlSeg("slug", FS_VANT.slevel)}</div><div class="plot" id="plot-fs-vant-slug" style="height:430px"></div>`;
-  h += `<details><summary>How to read this</summary><p>This plots the selected fund's batting and slug rates over time <i>against the full spread of its peer set</i>. The peer set is the fund's SEBI category, with one exception: <b>sectoral and thematic funds are split by theme</b>, so a banking fund is ranked against banking and financial funds and a pharma fund against pharma and healthcare funds, rather than all thematic funds being lumped together. On each date the shaded band runs from the worst fund in that peer set to the best. The dashed lines are the peers at the 25th and 75th percentile, the thin line is the median peer, and the bold line is this fund. The band depends only on the <b>category</b> and the <b>metric</b>. Switching to another scheme in the same category leaves it unchanged; only changing the category or the metric moves it.</p><p>Each plot has two levels you can toggle. <b>Portfolio</b> reads the manager's stock-picking straight off the monthly holdings. Here the <b>hit rate</b> is the AUM-weighted share of holdings whose next-month total return beat the SEBI-category benchmark, meaning an alpha of zero or more. The <b>slug rate</b> is the net AUM sitting in the top quartile minus the bottom quartile of that month's <i>full tradeable universe</i> ranked by return; in other words, did the book lean toward the eventual winners? Both are smoothed with a 3-month trailing mean. <b>NAV</b> reads the same two things through the fund's return instead. <b>Batting</b> is the % of the trailing 36 months in which the fund beat its benchmark. <b>Slug</b> is the average active return in the up months divided by the absolute average active return in the down months, over the same 36 months. For each date and metric we take the cross-section across every fund in the category and report the minimum, the 25th, 50th and 75th percentiles, and the maximum, using linear interpolation between ranks.</p><p>A 60% batting rate means nothing until you know the field. If the 75th-percentile peer is at 65% and the best at 80%, a 60% fund is mid-pack. The envelope turns a lone number into a rank, and the history shows whether the fund is climbing or sliding within its category.</p><p>One caveat. Slugging uses gross active return, before costs, and the portfolio version is built on universe quartiles that are only known after the month ends, so it is a hindsight decomposition with look-ahead. Read it as descriptive attribution, not a tradable signal. This is a diagnostic, not a recommendation.</p></details></section>`;
+  h += `<details><summary>How to read this</summary><p>This plots the selected fund's batting and slug rates over time <i>against the full spread of its peer set</i>. The peer set is the fund's SEBI category, with one exception: <b>sectoral and thematic funds are split by theme</b>, so a banking fund is ranked against banking and financial funds and a pharma fund against pharma and healthcare funds, rather than all thematic funds being lumped together. On each date the shaded band runs from the worst fund in that peer set to the best. ${thLook("The dashed lines are the peers at the 25th and 75th percentile, the thin line is the median peer, and the bold line is this fund.", "The thin green and amber lines are the peers at the 75th and 25th percentile, the thin grey line is the median peer, and the bold blue line is this fund.")} The band depends only on the <b>category</b> and the <b>metric</b>. Switching to another scheme in the same category leaves it unchanged; only changing the category or the metric moves it.</p><p>Each plot has two levels you can toggle. <b>Portfolio</b> reads the manager's stock-picking straight off the monthly holdings. Here the <b>hit rate</b> is the AUM-weighted share of holdings whose next-month total return beat the SEBI-category benchmark, meaning an alpha of zero or more. The <b>slug rate</b> is the net AUM sitting in the top quartile minus the bottom quartile of that month's <i>full tradeable universe</i> ranked by return; in other words, did the book lean toward the eventual winners? Both are smoothed with a 3-month trailing mean. <b>NAV</b> reads the same two things through the fund's return instead. <b>Batting</b> is the % of the trailing 36 months in which the fund beat its benchmark. <b>Slug</b> is the average active return in the up months divided by the absolute average active return in the down months, over the same 36 months. For each date and metric we take the cross-section across every fund in the category and report the minimum, the 25th, 50th and 75th percentiles, and the maximum, using linear interpolation between ranks.</p><p>A 60% batting rate means nothing until you know the field. If the 75th-percentile peer is at 65% and the best at 80%, a 60% fund is mid-pack. The envelope turns a lone number into a rank, and the history shows whether the fund is climbing or sliding within its category.</p><p>One caveat. Slugging uses gross active return, before costs, and the portfolio version is built on universe quartiles that are only known after the month ends, so it is a hindsight decomposition with look-ahead. Read it as descriptive attribution, not a tradable signal. This is a diagnostic, not a recommendation.</p></details></section>`;
   return h;
 }
 // one peer-envelope plot: shaded min–max + dotted 25/75 + median + the fund's own line + a neutral anchor
@@ -5339,7 +5672,7 @@ async function fsDrawVantage(f, ts) {
 function fsScorecardHTML(f, ctx) {
   ctx = ctx || {};
   const wmark = f._windowed ? ` <span class="fs-winchip">window</span>` : "";
-  const badge = `<span class="fs-badge" style="background:${_skillColor(f.verdict)}">${fEsc(f.verdict)}</span>`;
+  const badge = `<span class="fs-badge" style="background:${_skillColor(f.verdict)}${THEME_XLATE ? ";--sk:" + _skillColor(f.verdict) : ""}">${fEsc(f.verdict)}</span>`;
   let h = `<div class="quant-head"><div class="qh-name">${fEsc(f.scheme_name)}${f.amc ? ` <span class="qh-sym">${fEsc(f.amc)}</span>` : ""}</div><div class="qh-px">${badge}${wmark}</div></div>`;
   h += `<section class="panel"><h2><span class="tag-sec">SKILL</span>Verdict</h2>`;
   if (ctx.months && ctx.months.length) h += fsWinBar(ctx);
@@ -6260,8 +6593,8 @@ const FUND_PANELS = [
     why: "One glance tells you whether the market is accumulating or dumping this stock — the trend you'd be fighting or riding — before you read a single fundamental." },
   { id: "pe", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "P/E vs its own median P/E", keys: "analytics.valuation.pe_series · .pe_now · .median_pe · .pe_percentile",
-    what: "The price-to-earnings multiple through time (solid), with the stock's own long-run median P/E as a flat dashed line for reference.",
-    method: "P/E = price ÷ earnings-per-share — the rupees you pay for each rupee of yearly profit. Above the dashed median = the market is paying more than this stock's own norm; below = less. The readout gives today's P/E, the median, and where today sits in its 10-year range (a percentile: 10th = near its cheapest ever, 90th = near its dearest).",
+    what: `The price-to-earnings multiple through time (solid), with the stock's own long-run median P/E as a flat ${thLook("dashed ", "")}line for reference.`,
+    method: `P/E = price ÷ earnings-per-share — the rupees you pay for each rupee of yearly profit. Above the ${thLook("dashed", "flat")} median = the market is paying more than this stock's own norm; below = less. The readout gives today's P/E, the median, and where today sits in its 10-year range (a percentile: 10th = near its cheapest ever, 90th = near its dearest).`,
     why: "Anchors 'expensive or cheap' to the stock's own history instead of a gut feel — the single cleanest first valuation read." },
   { id: "eps", sec: "valpx", tag: "EPS", kind: "plot", stat: true, dateaxis: true,
     title: "Earnings per share (Rs)", keys: "analytics.valuation snapshot · raw EPS series",
@@ -6270,32 +6603,32 @@ const FUND_PANELS = [
     why: "Over years, price follows EPS. If EPS isn't growing, any price rise is just the market paying a richer multiple — which can un-pay just as fast." },
   { id: "ev_ebitda", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "EV/EBITDA vs its own median", keys: "analytics.valuation.ev_ebitda_series · .now · .median · .percentile",
-    what: "Enterprise value (market cap + debt) divided by operating profit (EBITDA) through time, with the stock's own long-run median as a dashed line.",
+    what: `Enterprise value (market cap + debt) divided by operating profit (EBITDA) through time, with the stock's own long-run median as a ${thLook("dashed", "flat")} line.`,
     method: "EV/EBITDA values the whole business, equity plus debt, against its cash operating profit, so two firms with very different borrowing are judged fairly on the business itself. Lower = cheaper. EV here uses gross debt (the data source doesn't isolate cash, so cash isn't netted off, which gives a small upward bias for cash-rich firms). Blank for banks, which have no operating EBITDA.",
     why: "The multiple a strategic or private-equity buyer actually thinks in — it strips out how the company is financed, so the comparison is about the business, not the balance-sheet mix." },
   { id: "ps", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "Price/Sales vs its own median", keys: "analytics.valuation.ps_series · .now · .median · .percentile",
-    what: "Market cap divided by sales (price-to-sales) through time, with the stock's own median as a dashed reference.",
+    what: `Market cap divided by sales (price-to-sales) through time, with the stock's own median as a ${thLook("dashed", "flat")} reference.`,
     method: "P/S = what you pay for each rupee of revenue. It keeps working when earnings are tiny, volatile or negative (a loss-maker has no P/E but still has a P/S), so it's the steady valuation anchor through margin cycles and turnarounds. Lower = cheaper, but read it with margins: a low P/S on a wafer-thin-margin business isn't truly cheap.",
     why: "Sales are far harder to massage than earnings, so P/S is the most manipulation-resistant first read — and the one that still speaks when the P/E goes blank." },
   { id: "ev_sales", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "EV/Sales vs its own median", keys: "analytics.valuation.ev_sales_series · .now · .median · .percentile",
-    what: "Enterprise value (market cap + debt) divided by sales through time, with the stock's own median dashed.",
+    what: `Enterprise value (market cap + debt) divided by sales through time, with the stock's own median ${thLook("dashed", "as a flat line")}.`,
     method: "EV/Sales is Price/Sales done at the whole-firm level — it adds debt to the numerator, so a company that looks cheap on P/S only because it is loaded with debt no longer does. Lower = cheaper; gross debt is used (cash not netted). Blank for banks.",
     why: "Catches the leverage that a bare Price/Sales hides — two firms on the same P/S can be very differently valued once their borrowings are counted." },
   { id: "pb", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "P/B vs its own median", keys: "analytics.valuation.pb_series · .now · .median · .percentile",
-    what: "Price-to-book — market cap divided by net worth (shareholders' equity) — through time, with the stock's own median dashed.",
+    what: `Price-to-book — market cap divided by net worth (shareholders' equity) — through time, with the stock's own median ${thLook("dashed", "as a flat line")}.`,
     method: "P/B = what you pay for each rupee of the company's accounting net worth. It's the natural anchor for asset-heavy and financial businesses (banks, NBFCs, capital goods) where book value is real and earnings are lumpy. Read it with return on equity: a high P/B is only justified by a high, durable ROE — a bank at 3× book earning 8% ROE is dear; at 3× book earning 18% it can be fair. Lower = cheaper.",
     why: "For banks and asset-heavy firms, P/B paired with ROE is the primary valuation lens — earnings multiples there mislead through the credit cycle." },
   { id: "dy", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "Dividend yield vs its own median", keys: "analytics.valuation.dy_series · .now · .median · .percentile",
-    what: "The dividend yield — annual dividend as a % of the share price — through time, with the stock's own median dashed.",
+    what: `The dividend yield — annual dividend as a % of the share price — through time, with the stock's own median ${thLook("dashed", "as a flat line")}.`,
     method: "Dividend yield = dividend per share ÷ price (derived here as the dividend-payout ratio ÷ P/E). Unlike the multiples, higher is 'cheaper': you're paid more income per rupee invested. A yield well above its own norm can flag either genuine value or a market doubting the dividend is sustainable; check it against the payout ratio and free cash flow. Near-zero for deliberate non-payers (high-reinvestment compounders).",
     why: "For income and the steadier end of the market, the yield and its trend is the first thing read — a yield spiking above its history is often the earliest 'this looks cheap' signal." },
   { id: "fcfy", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "Free-cash-flow yield vs its own median", keys: "analytics.valuation.fcfy_series · .now · .median · .percentile",
-    what: "Free cash flow as a % of market cap, through time, with the stock's own median dashed.",
+    what: `Free cash flow as a % of market cap, through time, with the stock's own median ${thLook("dashed", "as a flat line")}.`,
     method: "FCF yield = free cash flow (operating cash − capex) ÷ market cap — the cash the business actually throws off per rupee of price, after keeping the lights on and investing. Higher = cheaper. It's the multiple hardest to fake: earnings can be flattered, but cash is cash. A high earnings yield with a low FCF yield is the classic warning that profit isn't converting to cash. Lumpy by nature (capex cycles), so read the trend, not one year.",
     why: "Cash, not accounting profit, funds dividends, buybacks and debt repayment — so FCF yield is the truest 'what am I really getting' read." },
   { id: "valsnap", sec: "valpx", tag: "VALUATION · F", kind: "table",
@@ -7208,7 +7541,7 @@ const MACRO_PANELS = [
   // ============================== INDIA (native) ==============================
   { id: "infl", region: "INDIA", tag: "INFLATION", src: "india", unit: "% YoY",
     title: "Inflation — CPI headline & core, Rural/Urban, vs WPI", source: "MOSPI eSankhyiki",
-    series: [["CPI inflation — Combined (YoY)", "#111"], ["CPI Combined — Core ex food & fuel inflation (YoY, est.)", "#7b1fa2"], ["CPI inflation — Rural (YoY)", "#a94b3a"], ["CPI inflation — Urban (YoY)", "#d99a2b"], ["WPI inflation (YoY)", "#5b7fa6"]],
+    series: [["CPI inflation — Combined (YoY)", thLook("#111", "#7c2d12")], ["CPI Combined — Core ex food & fuel inflation (YoY, est.)", "#7b1fa2"], ["CPI inflation — Rural (YoY)", thLook("#a94b3a", "#c2410c")], ["CPI inflation — Urban (YoY)", thLook("#d99a2b", "#e0703a")], ["WPI inflation (YoY)", "#5b7fa6"]],
     what: "Year-on-year change in the All-India CPI — Combined (the headline the RBI targets), an estimated Core (ex food & fuel), Rural and Urban — and the WPI. CPI is MOSPI's official published inflation from eSankhyiki, current to the latest month; the core is a derived ex-food-&-fuel estimate (official granular weights aren't published, so it reproduces the General index to within ~0.5 index points). MOSPI prints no CPI inflation for 2025 on its 2024 series, so those twelve months are the change in its own index over the year. WPI inflation is MOSPI's own figure on each of its two series: the 2011-12 one up to March 2024 and the 2022-23 one after.",
     why: "CPI-Combined is what the RBI targets (4% ±2%); the Rural/Urban split shows where price pressure sits; WPI captures producer-side pressure that often leads CPI." },
   { id: "wpicomp", region: "INDIA", tag: "WPI MIX", src: "india", unit: "index (2011-12=100)",
@@ -7223,9 +7556,9 @@ const MACRO_PANELS = [
     why: "How tight is money. The spread of the 10Y over the repo shows what the bond market expects from inflation and growth ahead; the T-bill tracks the repo closely at the short end." },
   { id: "incurve", region: "INDIA", tag: "G-SEC CURVE", src: "india", unit: "Yield (%)",
     title: "India G-sec yield curve & the 10Y − 1Y slope", source: "FBIL par-yield curve",
-    series: [["India 1Y G-sec yield", "#9aa6b2"], ["India 5Y G-sec yield", "#40795a"], ["India 10Y G-sec yield", "#5b7fa6"], ["India 30Y G-sec yield", "#8a6f52"]],
+    series: [["India 1Y G-sec yield", thLook("#9aa6b2", "#6d8dbb")], ["India 5Y G-sec yield", thLook("#40795a", "#3f6699")], ["India 10Y G-sec yield", thLook("#5b7fa6", "#20436b")], ["India 30Y G-sec yield", thLook("#8a6f52", "#0f2440")]],
     curve: ["India 10Y G-sec yield", "India 1Y G-sec yield"], y2title: "10-year minus 1-year (% points)",
-    what: "The FBIL par-yield curve at the 1Y, 5Y, 10Y and 30Y points; the dashed line (right axis) is the 10Y-minus-1Y slope. Month-end sampled from 2023.",
+    what: `The FBIL par-yield curve at the 1Y, 5Y, 10Y and 30Y points; the ${thLook("dashed", "red")} line (right axis) is the 10Y-minus-1Y slope. Month-end sampled from 2023.`,
     why: "The curve's steepness is the bond market's growth/inflation read — a flat or inverted front end signals tight policy; a steep long end signals fiscal-supply or inflation worries." },
   { id: "money", region: "INDIA", tag: "CREDIT", src: "india", unit: "₹ crore",
     title: "Bank credit, deposits & money supply (levels)", source: "RBI Weekly Statistical Supplement",
@@ -7268,7 +7601,7 @@ const MACRO_PANELS = [
     title: "US Treasury yields & the curve (10Y − 3M)",
     series: [["US 13-week T-bill yield", "#9aa6b2"], ["US 5Y Treasury yield", "#40795a"], ["US 10Y Treasury yield", "#5b7fa6"], ["US 30Y Treasury yield", "#8a6f52"]],
     curve: ["US 10Y Treasury yield", "US 13-week T-bill yield"], y2title: "10-year minus 3-month (% points)",
-    what: "US Treasury yields across maturities; the dashed line (right axis) is the 10Y-minus-3M curve slope.",
+    what: `US Treasury yields across maturities; the ${thLook("dashed", "red")} line (right axis) is the 10Y-minus-3M curve slope.`,
     why: "The curve's shape is the market's growth/recession signal — a negative 10Y−3M (inverted) has preceded most US recessions, and US rates set the global cost of capital that India competes with." },
   { id: "fx", region: "GLOBAL", tag: "CURRENCY", src: "world", unit: "rebased (=100)", rebase: true,
     title: "The rupee & the dollar",
@@ -10733,6 +11066,8 @@ function _abPaint(P, P2, keepScroll) {
     + _abDomNoteHTML()
     + _abDisclosureNoteHTML()
     + `<br><b>Basis.</b> ${fEsc(M.basis || "")} <b>Source.</b> ${fEsc(M.source || "")} <b>Limits.</b> ${fEsc(M.limits || "")}`;
+  // outside classic the long reading guide is folded away under one line the reader opens
+  if (THEME_XLATE) { const n = $("ab-note"); if (n) n.innerHTML = `<details><summary>How to read it</summary>${n.innerHTML.replace(/^<b>How to read it\.<\/b>\s*/, "")}</details>`; }
   tbl.querySelectorAll(".ab-h").forEach((h) => {
     h.onclick = (e) => {
       const k = h.dataset.k, col = cols.find((c) => c.k === k), first = (col && col.num) ? -1 : 1;   // number columns open largest-first
@@ -12975,7 +13310,7 @@ function _tdTable(rows, cols, csvName) {
       let inner = c.html ? (v == null ? "—" : String(v)) : fEsc(String(fmt(c, v)));   // html cols carry pre-built markup (sparklines)
       if (c.chip && fin) {
         const p = Math.min(100, Math.max(0, num));
-        inner = `<span class="tdchip" style="background:rgba(193,160,90,${(0.06 + 0.42 * p / 100).toFixed(2)})">${fEsc(String(Math.round(num)))}</span>`;
+        inner = `<span class="tdchip" style="background:rgba(${THEME_TOKENS.heatRgb || "193,160,90"},${(0.06 + 0.42 * p / 100).toFixed(2)})">${fEsc(String(Math.round(num)))}</span>`;
       }
       if (c.bar && fin) {
         const fill = c.neu ? "var(--gold-d, #8a7133)" : (num < 0 ? "var(--red)" : "var(--green)");
@@ -15049,7 +15384,7 @@ function renderBreadth(B, wrap) {
            </span>
          </div>
          <div class="plot" id="plot-ab-relperf" style="height:300px"></div>
-         <div class="q-note" style="font-size:12px;margin-top:4px">Each line is a sector's total-return index, either equal-weighted or free-float market-cap weighted, divided by the NIFTY 500 total-return index and rebased to 100 at the start of the window. A rising line means the sector is leading the market. The dotted line is NIFTY 500 equal-weight divided by NIFTY 500 cap-weight, which shows broad stocks against the mega-caps. These series are rebuilt from current index membership and fixed free-float weights, so they are a context view of leadership and breadth that grows more biased the further back you look; read the recent windows. Tick or untick lines in the legend.</div>
+         <div class="q-note" style="font-size:12px;margin-top:4px">Each line is a sector's total-return index, either equal-weighted or free-float market-cap weighted, divided by the NIFTY 500 total-return index and rebased to 100 at the start of the window. A rising line means the sector is leading the market. ${thLook("The dotted line", "The thin grey line")} is NIFTY 500 equal-weight divided by NIFTY 500 cap-weight, which shows broad stocks against the mega-caps. These series are rebuilt from current index membership and fixed free-float weights, so they are a context view of leadership and breadth that grows more biased the further back you look; read the recent windows. Tick or untick lines in the legend.</div>
        </section>
 
        <section class="panel">
@@ -15391,7 +15726,7 @@ function renderNsePulse() {
     return `<div class="mpulse-row"><b>Most active (volume)</b> ${items}</div>`;
   })();
   host.innerHTML = `<section class="panel fpanel" id="p-nse-pulse">
-    <h2><span class="tag-sec">MARKET PULSE</span>NSE Market Pulse — official NSE MCP server</h2>
+    <h2><span class="tag-sec">MARKET PULSE</span>${thLook("NSE Market Pulse — official NSE MCP server", "Market breadth today, NSE")}</h2>
     <details><summary>What this shows, and why it matters</summary>
       <p><b>What:</b> today's (or the latest trading day's) advances/declines and top movers/most-active
       stocks, read live from NSE's own MCP server (mcp.nseindia.in) — the certificate on that domain names
@@ -17135,7 +17470,7 @@ function _lForeignTreasury(L) {
     const nmA = _lCtry((T.names || {})[a] || a);
     const t = { type: "scatter", mode: "lines", name: nmA, x: m, y: T.countries_bn[a], connectgaps: false,
       line: { width: 1.8 }, hovertemplate: `%{x}<br>${nmA}: %{y:,.0f} bn<extra></extra>` };
-    if (custody.has(a)) t.line.dash = "dot";
+    if (custody.has(a)) { if (THEME_XLATE) { t.line.width = 1.1; t.vcKeepWidth = true; } else t.line.dash = "dot"; }
     return t;
   });
   setTimeout(() => vplot("liq-tic", traces, { margin: { l: 60, r: 20, t: 10, b: 40 }, legend: { orientation: "h", y: -0.18 },
@@ -17149,7 +17484,7 @@ function _lForeignTreasury(L) {
     + _lPanelHost("lpp-tic", "foreign_treasuries_all")
     + _lNote("The country is where the bank or broker keeping the securities is based, which is not always where the owner "
       + "lives: Belgium and Luxembourg host the two big European settlement houses, and London, Switzerland and the Cayman "
-      + "Islands hold a great deal for investors elsewhere. Those places are drawn dotted and are never reassigned to a guessed "
+      + "Islands hold a great deal for investors elsewhere. Those places are drawn " + thLook("dotted", "as thin lines") + " and are never reassigned to a guessed "
       + "owner. Central banks and sovereign funds, including those of the Gulf states, often keep their securities with banks in London, Switzerland or Belgium, so part of what those places hold belongs to them. When the Treasury re-based these numbers on a fuller annual survey, in March 2000 and every June from 2002 to "
       + "2010, a country's line could jump by a step; the series shown always uses the newer basis."
       + (c ? ` As a check, the Treasury's foreign total of ${_lT(c.tic_bn)} at the end of ${fEsc(c.quarter.slice(0, 7))} sits within `
@@ -17207,7 +17542,7 @@ function _lTicBody(L, which) {
     const nmA = _lCtry((D.names || {})[a] || a);
     const t = { type: "scatter", mode: "lines", name: nmA, x: m, y: I.lines_bn[a], connectgaps: false,
       line: { width: 1.8 }, hovertemplate: `%{x}<br>${nmA}: %{y:,.0f} bn<extra></extra>` };
-    if (flagged.has(a)) t.line.dash = "dot";
+    if (flagged.has(a)) { if (THEME_XLATE) { t.line.width = 1.1; t.vcKeepWidth = true; } else t.line.dash = "dot"; }
     return t;
   });
   setTimeout(() => vplot(cid, traces, { margin: { l: 60, r: 20, t: 10, b: 40 }, legend: { orientation: "h", y: -0.18 },
@@ -17218,7 +17553,7 @@ function _lTicBody(L, which) {
       : (LIQ_OFFSHORE.has(r.area) ? "a registration centre: many companies and funds registered here operate elsewhere" : "—")]);
   let note = owners
     ? "Each country is where the bank or broker keeping the securities is based, which is not always where the owner lives, so "
-      + "the UK, Belgium, Luxembourg, Switzerland, Ireland and the Caribbean centres stand in for investors elsewhere; they are drawn dotted and never reassigned to a guessed owner. Central banks and sovereign funds, including those of the Gulf states, often keep their securities with banks in London, Switzerland or Belgium, so part of what those places hold belongs to them."
+      + "the UK, Belgium, Luxembourg, Switzerland, Ireland and the Caribbean centres stand in for investors elsewhere; they are drawn " + thLook("dotted", "as thin lines") + " and never reassigned to a guessed owner. Central banks and sovereign funds, including those of the Gulf states, often keep their securities with banks in London, Switzerland or Belgium, so part of what those places hold belongs to them."
     : "Each country is where the company or government that issued the security is registered. Many Chinese technology companies "
       + "and many investment funds are registered in the Cayman Islands, and many companies run from America or Britain in Ireland, "
       + "so those places look far larger than their own economies.";
@@ -17918,7 +18253,7 @@ function _lCountryPicker(cid, bookKey, rows, shownAreas) {
       const xs = el.data[0] ? el.data[0].x : B.periods.map((d) => d.slice(0, 7));
       const nm = _lCtry(r.name);
       Plotly.addTraces(el, { type: "scatter", mode: "lines", name: nm, x: xs, y: xs.map((m) => _lOk(byMonth[m]) ? byMonth[m] : null), connectgaps: false,
-        line: Object.assign({ width: 2.2 }, r.kind === "Custody centre" ? { dash: "dot" } : {}), hovertemplate: `%{x}<br>${nm}: %{y:,.1f} bn<extra></extra>` });
+        line: Object.assign({ width: 2.2 }, r.kind === "Custody centre" ? thLook({ dash: "dot" }, { width: 1.1 }) : {}), hovertemplate: `%{x}<br>${nm}: %{y:,.1f} bn<extra></extra>` });
       const o = s.querySelector(`option[value="${area}"]`); if (o) o.remove();
       s.value = "";
     });
@@ -18463,7 +18798,7 @@ function _gP8(G) {
   }
   return `<div id="gold-p8" style="height:280px"></div>
     <div class="gold-sub">India premium over landed cost</div>${premHTML}
-    <div class="gold-note">The premium is the domestic quote minus the <b>landed</b> cost of imported metal, meaning the world price converted at the spot exchange rate with import duty added. Positive means domestic demand is pulling; deeply negative means dumping or a duty distortion. <b>A duty change moves this series mechanically and must never be read as demand.</b> The dotted marker is the ${fEsc((P.duty_timeline || []).slice(-1)[0] ? (P.duty_timeline || []).slice(-1)[0].label : "duty change")}. Duty is applied at the rate in force on each date, not one constant. GST is left out throughout: IBJA quotes are already ex-GST, and GST is a retail tax, not a wholesale one. The series uses IBJA prices; the MCX site blocks automated access, so that route is deferred. History builds up from ${fEsc(_gDate(P.prem_from))}; deeper IBJA history is paid-only.</div>
+    <div class="gold-note">The premium is the domestic quote minus the <b>landed</b> cost of imported metal, meaning the world price converted at the spot exchange rate with import duty added. Positive means domestic demand is pulling; deeply negative means dumping or a duty distortion. <b>A duty change moves this series mechanically and must never be read as demand.</b> ${thLook("The dotted marker", "The thin vertical line")} is the ${fEsc((P.duty_timeline || []).slice(-1)[0] ? (P.duty_timeline || []).slice(-1)[0].label : "duty change")}. Duty is applied at the rate in force on each date, not one constant. GST is left out throughout: IBJA quotes are already ex-GST, and GST is a retail tax, not a wholesale one. The series uses IBJA prices; the MCX site blocks automated access, so that route is deferred. History builds up from ${fEsc(_gDate(P.prem_from))}; deeper IBJA history is paid-only.</div>
     ${etfHTML ? `<div class="gold-sub">Indian gold-ETF AUM</div>${etfHTML}<div class="gold-note">${fEsc((etf && etf.note) || "")}</div>` : ""}
     ${_gStamp(["IBJA to " + _gDate(ib.asof), etf && etf.asof ? "ETF AUM to " + _gDate(etf.asof) : null])}
     ${_gPending(G, "tradestat", "Monthly gold import-value bars are withheld until that source is probed.")}`;
