@@ -2992,9 +2992,8 @@ async function renderQuant() {
     html += `<div class="q-evt-t">Corporate actions (recent)</div><table class="q-evt"><thead><tr><th>Ex-date</th><th>Action</th><th>Materiality</th></tr></thead><tbody>`
       + evs.slice(0, 12).map((e) => `<tr><td>${fEsc(e.date)}</td><td>${fEsc(e.subject)}</td><td><span class="q-mat ${fEsc(String(e.materiality).toLowerCase())}">${fEsc(e.materiality)}</span></td></tr>`).join("") + `</tbody></table>`;
   }
-  if (own.placeholders && own.placeholders.length) {
-    html += `<details class="q-ph"><summary>Coming next: planned additions not yet built</summary><ul>` + own.placeholders.map((p) => `<li><b>${fEsc(p.label)}:</b> ${fEsc(p.note)}</li>`).join("") + `</ul></details>`;
-  }
+  // (the "Coming next" list of planned additions is gone: a roadmap is not something a reader can use, and four of
+  // its six items -- deals, takeover disclosures, announcements, the results calendar -- are on the Events tab)
   if (own.meaning) html += `<details><summary>How this is computed and why it matters</summary><p>${fEsc(own.meaning)}</p><p><b>Why it matters:</b> ${fEsc(own.why_useful || "")}</p><p><b>Where it can mislead:</b> ${fEsc(own.why_it_can_fail || "")}</p></details>`;
   html += `</section>`;
 
@@ -3838,7 +3837,9 @@ const SCREEN_BASIS_DEF = {
   gross: "the raw ₹ change in mutual-fund holdings, with price move, scheme inflows and active buying all mixed together",
   net_active: "the rupees managers actively shifted toward the stock, after removing both price drift and fresh scheme inflows; the truest read of conviction",
 };
-const SCREEN_QCOL = { 1: "#40795a", 2: "#5b7fa6", 3: "#7b6a9e", 4: "#8a8f98" };
+// Q3 is a different kind of stock from Q2, so outside classic it gets its own hue (peer purple, 17.5 dE00 from
+// the Q2 navy); the classic #7b6a9e would otherwise be swapped to the peer blue, a shade of the Q2 navy.
+const SCREEN_QCOL = { 1: "#40795a", 2: "#5b7fa6", 3: thLook("#7b6a9e", "#6b4fb8"), 4: "#8a8f98" };
 // ---- SECTOR-ENVELOPE VIEW + CAP FILTER (Kyser 2026-09-07) -----------------------------------
 // "rather than plain stock bubbles which are a lot of bubbles ... we plot a dot and draw an
 // envelope around each sector ... a lot of these envelopes can be overlapping, so transparency."
@@ -3891,7 +3892,7 @@ let ROT_CENTROIDS = null;             // lazy-fetched centroids.json ({meta, ent
 let ROT_CENT_FETCHED = false;          // guard so we fetch the 6.35MB file at most once
 let ROT_ENTITY = null;                 // selected entity_id for the centroid trail
 let ROT_CENT_MON = null;               // month index for the centroid slider (null = full)
-const ROT_QCOL = { 1: "#40795a", 2: "#5b7fa6", 3: "#7b6a9e", 4: "#8a8f98" };   // Q1 rec+buy · Q2 rec+notbuy · Q3 notrec+buy · Q4 notrec+sell
+const ROT_QCOL = { 1: "#40795a", 2: "#5b7fa6", 3: thLook("#7b6a9e", "#6b4fb8"), 4: "#8a8f98" };   // Q1 rec+buy · Q2 rec+notbuy · Q3 notrec+buy · Q4 notrec+sell
 const ROT_QLBL = { 1: "Q1 · recommending & buying", 2: "Q2 · recommending, not buying", 3: "Q3 · not recommending, buying", 4: "Q4 · not recommending, selling" };
 function rotSlog(f) { const v = +f || 0; return Math.sign(v) * Math.log10(1 + Math.abs(v)); }   // signed-log ₹cr (keeps x=0 exact)
 // the shared 4-quadrant backdrop (zero-flow vertical + ARM=50 horizontal dividers + corner labels)
@@ -6593,7 +6594,7 @@ const FUND_PANELS = [
     why: "One glance tells you whether the market is accumulating or dumping this stock — the trend you'd be fighting or riding — before you read a single fundamental." },
   { id: "pe", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "P/E vs its own median P/E", keys: "analytics.valuation.pe_series · .pe_now · .median_pe · .pe_percentile",
-    what: `The price-to-earnings multiple through time (solid), with the stock's own long-run median P/E as a flat ${thLook("dashed ", "")}line for reference.`,
+    what: `The price-to-earnings multiple through time (solid), with the stock's own long-run median P/E as a flat ${thLook("dashed ", "grey ")}line for reference.`,
     method: `P/E = price ÷ earnings-per-share — the rupees you pay for each rupee of yearly profit. Above the ${thLook("dashed", "flat")} median = the market is paying more than this stock's own norm; below = less. The readout gives today's P/E, the median, and where today sits in its 10-year range (a percentile: 10th = near its cheapest ever, 90th = near its dearest).`,
     why: "Anchors 'expensive or cheap' to the stock's own history instead of a gut feel — the single cleanest first valuation read." },
   { id: "eps", sec: "valpx", tag: "EPS", kind: "plot", stat: true, dateaxis: true,
@@ -6603,32 +6604,32 @@ const FUND_PANELS = [
     why: "Over years, price follows EPS. If EPS isn't growing, any price rise is just the market paying a richer multiple — which can un-pay just as fast." },
   { id: "ev_ebitda", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "EV/EBITDA vs its own median", keys: "analytics.valuation.ev_ebitda_series · .now · .median · .percentile",
-    what: `Enterprise value (market cap + debt) divided by operating profit (EBITDA) through time, with the stock's own long-run median as a ${thLook("dashed", "flat")} line.`,
+    what: `Enterprise value (market cap + debt) divided by operating profit (EBITDA) through time, with the stock's own long-run median as a ${thLook("dashed", "flat grey")} line.`,
     method: "EV/EBITDA values the whole business, equity plus debt, against its cash operating profit, so two firms with very different borrowing are judged fairly on the business itself. Lower = cheaper. EV here uses gross debt (the data source doesn't isolate cash, so cash isn't netted off, which gives a small upward bias for cash-rich firms). Blank for banks, which have no operating EBITDA.",
     why: "The multiple a strategic or private-equity buyer actually thinks in — it strips out how the company is financed, so the comparison is about the business, not the balance-sheet mix." },
   { id: "ps", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "Price/Sales vs its own median", keys: "analytics.valuation.ps_series · .now · .median · .percentile",
-    what: `Market cap divided by sales (price-to-sales) through time, with the stock's own median as a ${thLook("dashed", "flat")} reference.`,
+    what: `Market cap divided by sales (price-to-sales) through time, with the stock's own median as a ${thLook("dashed", "flat grey")} reference.`,
     method: "P/S = what you pay for each rupee of revenue. It keeps working when earnings are tiny, volatile or negative (a loss-maker has no P/E but still has a P/S), so it's the steady valuation anchor through margin cycles and turnarounds. Lower = cheaper, but read it with margins: a low P/S on a wafer-thin-margin business isn't truly cheap.",
     why: "Sales are far harder to massage than earnings, so P/S is the most manipulation-resistant first read — and the one that still speaks when the P/E goes blank." },
   { id: "ev_sales", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "EV/Sales vs its own median", keys: "analytics.valuation.ev_sales_series · .now · .median · .percentile",
-    what: `Enterprise value (market cap + debt) divided by sales through time, with the stock's own median ${thLook("dashed", "as a flat line")}.`,
+    what: `Enterprise value (market cap + debt) divided by sales through time, with the stock's own median ${thLook("dashed", "as a flat grey line")}.`,
     method: "EV/Sales is Price/Sales done at the whole-firm level — it adds debt to the numerator, so a company that looks cheap on P/S only because it is loaded with debt no longer does. Lower = cheaper; gross debt is used (cash not netted). Blank for banks.",
     why: "Catches the leverage that a bare Price/Sales hides — two firms on the same P/S can be very differently valued once their borrowings are counted." },
   { id: "pb", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "P/B vs its own median", keys: "analytics.valuation.pb_series · .now · .median · .percentile",
-    what: `Price-to-book — market cap divided by net worth (shareholders' equity) — through time, with the stock's own median ${thLook("dashed", "as a flat line")}.`,
+    what: `Price-to-book — market cap divided by net worth (shareholders' equity) — through time, with the stock's own median ${thLook("dashed", "as a flat grey line")}.`,
     method: "P/B = what you pay for each rupee of the company's accounting net worth. It's the natural anchor for asset-heavy and financial businesses (banks, NBFCs, capital goods) where book value is real and earnings are lumpy. Read it with return on equity: a high P/B is only justified by a high, durable ROE — a bank at 3× book earning 8% ROE is dear; at 3× book earning 18% it can be fair. Lower = cheaper.",
     why: "For banks and asset-heavy firms, P/B paired with ROE is the primary valuation lens — earnings multiples there mislead through the credit cycle." },
   { id: "dy", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "Dividend yield vs its own median", keys: "analytics.valuation.dy_series · .now · .median · .percentile",
-    what: `The dividend yield — annual dividend as a % of the share price — through time, with the stock's own median ${thLook("dashed", "as a flat line")}.`,
+    what: `The dividend yield — annual dividend as a % of the share price — through time, with the stock's own median ${thLook("dashed", "as a flat grey line")}.`,
     method: "Dividend yield = dividend per share ÷ price (derived here as the dividend-payout ratio ÷ P/E). Unlike the multiples, higher is 'cheaper': you're paid more income per rupee invested. A yield well above its own norm can flag either genuine value or a market doubting the dividend is sustainable; check it against the payout ratio and free cash flow. Near-zero for deliberate non-payers (high-reinvestment compounders).",
     why: "For income and the steadier end of the market, the yield and its trend is the first thing read — a yield spiking above its history is often the earliest 'this looks cheap' signal." },
   { id: "fcfy", sec: "valpx", tag: "VALUATION · F", kind: "plot", stat: true, dateaxis: true,
     title: "Free-cash-flow yield vs its own median", keys: "analytics.valuation.fcfy_series · .now · .median · .percentile",
-    what: `Free cash flow as a % of market cap, through time, with the stock's own median ${thLook("dashed", "as a flat line")}.`,
+    what: `Free cash flow as a % of market cap, through time, with the stock's own median ${thLook("dashed", "as a flat grey line")}.`,
     method: "FCF yield = free cash flow (operating cash − capex) ÷ market cap — the cash the business actually throws off per rupee of price, after keeping the lights on and investing. Higher = cheaper. It's the multiple hardest to fake: earnings can be flattered, but cash is cash. A high earnings yield with a low FCF yield is the classic warning that profit isn't converting to cash. Lumpy by nature (capex cycles), so read the trend, not one year.",
     why: "Cash, not accounting profit, funds dividends, buybacks and debt repayment — so FCF yield is the truest 'what am I really getting' read." },
   { id: "valsnap", sec: "valpx", tag: "VALUATION · F", kind: "table",
@@ -6739,7 +6740,7 @@ const FUND_PANELS = [
     keys: "derived from analytics.valuation / margins / growth / cashflow / cycle (own-history percentiles)",
     what: "Where this one stock leans on the six academic factor axes — Value, Quality, Profitability, Investment, Momentum, Low-risk — judged by its own history (a level read plus its own-history percentile), not ranked against a peer panel.",
     method: "Each axis bundles the relevant fundamentals into one plain read — Value from earnings yield + cheapness, Quality from returns + cash conversion, Momentum from sales/EPS growth + its acceleration, and so on. The honest limits are stated up front: it's a single-name lens, not a true cross-sectional factor loading (no peer ranking, no market beta).",
-    why: "Translates the company into the language of the factors that academically drive long-run returns, without faking the peer cross-section we don't have. Reading: the Fama-French factor papers and AQR's factor research." },
+    why: "Translates the company into the language of the factors that academically drive long-run returns, without faking the peer cross-section we don't have." },
   { id: "narrative", sec: "lens", tag: "NARRATIVE · J", kind: "table", wide: true,
     title: "Narrative-to-numbers — what the price requires, vs what this firm has delivered",
     keys: "derived from analytics.valuation.{pe_now, median_pe, snapshot.pb, earnings_yield} + growth.cagr + margins.ROE (own history)",
@@ -6966,6 +6967,22 @@ async function renderFundamentals() {
     }
   };
 
+  // The stock's own median, a different kind of line from the series it sits on. Classic keeps its dashed
+  // shape in the series colour. Outside classic it is a thin solid slate line with its own legend entry
+  // (one company: #4b5563, 11.3 dE00 from the navy series; a second company's median #858c96, 21.8 from the
+  // first): a flat trace over the window, exempt from the chart layer's smoothing, at its own width.
+  const MED_C = ["#4b5563", "#858c96"];
+  const medianLine = (traces, shapes, sym, i, xs, m, colour) => {
+    if (m === null || m === undefined || !xs.length) return;
+    if (THEME_XLATE) {
+      const nm = multi ? sym + " median" : "Own median", c = MED_C[i % MED_C.length];
+      traces.push({ type: "scatter", mode: "lines", name: nm, x: xs, y: xs.map(() => m), line: { color: c, width: 1.1 },
+        marker: { color: c }, vcExempt: true, vcKeepWidth: true, hovertemplate: `${nm}: %{y}<extra></extra>` });
+    } else {
+      shapes.push({ type: "line", x0: xs[0], x1: xs[xs.length - 1], y0: m, y1: m, line: { color: colour, width: 1.2, dash: "dash" } });
+    }
+  };
+
   // ============================================================ Module F: P/E vs median (date-axis, clamped)
   R.pe = () => {
     const traces = [], shapes = [];
@@ -6975,8 +6992,7 @@ async function renderFundamentals() {
       const x = ser.dates || [], yv = ser.values || [];
       const xs = [], ys = []; for (let k = 0; k < x.length; k++) if (inWin(x[k])) { xs.push(x[k]); ys.push(yv[k]); }
       traces.push({ type: "scatter", mode: "lines", name: multi ? sym : "P/E", x: xs, y: ys, line: { color: C(i), width: 1.4 }, hovertemplate: `${multi ? sym : "P/E"}: %{y}<extra></extra>` });
-      const m = a.valuation.median_pe;
-      if (m !== null && m !== undefined && xs.length) shapes.push({ type: "line", x0: xs[0], x1: xs[xs.length - 1], y0: m, y1: m, line: { color: C(i), width: 1.2, dash: "dash" } });
+      medianLine(traces, shapes, sym, i, xs, a.valuation.median_pe, C(i));
     });
     draw("pe", traces, { shapes, yaxis: { title: "P/E (×)", gridcolor: "#e4e1d9" }, xaxis: { type: "date", gridcolor: "#e4e1d9", rangeslider: { thickness: 0.06 } } });
     setStat("pe", syms.map((sym) => { const a = fAnalytics(sym); if (!a || !a.valuation) return `${sym}: —`; const v = a.valuation, cur = v.pe_now, m = v.median_pe, pc = v.pe_percentile; return `${sym}: P/E ${num(cur, 1)}× vs median ${num(m, 1)}× (${num(pc, 0)}ᵗʰ percentile of its own history${(cur !== null && m !== null) ? ", " + (cur < m ? "cheaper than its norm" : "richer than its norm") : ""})`; }).join("   ·   "));
@@ -7021,8 +7037,7 @@ async function renderFundamentals() {
       const xs = [], ys = []; for (let k = 0; k < x.length; k++) if (inWin(x[k])) { xs.push(x[k]); ys.push(yv[k]); }
       if (ys.some((v) => v !== null && v !== undefined)) any = true;
       traces.push({ type: "scatter", mode: "lines", name: multi ? sym : label, x: xs, y: ys, line: { color: C(i), width: 1.4 }, connectgaps: false, hovertemplate: `${multi ? sym : label}: %{y}<extra></extra>` });
-      const m = ser.median;
-      if (m !== null && m !== undefined && xs.length) shapes.push({ type: "line", x0: xs[0], x1: xs[xs.length - 1], y0: m, y1: m, line: { color: C(i), width: 1.2, dash: "dash" } });
+      medianLine(traces, shapes, sym, i, xs, ser.median, C(i));
     });
     if (!any) { note(panelId, `${label} does not apply to this company.`); return; }
     draw(panelId, traces, { shapes, yaxis: { title: `${label} (${unit})`, gridcolor: "#e4e1d9" }, xaxis: { type: "date", gridcolor: "#e4e1d9", rangeslider: { thickness: 0.06 } } });
@@ -7344,20 +7359,20 @@ async function renderFundamentals() {
     const rocOrRoe = (mg.ROCE && mg.ROCE.values) || (mg.ROE && mg.ROE.values);
     const salesYoyLast = (gr.Sales && gr.Sales.yoy) ? lastNonNull(gr.Sales.yoy.values) : null;
     const AX = [
-      ["Value", "Earnings yield " + fVal(snap.earnings_yield, "%") + "; P/E " + num(v.pe_now, 1) + "× vs median " + num(v.median_pe, 1) + "×", cheap, "Cheapness percentile = 1 − the P/E percentile in its own history. Higher means cheaper than its own past.", "Fama-French HML / Asness value"],
-      ["Quality (QMJ)", "Median ROCE/ROE " + pStr(med(rocOrRoe)) + "; CFO/PAT " + num(med(cf["CFO/PAT"] && cf["CFO/PAT"].values), 2) + "×", med(rocOrRoe), "Profitability, cash conversion and stability, each shown as a raw value (see the Quality scorecard).", "AQR quality-minus-junk"],
-      ["Profitability", "ROCE " + pStr(lastNonNull(mg.ROCE && mg.ROCE.values)) + "; ROE " + pStr(lastNonNull(mg.ROE && mg.ROE.values)) + "; ROA " + pStr(lastNonNull(mg.ROA && mg.ROA.values)), gaugeP("ROCE/ROE"), "Where ROCE/ROE sits in its own history (the cycle gauge). The DuPont panels show what is driving it.", "Fama-French RMW / Novy-Marx"],
-      ["Investment", "Accrual ratio " + pStr(lastNonNull(cf["Accrual ratio"] && cf["Accrual ratio"].values)) + "; capex/sales " + pStr(lastNonNull(cf["Capex/Sales"] && cf["Capex/Sales"].values)), null, "Conservative firms (low asset growth, capex and accruals) are the side that has historically won. A percentile needs a peer panel, which this bundle does not have.", "Fama-French CMA"],
-      ["Momentum", "Sales YoY " + pStr(salesYoyLast === null ? null : salesYoyLast * 100) + "; EPS 5y CAGR " + pStr(cagr5pct("EPS")), gaugeP("Sales growth (YoY)"), "This is earnings momentum. Price momentum would need the daily price and a benchmark to measure against, which are not joined here.", "Jegadeesh-Titman / AQR momentum"],
-      ["Low-risk", "Debt/equity " + num(lastNonNull(a.balance && a.balance["D/E"] && a.balance["D/E"].values), 2) + "×, plus margin stability (see Quality)", null, "Standalone risk only: earnings stability and leverage. A true market beta needs the index panel, which is not joined here.", "Betting-against-beta / low volatility"],
+      ["Value", "Earnings yield " + fVal(snap.earnings_yield, "%") + "; P/E " + num(v.pe_now, 1) + "× vs median " + num(v.median_pe, 1) + "×", cheap, "Cheapness percentile = 1 − the P/E percentile in its own history. Higher means cheaper than its own past."],
+      ["Quality", "Median ROCE/ROE " + pStr(med(rocOrRoe)) + "; CFO/PAT " + num(med(cf["CFO/PAT"] && cf["CFO/PAT"].values), 2) + "×", med(rocOrRoe), "Profitability, cash conversion and stability, each shown as a raw value (see the Quality scorecard)."],
+      ["Profitability", "ROCE " + pStr(lastNonNull(mg.ROCE && mg.ROCE.values)) + "; ROE " + pStr(lastNonNull(mg.ROE && mg.ROE.values)) + "; ROA " + pStr(lastNonNull(mg.ROA && mg.ROA.values)), gaugeP("ROCE/ROE"), "Where ROCE/ROE sits in its own history (the cycle gauge). The DuPont panels show what is driving it."],
+      ["Investment", "Accrual ratio " + pStr(lastNonNull(cf["Accrual ratio"] && cf["Accrual ratio"].values)) + "; capex/sales " + pStr(lastNonNull(cf["Capex/Sales"] && cf["Capex/Sales"].values)), null, "Conservative firms (low asset growth, capex and accruals) are the side that has historically won. A percentile needs a peer panel, which this bundle does not have."],
+      ["Momentum", "Sales YoY " + pStr(salesYoyLast === null ? null : salesYoyLast * 100) + "; EPS 5y CAGR " + pStr(cagr5pct("EPS")), gaugeP("Sales growth (YoY)"), "This is earnings momentum. Price momentum would need the daily price and a benchmark to measure against, which are not joined here."],
+      ["Low-risk", "Debt/equity " + num(lastNonNull(a.balance && a.balance["D/E"] && a.balance["D/E"].values), 2) + "×, plus margin stability (see Quality)", null, "Standalone risk only: earnings stability and leverage. A true market beta needs the index panel, which is not joined here."],
     ];
-    let h = `<table class="gauge-tbl"><thead><tr><th>Axis</th><th>This company (level)</th><th style="min-width:150px">Percentile in its own history</th><th>What it says</th><th>Factor</th></tr></thead><tbody>`;
-    AX.forEach(([axis, level, pctl, read, fac]) => {
+    let h = `<table class="gauge-tbl"><thead><tr><th>Axis</th><th>This company (level)</th><th style="min-width:150px">Percentile in its own history</th><th>What it says</th></tr></thead><tbody>`;
+    AX.forEach(([axis, level, pctl, read]) => {
       const bar = (pctl === null || pctl === undefined) ? `<span class="namuted">peer panel needed</span>`
         : `<div class="gauge-bar"><div class="gauge-pin" style="left:${Math.max(0, Math.min(100, pctl))}%"></div></div><div style="font-size:10.5px;color:#62707d;margin-top:2px">${Math.round(pctl)}ᵗʰ percentile</div>`;
-      h += `<tr><td class="name">${fEsc(axis)}</td><td>${fEsc(level)}</td><td>${bar}</td><td class="fnote">${fEsc(read)}</td><td class="namuted">${fEsc(fac)}</td></tr>`;
+      h += `<tr><td class="name">${fEsc(axis)}</td><td>${fEsc(level)}</td><td>${bar}</td><td class="fnote">${fEsc(read)}</td></tr>`;
     });
-    h += `</tbody></table><p class="fnote" style="margin-top:6px"><b>What this cannot tell you:</b> every axis here measures the company against its own past, not against other companies. It is not a cross-sectional factor loading. A true factor z-score needs a peer universe; market beta, CAPM alpha and relative momentum need the NSE index series joined; and the risk-free rate is not in this bundle. Wherever a peer or market input would be needed, the percentile column says "peer panel needed".</p>`;
+    h += `</tbody></table><p class="fnote" style="margin-top:6px"><b>What this cannot tell you:</b> every axis here measures the company against its own past, not against other companies. It is not a cross-sectional factor loading. A true factor z-score needs a peer universe; market beta, CAPM alpha and relative momentum need the NSE index series joined; and the risk-free rate is not in this bundle. Wherever a peer or market input would be needed, the percentile column says "peer panel needed".</p><p class="fnote">Technical detail: the six rows follow the academic value, quality-minus-junk, profitability, investment, momentum and low-risk factors, each read against this company's own history.</p>`;
     if (multi) h += `<p class="fnote">Showing ${fEsc(syms[0])}, the primary company. Open a single company to read its lens on its own.</p>`;
     setTbl("factorlens", h);
   };
@@ -8187,13 +8202,16 @@ function _dashBuildScaffold(host, D) {
   const asof = (D.meta && D.meta.asof) || "";
   const src = (D.meta && D.meta.source) || "";
   const caveats = (D.meta && D.meta.caveats) || [];
+  // The size-band paragraph is the same text on every size-band chart (14 of them in the 2026-09-01 bundle), so
+  // it is said once here; a chart whose note says something else still shows its own.
+  const bandNote = ((D.plots || []).find((p) => p && p.cohort && p.cohort.note) || { cohort: {} }).cohort.note || "";
   let h = `<section class="panel">
       <h2><span class="tag-sec">DASHBOARD</span>Market pulse — valuation, breadth, profit &amp; cap share</h2>
-      <div class="q-note" style="font-size:12px">As of <b>${fEsc(String(asof))}</b>. Built from the KQF compute core, with
-        every legacy metric reconciled to the historical Excel workbook. ${fEsc(String(src))}
-        <b>This describes the market's current pulse. It is not a forward buy or sell signal.</b></div>`;
+      <div class="q-note" style="font-size:12px">As of <b>${fEsc(String(asof))}</b>. ${fEsc(String(src))}
+        <b>This describes the market's current pulse. It is not a forward buy or sell signal.</b></div>`
+    + (bandNote ? `<div class="q-note" style="font-size:12px;margin-top:4px"><b>Size bands.</b> ${fEsc(bandNote)}</div>` : "");
   if (caveats.length) {
-    h += `<details style="margin-top:6px"><summary style="cursor:pointer;font-size:12px"><b>Methodology &amp; caveats</b> (audited)</summary>`
+    h += `<details style="margin-top:6px"><summary style="cursor:pointer;font-size:12px"><b>How it is measured</b></summary>`
       + `<ul style="font-size:12px;margin:6px 0 0 0;padding-left:18px">`
       + caveats.map((c) => `<li>${fEsc(String(c))}</li>`).join("") + `</ul></details>`;
   }
@@ -8227,7 +8245,7 @@ function _dashBuildScaffold(host, D) {
         + `<span class="dash-sec-combo" id="dashseccombo-${attEsc(p.id)}" style="display:inline-block;min-width:220px;vertical-align:middle"></span>`
         + `<span id="dashsecchips-${attEsc(p.id)}"></span>`;
       h += `<button type="button" class="fs-lvl dash-csv" data-plot="${attEsc(p.id)}" style="margin-left:auto">⬇ CSV</button></div>`;
-      if (p.cohort.note) h += `<div class="q-note" style="font-size:11px;margin:2px 0 4px">${fEsc(p.cohort.note)}</div>`;
+      if (p.cohort.note && p.cohort.note !== bandNote) h += `<div class="q-note" style="font-size:11px;margin:2px 0 4px">${fEsc(p.cohort.note)}</div>`;
       h += `<div class="seltog" id="tog-dash-${attEsc(p.id)}"></div>`;
       h += `<div class="plot" id="dashplot-${attEsc(p.id)}" style="height:360px"></div>`;
     } else if (p.kind === "timeseries") {
@@ -8697,7 +8715,19 @@ function _dashTogBar(p, items, rerender) {
 
 let _dashCoh = {};   // p.id -> {v: measure key, secs: [cohort keys of added sectors]}
 const _COH_BANDS = ["large", "mid", "small", "micro"];
-const _COH_COLORS = { large: "#5b7fa6", mid: "#40795a", small: "#c08a45", micro: "#7b6a9e", cap90: "#a94b3a" };
+// Micro outside classic: peer purple, not the peer blue the classic #7b6a9e is swapped to (a shade of Large's navy).
+// Teal was the other candidate and is 0.0 dE00 from the first sector a reader adds (_COH_SEC_PAL[0] in peer).
+const _COH_COLORS = { large: "#5b7fa6", mid: "#40795a", small: "#c08a45", micro: thLook("#7b6a9e", "#6b4fb8"), cap90: "#a94b3a" };
+// Outside classic, a size band is one colour on every Regular chart: the market-cap share chart (series keys
+// large / mid / small / micro) and the growth-breadth charts (buckets named by rank) used to take the next
+// palette colour by position, so in peer Mid was rust there and green elsewhere, and Micro a blue next to
+// Large's navy. Classic keeps its colours.
+const _DASH_BAND_OF = { large: "large", mid: "mid", small: "small", micro: "micro",
+  "Top 100": "large", "101-250": "mid", "251-500": "small", "501-1000": "micro", "501+": "micro" };
+function _dashBandColour(k, i) {
+  const b = THEME_XLATE ? _DASH_BAND_OF[k] : null;
+  return b ? _COH_COLORS[b] : _DASH_PALETTE[i % _DASH_PALETTE.length];
+}
 const _COH_SEC_PAL = ["#4d8f8a", "#8a6f52", "#a86b82", "#6b8e23", "#b5651d", "#2f6f9f", "#9c4f96", "#5f5f5f"];
 const _COH_PX = new Set(["g200", "g500", "g1000", "near_ath", "beat_3m", "beat_6m", "beat_1y"]);
 function _dashIsCoh(p) {
@@ -8768,7 +8798,7 @@ function _dashDrawTS(p) {
     const keys = allKeys.filter((k) => sel === "all" || k === sel);
     // colour by position in the FULL series list, not the filtered one — a series keeps its colour
     // when the universe toggle isolates it (KV: same data line = same colour in every view)
-    const cOf = (k) => (p.colors && p.colors[k]) || _DASH_PALETTE[allKeys.indexOf(k) % _DASH_PALETTE.length];
+    const cOf = (k) => (p.colors && p.colors[k]) || _dashBandColour(k, allKeys.indexOf(k));
     const nm = (k) => (p.labels && p.labels[k]) || k;
     const hid = keys.length > 1 ? hiddenSet("dash-" + p.id) : null;   // ticks apply only when >1 line is up
     const traces = keys.map((k) => ({
@@ -8797,7 +8827,7 @@ function _dashDrawGB(p) {
     const hid = hiddenSet("dash-" + p.id);
     const traces = gb.buckets.map((b, i) => ({
       x: gb.dates, y: byThr[b], name: b, mode: "lines",
-      line: { width: 1.8, color: _DASH_PALETTE[i % _DASH_PALETTE.length] }, connectgaps: false,
+      line: { width: 1.8, color: _dashBandColour(b, i) }, connectgaps: false,
       visible: hid.has(b) ? "legendonly" : true,
     }));
     vplot(id, traces, {
@@ -8805,7 +8835,7 @@ function _dashDrawGB(p) {
       yaxis: { title: `Share of the bucket with ${gb.metric} growth above ${st.thr}%`, tickformat: ".0%", gridcolor: "#e4e1d9", rangemode: "tozero" },
       xaxis: { gridcolor: "#e4e1d9", rangeslider: { thickness: 0.06 }, type: "date" },
     }, { id: "dash-" + p.id });
-    _dashTogBar(p, gb.buckets.map((b, i) => [b, _DASH_PALETTE[i % _DASH_PALETTE.length]]), () => _dashDrawGB(p));
+    _dashTogBar(p, gb.buckets.map((b, i) => [b, _dashBandColour(b, i)]), () => _dashDrawGB(p));
   } catch (e) { console.error("_dashDrawGB " + p.id + ":", e); purgePlot(id); el.innerHTML = `<div class="empty-note">Chart unavailable.</div>`; }
 }
 
@@ -16165,21 +16195,37 @@ function _evIpoCards(list) {
     return _qmCard(nm + (_evTxt(r.symbol) ? " · " + _evTxt(r.symbol) : ""), _evTxt(r.status), s);
   }).join("");
 }
+function _evIsoDate(s) {                   // 'YYYY-MM-DD' (the events file's own as-of) -> local midnight, or null
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(s === null || s === undefined ? "" : s));
+  return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
+}
 function _evIpos(EV) {
-  const ip = _evObj(EV.ipos), cur = _evRows(ip.current);
-  // The exchange's "upcoming" feed REPEATS every issue that is currently open, so showing it raw
-  // prints the same three cards twice under a heading that says they haven't opened. Keep only the
-  // genuinely-forthcoming ones (key on symbol, falling back to the company name).
+  const ip = _evObj(EV.ipos);
+  // Each issue once: the exchange's "upcoming" feed repeats every issue in its "current" feed, and
+  // the current row wins because it carries the subscription. Then each issue is placed by its own
+  // status and dates on the data's as-of day, NOT by the feed it came from: the "current" feed keeps
+  // an issue after it closes (on 20-Oct-2026 it listed four issues that had closed on 19-Oct, each
+  // with status "Closed"), which is how closed issues used to sit under "Open now".
   const key = (r) => (_evTxt(r.symbol) || _evTxt(r.companyName)).toUpperCase();
-  const open = {}; cur.forEach((r) => { open[key(r)] = 1; });
-  const up = _evRows(ip.upcoming).filter((r) => !open[key(r)]);
-  if (!cur.length && !up.length) return _evPanel("IPO", "New listings — open and upcoming issues",
+  const seen = {}, all = [];
+  _evRows(ip.current).forEach((r) => { const k = key(r); if (!seen[k]) { seen[k] = 1; all.push(r); } });
+  _evRows(ip.upcoming).forEach((r) => { const k = key(r); if (!seen[k]) { seen[k] = 1; all.push(r); } });
+  const ref = _evIsoDate(EV.asof) || _evToday();
+  const cur = [], up = [], done = [];
+  all.forEach((r) => {
+    const st = _evTxt(r.status).toLowerCase(), o = _evDate(r.issueStartDate), c = _evDate(r.issueEndDate);
+    if (/closed/.test(st) || (c && c < ref)) done.push(r);
+    else if (/forthcoming|upcoming/.test(st) || (o && o > ref)) up.push(r);
+    else cur.push(r);
+  });
+  if (!all.length) return _evPanel("IPO", "New listings — open and upcoming issues",
     "", _evNote("No open or upcoming issues in this build."));
   let body = "";
   if (cur.length) body += `<div class="q-cap">Open now (${cur.length})</div><div class="q-dimgrid">${_evIpoCards(cur)}</div>`;
   if (up.length) body += `<div class="q-cap">Upcoming (${up.length})</div><div class="q-dimgrid">${_evIpoCards(up)}</div>`;
+  if (done.length) body += `<div class="q-cap">Recently closed (${done.length})</div><div class="q-dimgrid">${_evIpoCards(done)}</div>`;
   return _evPanel("IPO", "New listings — open and upcoming issues",
-    `Taken straight from the exchange's issue feed. <strong>Subscribed</strong> is how many times the whole book (all investor categories) has been covered, as the exchange publishes it while the issue is live. An issue that is already open is listed once, under "Open now".`,
+    `Taken straight from the exchange's issue feed. <strong>Subscribed</strong> is how many times the whole book (all investor categories) has been covered, as the exchange publishes it. Each issue is listed once, placed by the exchange's own status and the issue dates on ${fEsc(_evFmtDate(ref))}: open now, upcoming, or recently closed.`,
     body);
 }
 
@@ -16225,11 +16271,22 @@ function renderEvents() {
         + `</section>`;
       return;
     }
-    const deg = _evArr(EV.degraded).map((x) => _evTxt(x)).filter(Boolean);
+    // Feeds that did not refresh in this build, named as the panels a reader sees. insider_pit has no
+    // name here on purpose: no panel on this tab draws the insider-trading feed, so its staleness is
+    // not something this page can show (the pipeline health report still lists it).
+    const EV_FEED = { session: "every panel", fatal: "every panel", results_calendar: "the results calendar",
+      board_meetings: "the board-meeting calendar", corp_actions: "corporate actions", ipo_current: "new listings",
+      ipo_upcoming: "new listings", sast: "takeover disclosures", large_deals: "bulk and block deals",
+      announcements: "announcements" };
+    const deg = [];
+    _evArr(EV.degraded).map((x) => _evTxt(x)).filter(Boolean).forEach((x) => {
+      const nm = EV_FEED[String(x).split(/[\s:(]/)[0]];
+      if (nm && deg.indexOf(nm) < 0) deg.push(nm);
+    });
     html += `<div class="q-conf">Corporate tape as of <b>${fEsc(_evOr(EV.asof))}</b>`
       + (_evObj(EV.large_deals_today).as_on_date ? ` · deals to <b>${fEsc(_evTxt(_evObj(EV.large_deals_today).as_on_date))}</b>` : "")
       + ` · a record of disclosures, not advice.`
-      + (deg.length ? ` <span class="neg">Degraded feeds: ${fEsc(deg.join("; "))}</span>` : "")
+      + (deg.length ? ` Not refreshed in this build: ${fEsc(deg.join(", "))}.` : "")
       + `</div>`;
     html += _evCalendar(EV) + _evCorpActions(EV) + _evDeals(EV) + _evSast(EV) + _evIpos(EV) + _evAnnouncements(EV);
   } catch (e) {

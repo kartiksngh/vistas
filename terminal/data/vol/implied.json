@@ -351,7 +351,7 @@
  ],
  "meta": {
   "formula": "rho_imp = (sigma_idx^2 - sum(w^2*sigma^2)) / ((sum(w*sigma))^2 - sum(w^2*sigma^2)); w = w_ffmcap renormalised over members with an ATM IV that day; sigma = ATM IV / 100 (mean of call/put ATM IV)",
-  "history_note": "stock ATM IV banked from 2026-09-03; implied correlation requires >=80% weight coverage AND both legs priced to the same expiry"
+  "history_note": "stock ATM IV banked from 2026-09-03; implied correlation requires >=80% weight coverage AND both legs priced to the same expiry AND the day's closing chain"
  },
  "n_horizon_blocked": 27,
  "n_members_with_iv": [
@@ -405,18 +405,21 @@
   49,
   49
  ],
+ "not_closing_chain": {
+  "2026-10-08": "NIFTY on the banked chain 22434.25 against the F&O bhavcopy close 22231.80: a mid-session chain, not the close"
+ },
  "pctile": {
   "1y": {
-   "n": 18,
-   "value": 61.1
+   "n": 17,
+   "value": 58.8
   },
   "3y": {
-   "n": 18,
-   "value": 61.1
+   "n": 17,
+   "value": 58.8
   },
   "5y": {
-   "n": 18,
-   "value": 61.1
+   "n": 17,
+   "value": 58.8
   }
  },
  "rho_imp": [
@@ -462,7 +465,7 @@
   0.28190909048959917,
   null,
   null,
-  0.2757096556969826,
+  null,
   0.29672441549631284,
   null,
   0.25988836312726243,
