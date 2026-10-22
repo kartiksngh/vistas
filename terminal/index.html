@@ -1546,31 +1546,60 @@ table.abp-cy th.num, table.abp-cy td.num { min-width: 62px; text-align: right; }
   background: #f3f4f6; border: 1px solid var(--border); color: var(--ink-3);
 }
 
-/* ---------------------------------------------------------------- tab groups and tabs: light glass */
+/* ---------------------------------------------------------------- tab groups and tabs: filled chrome
+   Kyser 2026-10-22: the two navigation rows needed filling, every tab in a row needed to share the
+   light fill its selected sibling had to itself, and the selected colour had to leave blue for
+   grey, black and gold. So each row is a flat band with a hairline under it, every tab sits on its
+   own light panel, and the one you are on is near-black with a gold rule along its base. Only the
+   navigation changes colour here; charts, tables and the rest of the page keep theirs. */
+:root[data-theme="peer"] {
+  --nav-band: #e7e9ee;          /* the group row */
+  --nav-band-2: #eef0f4;        /* the sub-tab row, one step lighter so the two read as a stack */
+  --nav-line: #d4d8e0;          /* the hairline under each row */
+  --nav-rest: #f7f8fa;          /* a tab nobody has selected: the fill every peer shares */
+  --nav-rest-line: #dcdfe5;
+  --nav-rest-hi: #ffffff;       /* the same tab under the pointer */
+  --nav-on: #1d2128;            /* the selected tab */
+  --nav-gold: #a8802f;          /* the one colour in the chrome */
+}
 :root[data-theme="peer"] .vg-groups {
-  background: var(--p-glass);
-  -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px);
+  background: var(--nav-band);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  box-shadow: inset 0 -1px 0 var(--nav-line);
 }
 :root[data-theme="peer"] .vg-groups .vg-g {
   font-family: var(--p-display); font-weight: 600; letter-spacing: 0; color: var(--ink-3);
-  border-bottom: 2px solid transparent;
+  background: var(--nav-rest); border: 1px solid var(--nav-rest-line);
+  border-bottom: 3px solid transparent; border-radius: 7px 7px 0 0;
 }
-:root[data-theme="peer"] .vg-groups .vg-g:hover { color: var(--ink); }
-:root[data-theme="peer"] .vg-groups .vg-g.on { color: var(--navy); border-bottom-color: var(--navy); }
-:root[data-theme="peer"] .vg-groups .vg-g:focus-visible { outline: 2px solid var(--navy); outline-offset: -2px; }
+:root[data-theme="peer"] .vg-groups .vg-g:hover { color: var(--ink); background: var(--nav-rest-hi); }
+:root[data-theme="peer"] .vg-groups .vg-g.on {
+  color: var(--nav-on); background: #ffffff; border-color: var(--nav-rest-line);
+  border-bottom-color: var(--nav-gold);
+}
+:root[data-theme="peer"] .vg-groups .vg-g:focus-visible { outline: 2px solid var(--nav-on); outline-offset: -2px; }
 
 :root[data-theme="peer"] nav.tabs {
-  background: var(--p-glass);
-  -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px);
-  border-bottom: 1px solid rgba(17,24,39,0.08); padding-bottom: 8px; align-items: center;
+  background: var(--nav-band-2);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  border-bottom: 1px solid var(--nav-line); padding-bottom: 8px; align-items: center;
 }
 :root[data-theme="peer"] nav.tabs .tab {
-  background: transparent; color: var(--p-ink-2); border: 1px solid transparent; border-radius: 8px;
+  background: var(--nav-rest); color: var(--p-ink-2);
+  border: 1px solid var(--nav-rest-line); border-radius: 8px;
   font-family: var(--p-sans); font-weight: 600; letter-spacing: 0; box-shadow: none;
 }
-:root[data-theme="peer"] nav.tabs .tab:hover { background: #eceff3; color: var(--ink); }
+:root[data-theme="peer"] nav.tabs .tab:hover {
+  background: var(--nav-rest-hi); color: var(--ink); border-color: #c4c9d2;
+}
 :root[data-theme="peer"] nav.tabs .tab.active {
-  background: var(--navy); color: #ffffff; border-color: var(--navy); box-shadow: 0 1px 2px rgba(32,67,107,0.25);
+  background: var(--nav-on); color: #ffffff; border-color: var(--nav-on);
+  box-shadow: inset 0 -3px 0 var(--nav-gold);
+}
+/* a tab that is only a placeholder keeps out of the set: no panel, no line */
+:root[data-theme="peer"] nav.tabs .tab.future,
+:root[data-theme="peer"] nav.tabs .tab.future:hover {
+  background: transparent; border-color: transparent; color: #9aa1ac;
 }
 :root[data-theme="peer"] nav.tabs .tabnote { color: var(--muted); }
 
@@ -1710,6 +1739,9 @@ table.abp-cy th.num, table.abp-cy td.num { min-width: 62px; text-align: right; }
 
 /* ---------------------------------------------------------------- phone width */
 @media (max-width: 760px) {
+  /* on a phone the groups are four fixed columns with no gap, so without a little air their panels
+     would share a doubled 2 px line; 3 px keeps them as separate panels */
+  :root[data-theme="peer"] .vg-groups { gap: 3px; padding: 5px 5px 0; }
   :root[data-theme="peer"] .ctl > .vg-ctlsum { color: var(--ink); }
   :root[data-theme="peer"] .ctl > .vg-ctlsum .vg-s2 { color: var(--muted); }
   :root[data-theme="peer"] .ctl > .vg-ctlsum .vg-chg { color: var(--navy); }
