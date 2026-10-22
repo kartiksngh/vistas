@@ -1803,7 +1803,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22415
+  "bytes": 22400
  },
  {
   "key": "futures_short__044601",
@@ -1817,7 +1817,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22515
+  "bytes": 22500
  },
  {
   "key": "futures_long__043602",
@@ -1887,7 +1887,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21502
+  "bytes": 21504
  },
  {
   "key": "futures_short__020601",
@@ -1901,7 +1901,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21831
+  "bytes": 21833
  },
  {
   "key": "futures_long__020604",
@@ -1915,7 +1915,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 17881
+  "bytes": 17887
  },
  {
   "key": "futures_short__020604",
@@ -1929,7 +1929,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 18177
+  "bytes": 18183
  },
  {
   "key": "futures_long__134741",
@@ -1943,7 +1943,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 10846
+  "bytes": 10841
  },
  {
   "key": "futures_short__134741",
@@ -1957,7 +1957,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 10912
+  "bytes": 10907
  },
  {
   "key": "futures_long__045601",
@@ -1971,7 +1971,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21175
+  "bytes": 21177
  },
  {
   "key": "futures_short__045601",
@@ -1985,7 +1985,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21242
+  "bytes": 21244
  },
  {
   "key": "futures_long__13874A",
@@ -1999,7 +1999,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22527
+  "bytes": 22515
  },
  {
   "key": "futures_short__13874A",
@@ -2013,7 +2013,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22394
+  "bytes": 22382
  },
  {
   "key": "futures_long__209742",
@@ -2027,7 +2027,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20735
+  "bytes": 20717
  },
  {
   "key": "futures_short__209742",
@@ -2041,7 +2041,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20767
+  "bytes": 20749
  },
  {
   "key": "futures_long__239742",
@@ -2083,7 +2083,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16990
+  "bytes": 16979
  },
  {
   "key": "futures_short__244042",
@@ -2097,7 +2097,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16935
+  "bytes": 16924
  },
  {
   "key": "futures_long__244041",
@@ -2195,7 +2195,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20172
+  "bytes": 20163
  },
  {
   "key": "futures_short__096742",
@@ -2209,7 +2209,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 20347
+  "bytes": 20338
  },
  {
   "key": "futures_long__098662",
@@ -2223,7 +2223,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 19207
+  "bytes": 19199
  },
  {
   "key": "futures_short__098662",
@@ -2237,7 +2237,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 19066
+  "bytes": 19058
  },
  {
   "key": "futures_long__1170E1",

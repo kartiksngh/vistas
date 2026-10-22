@@ -981,10 +981,10 @@
  },
  "fed_reverse_repo_lenders": {
   "title": "Every business day of cash lent to the Federal Reserve overnight, in total and by kind of lender",
-  "rows": 5849,
+  "rows": 5850,
   "first": "2022-01-03",
-  "last": "2026-10-20",
-  "bytes": 440637
+  "last": "2026-10-21",
+  "bytes": 440716
  },
  "money__AUS": {
   "title": "Every month of broad and narrow money for Australia, in its own currency",

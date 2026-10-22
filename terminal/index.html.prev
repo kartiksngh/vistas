@@ -1546,31 +1546,60 @@ table.abp-cy th.num, table.abp-cy td.num { min-width: 62px; text-align: right; }
   background: #f3f4f6; border: 1px solid var(--border); color: var(--ink-3);
 }
 
-/* ---------------------------------------------------------------- tab groups and tabs: light glass */
+/* ---------------------------------------------------------------- tab groups and tabs: filled chrome
+   Kyser 2026-10-22: the two navigation rows needed filling, every tab in a row needed to share the
+   light fill its selected sibling had to itself, and the selected colour had to leave blue for
+   grey, black and gold. So each row is a flat band with a hairline under it, every tab sits on its
+   own light panel, and the one you are on is near-black with a gold rule along its base. Only the
+   navigation changes colour here; charts, tables and the rest of the page keep theirs. */
+:root[data-theme="peer"] {
+  --nav-band: #e7e9ee;          /* the group row */
+  --nav-band-2: #eef0f4;        /* the sub-tab row, one step lighter so the two read as a stack */
+  --nav-line: #d4d8e0;          /* the hairline under each row */
+  --nav-rest: #f7f8fa;          /* a tab nobody has selected: the fill every peer shares */
+  --nav-rest-line: #dcdfe5;
+  --nav-rest-hi: #ffffff;       /* the same tab under the pointer */
+  --nav-on: #1d2128;            /* the selected tab */
+  --nav-gold: #a8802f;          /* the one colour in the chrome */
+}
 :root[data-theme="peer"] .vg-groups {
-  background: var(--p-glass);
-  -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px);
+  background: var(--nav-band);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  box-shadow: inset 0 -1px 0 var(--nav-line);
 }
 :root[data-theme="peer"] .vg-groups .vg-g {
   font-family: var(--p-display); font-weight: 600; letter-spacing: 0; color: var(--ink-3);
-  border-bottom: 2px solid transparent;
+  background: var(--nav-rest); border: 1px solid var(--nav-rest-line);
+  border-bottom: 3px solid transparent; border-radius: 7px 7px 0 0;
 }
-:root[data-theme="peer"] .vg-groups .vg-g:hover { color: var(--ink); }
-:root[data-theme="peer"] .vg-groups .vg-g.on { color: var(--navy); border-bottom-color: var(--navy); }
-:root[data-theme="peer"] .vg-groups .vg-g:focus-visible { outline: 2px solid var(--navy); outline-offset: -2px; }
+:root[data-theme="peer"] .vg-groups .vg-g:hover { color: var(--ink); background: var(--nav-rest-hi); }
+:root[data-theme="peer"] .vg-groups .vg-g.on {
+  color: var(--nav-on); background: #ffffff; border-color: var(--nav-rest-line);
+  border-bottom-color: var(--nav-gold);
+}
+:root[data-theme="peer"] .vg-groups .vg-g:focus-visible { outline: 2px solid var(--nav-on); outline-offset: -2px; }
 
 :root[data-theme="peer"] nav.tabs {
-  background: var(--p-glass);
-  -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px);
-  border-bottom: 1px solid rgba(17,24,39,0.08); padding-bottom: 8px; align-items: center;
+  background: var(--nav-band-2);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  border-bottom: 1px solid var(--nav-line); padding-bottom: 8px; align-items: center;
 }
 :root[data-theme="peer"] nav.tabs .tab {
-  background: transparent; color: var(--p-ink-2); border: 1px solid transparent; border-radius: 8px;
+  background: var(--nav-rest); color: var(--p-ink-2);
+  border: 1px solid var(--nav-rest-line); border-radius: 8px;
   font-family: var(--p-sans); font-weight: 600; letter-spacing: 0; box-shadow: none;
 }
-:root[data-theme="peer"] nav.tabs .tab:hover { background: #eceff3; color: var(--ink); }
+:root[data-theme="peer"] nav.tabs .tab:hover {
+  background: var(--nav-rest-hi); color: var(--ink); border-color: #c4c9d2;
+}
 :root[data-theme="peer"] nav.tabs .tab.active {
-  background: var(--navy); color: #ffffff; border-color: var(--navy); box-shadow: 0 1px 2px rgba(32,67,107,0.25);
+  background: var(--nav-on); color: #ffffff; border-color: var(--nav-on);
+  box-shadow: inset 0 -3px 0 var(--nav-gold);
+}
+/* a tab that is only a placeholder keeps out of the set: no panel, no line */
+:root[data-theme="peer"] nav.tabs .tab.future,
+:root[data-theme="peer"] nav.tabs .tab.future:hover {
+  background: transparent; border-color: transparent; color: #9aa1ac;
 }
 :root[data-theme="peer"] nav.tabs .tabnote { color: var(--muted); }
 
@@ -1710,6 +1739,9 @@ table.abp-cy th.num, table.abp-cy td.num { min-width: 62px; text-align: right; }
 
 /* ---------------------------------------------------------------- phone width */
 @media (max-width: 760px) {
+  /* on a phone the groups are four fixed columns with no gap, so without a little air their panels
+     would share a doubled 2 px line; 3 px keeps them as separate panels */
+  :root[data-theme="peer"] .vg-groups { gap: 3px; padding: 5px 5px 0; }
   :root[data-theme="peer"] .ctl > .vg-ctlsum { color: var(--ink); }
   :root[data-theme="peer"] .ctl > .vg-ctlsum .vg-s2 { color: var(--muted); }
   :root[data-theme="peer"] .ctl > .vg-ctlsum .vg-chg { color: var(--navy); }
@@ -13517,6 +13549,29 @@ const _wfPivExp = {};   // pivot rowKey -> true (expanded), for the Excel-style 
 const _wfDrill = {};    // amc-slug -> drill payload | null (lazy-loaded per-AMC scheme×sector file)
 const _wfCrowdCache = {}, _wfCrowdInflight = {};   // vst_id -> per-stock "who's trading it" payload (lazy)
 const _WF_COL = { na: "#1f9e89", inflow: "#d99a2b", price: "#9aa6b2" };
+// the panel entering or leaving the priced sample: its own hue, never one of the three flow colours,
+// as it is not a decision anyone took
+const _WF_COL_PANEL = "#8c7bb5";
+
+// ── THE PEEL (Kyser 2026-10-22): "by default plots should have one default plot and then option to
+// add/adjust the plot with sub parts or different parts" — plot the total change first, then let the
+// reader take out price action, then implied inflow, and arrive at the bottom line. The old chart drew
+// all three parts at once and made you untick two of them to see the one that matters.
+//
+// The bar you are looking at is always what is LEFT after the parts above it are removed, so the three
+// steps are one quantity at three depths: shade deepens toward the teal the rest of the page already
+// uses for active flow. What has been removed stays on the chart as a faint bar, so the stack still
+// adds to the total change and nothing is hidden.
+let _wfPeel = 0;                 // 0 total change · 1 less price action · 2 less implied inflow
+let _wfGhost = true;             // keep the removed parts on the chart, faintly
+const _WF_PEEL = [
+  { label: "Total change", color: "#2f4858",
+    note: "the whole rupee change in what the funds hold, before anything is taken out" },
+  { label: "Change after the market's move", color: "#2f6f8f",
+    note: "what is left once the holdings' own price move is taken out: fresh money plus genuine reweighting" },
+  { label: "Active flow", color: _WF_COL.na,
+    note: "the bottom line: genuine reweighting, with both the market's move and the pro-rata deployment of fresh money taken out" },
+];
 function _wf() { return (typeof window !== "undefined") ? window.VISTAS_WATERFALL : null; }
 function _wfNode(W, amc, sector) {
   if (!W) return null;
@@ -13558,7 +13613,7 @@ function _wfSeriesFor(f) {
   }
   return f.sector ? ((sch.sectors || {})[f.sector] || null) : sch.total;
 }
-function _wfPlot(id, traces, layout) {
+function _wfPlot(id, traces, layout, more) {
   const el = $(id); if (!el) return;
   // purgePlot takes the chart layer's strip down with the chart, so an emptied panel is not left
   // with a "Pop out" button over nothing.
@@ -13567,6 +13622,7 @@ function _wfPlot(id, traces, layout) {
   // every panel here is monthly flow BARS or a heatmap on a category axis: no path to average, and
   // no x-window whose y a re-fit would help.
   if (!(layout && layout.xaxis && layout.xaxis.type === "date")) vopts.autoscale = false;
+  if (more) Object.assign(vopts, more);
   vplot(id, traces, layout, vopts);
 }
 function _wfFmt(v) { return (v === null || v === undefined) ? "—" : (v >= 0 ? "+" : "") + Math.round(v).toLocaleString() + " cr"; }
@@ -18306,7 +18362,19 @@ function renderOwnership() {
            </span>
          </div>
          <div id="wf-head" style="display:flex;flex-wrap:wrap;gap:16px;margin:10px 0"></div>
+         <div class="ab-ctlrow" style="margin:4px 0 0">
+           <span class="ab-ctllbl">Plot</span>
+           <span id="wf-peel">
+             <button type="button" class="fs-lvl on" data-peel="0">Total change</button>
+             <button type="button" class="fs-lvl" data-peel="1">less price action</button>
+             <button type="button" class="fs-lvl" data-peel="2">less implied inflow</button>
+           </span>
+           <button type="button" class="fs-lvl on" id="wf-ghost" style="margin-left:10px" title="Keep the parts you have taken out on the chart, drawn faintly, so the bars still add up to the total change.">Show what was taken out</button>
+         </div>
          <div id="plot-wf-decomp"></div>
+         <div id="wf-peel-note" class="q-note"></div>
+         <div id="plot-wf-size"></div>
+         <div id="wf-size-note" class="q-note"></div>
          <div id="plot-wf-reshuffle"></div>
          <div id="wf-cov-note" class="q-note"></div>
          <div class="ab-ctlrow" id="wf-snap-dn" style="margin-top:10px"></div>
@@ -18319,6 +18387,15 @@ function renderOwnership() {
       hz.querySelectorAll(".fs-lvl").forEach((x) => x.classList.remove("on")); b.classList.add("on");
       _wfHz = b.dataset.hz; _wfDrawPlot(); _wfThemeChart(); _wfCrowdChart();
     }));
+    const peel = $("wf-peel");
+    if (peel) peel.querySelectorAll(".fs-lvl").forEach((b) => b.addEventListener("click", () => {
+      peel.querySelectorAll(".fs-lvl").forEach((x) => x.classList.remove("on")); b.classList.add("on");
+      _wfPeel = parseInt(b.dataset.peel, 10) || 0; _wfDrawPlot();
+    }));
+    const gh = $("wf-ghost");
+    if (gh) gh.addEventListener("click", () => {
+      _wfGhost = !_wfGhost; gh.classList.toggle("on", _wfGhost); _wfDrawPlot();
+    });
     const tsel = $("wf-theme-sel");
     if (tsel) tsel.addEventListener("change", (e) => { _wfTheme = e.target.value; _wfThemeDraw(); });
     const cmode = $("wf-crowd-mode");
@@ -18432,28 +18509,132 @@ function _wfDrawHead() {
 
 function _wfDrawPlot() {
   const W = _wf(), node = _wfSeriesFor(_wfFocus); if (!W) return;
-  if (!node || !node.gross) { _wfPlot("plot-wf-decomp", [], {}); return; }
+  if (!node || !node.gross) { _wfPlot("plot-wf-decomp", [], {}); _wfPlot("plot-wf-size", [], {}); return; }
   const n = W.months.length;
   const back = parseInt(_wfHz, 10) || 0;
   const h0 = back > 0 ? Math.max(0, n - back) : 0;
   const x = W.months.slice(h0);
-  const sl = (arr) => arr.slice(h0);
-  const traces = [
-    { type: "bar", x, y: sl(node.net_active), name: "Net-active", marker: { color: _WF_COL.na } },
-    { type: "bar", x, y: sl(node.inflow), name: "Implied inflow", marker: { color: _WF_COL.inflow } },
-    { type: "bar", x, y: sl(node.price), name: "Price action", marker: { color: _WF_COL.price } },
-  ];
+  const sl = (arr) => (arr || []).slice(h0);
+  const step = _WF_PEEL[_wfPeel] || _WF_PEEL[0];
+
+  // what is LEFT at this depth: the total change, less each part already taken out. Built by
+  // subtraction from the baked arrays, so the bars on the chart cannot drift from the cube.
+  const gross = sl(node.gross), price = sl(node.price), inflow = sl(node.inflow);
+  const taken = [];                                     // the parts removed, in the order removed
+  if (_wfPeel >= 1) taken.push({ name: "Price action, taken out", y: price, color: _WF_COL.price });
+  if (_wfPeel >= 2) taken.push({ name: "Implied inflow, taken out", y: inflow, color: _WF_COL.inflow });
+  const left = gross.map((g, i) => {
+    if (g == null) return null;
+    let v = g;
+    for (const t of taken) { const p = t.y[i]; if (p == null) return null; v -= p; }
+    return v;
+  });
+
+  // the removed parts are drawn first so the one you are looking at sits on top of the stack
+  const traces = [];
+  if (_wfGhost) taken.forEach((t) => traces.push({
+    type: "bar", x, y: t.y, name: t.name,
+    marker: { color: vcColorAlphaSafe(t.color, 0.3), line: { width: 0 } },
+  }));
+  traces.push({ type: "bar", x, y: left, name: step.label, marker: { color: step.color } });
+
   _wfPlot("plot-wf-decomp", traces, {
     barmode: "relative", height: 360,
-    title: { text: `Flow decomposition, ${_wfScopeName()}, ₹ crore per month`, font: { size: 13 } },
+    title: { text: `${step.label}, ${_wfScopeName()}, ₹ crore per month`, font: { size: 13 } },
     legend: { orientation: "h" }, yaxis: { title: "₹ crore", zeroline: true }, margin: { t: 40 },
     // ★ KV 2026-08-19: each bar is a MONTH (the Jun-30→Jul-31 book change), not a day. Plotly
     // stamps monthly points at the month's first day and then hover-prints "Jul 1, 2026" — a fake
     // precision that read as a DATE claim. Month-granular hover ("Jul 2026") says what the bar is.
     xaxis: { hoverformat: "%b %Y" },
   });
+  const pn = $("wf-peel-note");
+  if (pn) pn.innerHTML = `<b>The solid bar is ${fEsc(step.label.toLowerCase())}</b> — ${fEsc(step.note)}.`
+    + (taken.length ? ` The faint bars are what you have taken out, so the stack still adds to the total change.`
+       : ` Take out the market's move, and then the fresh money deployed in proportion to the book, to reach the bottom line.`);
+  _wfDrawSize(x, h0, node);
   _wfDrawReshuffle(x, h0);
   _wfCoverageNote(h0);
+}
+
+// vcColorAlpha lives in the chart layer, which is loaded before this file; fall back rather than throw
+// if a deck ever ships without it.
+function vcColorAlphaSafe(c, a) {
+  try { if (typeof vcColorAlpha === "function") return vcColorAlpha(c, a); } catch (e) {}
+  return c;
+}
+
+// ── THE SIZE BUILD-UP (Kyser 2026-10-22): "the total change in size (in time series) — as sum of
+// its parts at each time". The chart above answers "how much moved this month, and how much of it was
+// a decision"; this one answers "where did the pile itself come from".
+//
+// ★ THE FOURTH TERM IS REAL AND IT IS MEASURED, NOT GUESSED. Book SIZE does not move by the three
+// flow parts alone: the cube sums both the size and the three parts over the PRICED rows of each
+// month, and that set of rows changes between months. The leftover per month is exactly
+//     (size now − size last month) − total change
+// and on 2026-10-22 it was decomposed over the 35 month-pairs from 2023-11 to 2026-09 into the four
+// ways a row can be in one month's set and not the other: a book entering the panel (+107,502 cr),
+// a holding inside a book already here becoming priced (+210,838 cr), a book leaving (−11,405 cr)
+// and a holding ceasing to be priced (−3,957 cr). Those four add to 302,978 cr against a measured
+// leftover of 302,978 cr — 0.000% unexplained. So it gets its own band and its own name, rather than
+// being quietly dropped to make an identity look tidy.
+function _wfDrawSize(x, h0, node) {
+  const W = _wf(); if (!W) return;
+  const host = $("plot-wf-size"); if (!host) return;
+  const mv = node.mv;
+  if (!mv || !mv.length) { _wfPlot("plot-wf-size", [], {}); const nn = $("wf-size-note"); if (nn) nn.innerHTML = ""; return; }
+  const n = W.months.length;
+  // cumulative, from the first month of the window: every series is a change SINCE that month, so the
+  // parts and the size line start together at zero and can be read against each other.
+  //
+  // ★ A MISSING MONTH IS ZERO HERE, AND THAT IS THE WHOLE POINT. At the market level every month
+  // carries a value, but one AMC or one scheme is simply ABSENT from the priced panel before it
+  // starts disclosing — the cube writes nothing for those months. Skipping them (the first cut of
+  // this chart did) left the bands short of the line in 73 of 161 months for a single AMC: the size
+  // line still moved when the book appeared, while no band recorded the appearance.
+  // An absent book held nothing priced, so its value is 0 and its arrival belongs to the panel band.
+  const v = (arr, i) => (arr && arr[i] != null) ? arr[i] : 0;
+  const cum = { price: [], inflow: [], na: [], panel: [], size: [] };
+  let cp = 0, ci = 0, cn = 0, cg = 0;
+  for (let i = h0; i < n; i++) {
+    if (i > h0) {
+      const dp = v(node.price, i), di = v(node.inflow, i), dn = v(node.net_active, i);
+      cp += dp; ci += di; cn += dn;
+      // the panel band is taken as the RESIDUAL against the three parts, not against the stored
+      // gross. The two differ only by the cube's 0.1 crore display rounding, which is definitionally
+      // dust per month but accumulates in a running total: measured at about 2 crore over 161 months
+      // on a 9,600 crore book before this change. Taking the residual makes the bars add to the line
+      // exactly, and parks that dust in the one band that is already "everything else".
+      cg += (v(mv, i) - v(mv, i - 1)) - dp - di - dn;
+    }
+    cum.price.push(cp); cum.inflow.push(ci); cum.na.push(cn); cum.panel.push(cg);
+    cum.size.push(v(mv, i) - v(mv, h0));
+  }
+  const bar = (y, name, color) => ({ type: "bar", x, y, name, marker: { color } });
+  const traces = [
+    bar(cum.price, "Price action", _WF_COL.price),
+    bar(cum.inflow, "Implied inflow", _WF_COL.inflow),
+    bar(cum.na, "Active flow", _WF_COL.na),
+    bar(cum.panel, "Books and holdings entering the panel", _WF_COL_PANEL),
+    { type: "scatter", mode: "lines", x, y: cum.size, name: "Total change in size",
+      line: { color: "#1d2128", width: 2 } },
+  ];
+  _wfPlot("plot-wf-size", traces, {
+    barmode: "relative", height: 320,
+    title: { text: `Total change in size since ${x[0]}, ${_wfScopeName()}, ₹ crore`, font: { size: 13 } },
+    legend: { orientation: "h" }, yaxis: { title: "₹ crore", zeroline: true }, margin: { t: 40 },
+    xaxis: { hoverformat: "%b %Y" },
+    // a rolling mean of a running total smooths nothing a reader wants: the chart layer would offer
+    // a "3-month mean" of a line that is already cumulative, so the strip is turned off here
+  }, { noSmooth: true });
+  const nn = $("wf-size-note");
+  if (nn) nn.innerHTML = `<b>The bars add to the line.</b> The line is how much bigger or smaller the `
+    + `holding is than it was in ${fEsc(x[0])}; the bars are the four things that moved it, added up `
+    + `month by month. Three of them are the parts above. The fourth is not a decision anyone took: `
+    + `the sample itself changes, as a fund book joins or leaves the disclosed panel and as a holding `
+    + `gains or loses a usable price. Measured over the 35 months to September 2026, that fourth part `
+    + `was ${_wfFmt(302978)} in total, of which a book joining was ${_wfFmt(107502)} and a holding `
+    + `inside a book already here becoming priced was ${_wfFmt(210838)}, against books and holdings `
+    + `leaving of ${_wfFmt(-11405)} and ${_wfFmt(-3957)} — which account for the whole of it.`;
 }
 
 // The panel now runs from 2013 rather than a trailing 36 months, and disclosed-scheme coverage

@@ -2688,7 +2688,7 @@ table.abp-cy th.num, table.abp-cy td.num { min-width: 62px; text-align: right; }
   }
 
   const VC_STYLE = {
-    version: "1.0.0",
+    version: "1.1.0",
 
     // type (from the theme)
     get font() { const t = vcTok(); return { family: t.sans, size: t.layer.font.size, color: t.layer.font.color }; },
@@ -2701,9 +2701,19 @@ table.abp-cy th.num, table.abp-cy td.num { min-width: 62px; text-align: right; }
     // grid: horizontal only, no axis lines, no zero line unless the caller asks
     get yGrid() { return vcTok().gridY; },
     gridWidth: 1,
+    gridDash: "dot",      // a dotted rule reads as a guide; a solid one competes with the data
     xGrid: false,
     showLine: false,
     zeroLine: false,
+
+    // ── PRESENTATION POLISH (Kyser 2026-10-22: "the charts are boring"). Shape only: nothing here
+    // changes a value, a scale or which series is drawn. Each is applied ONLY where the draw site
+    // left the key alone, so any chart that made its own choice keeps it.
+    barCorner: "20%",     // a percentage, not pixels: 161 monthly bars are a few pixels wide and a
+                          // fixed 3 px radius would swallow them, while 20% scales with the bar
+    barGap: 0.2,
+    barGroupGap: 0.06,
+    sliceGap: 1.5,        // the hairline that separates one slice of a pie from the next
 
     // lines. The saturation Kyser sees is the WIDTH and the ALPHA, not the hues.
     rawWidth: 1.1,        // the faded ghost
@@ -3393,11 +3403,47 @@ table.abp-cy th.num, table.abp-cy td.num { min-width: 62px; text-align: right; }
     if (isGridAxis) {
       if (!isSet("gridcolor") && (a.gridcolor === undefined || a.gridcolor === S.legacy.grid)) a.gridcolor = S.yGrid;
       if (!isSet("gridwidth") && a.gridwidth === undefined) a.gridwidth = S.gridWidth;
+      if (!isSet("griddash") && a.griddash === undefined) a.griddash = S.gridDash;
     }
     if (!isSet("showline") && a.showline === undefined) a.showline = S.showLine;
     if (!isSet("zeroline") && a.zeroline === undefined) a.zeroline = S.zeroLine;
     if (!isSet("tickfont") && a.tickfont === undefined) a.tickfont = Object.assign({}, S.tickFont);
     return a;
+  }
+
+  /* vcPolish — shape-only defaults applied to the FINAL trace list and layout, in place.
+   *
+   * It runs on the copies vcSmooth already made, never on the caller's own objects, and it only
+   * fills a key the draw site left undefined. Three things, measured against Plotly 3.8.2 which is
+   * the version vendored here (cornerradius and griddash both land in 2.27+):
+   *   bars      rounded ends, and a little more air between them
+   *   pies      a hairline in the paper colour between slices, so a donut reads as parts
+   *   nothing   is set to undefined — the house rule that cost a blank Fundamentals tab in June
+   */
+  function vcPolish(data, lay) {
+    const S = VC_STYLE;
+    let anyBar = false;
+    (data || []).forEach((t) => {
+      if (!t || typeof t !== "object") return;
+      if (t.type === "bar") {
+        anyBar = true;
+        const m = vcPlain(t.marker);
+        if (m.cornerradius === undefined) m.cornerradius = S.barCorner;
+        t.marker = m;
+      } else if (t.type === "pie") {
+        const m = vcPlain(t.marker);
+        const ln = vcPlain(m.line);
+        if (ln.color === undefined) ln.color = S.paperBg;
+        if (ln.width === undefined) ln.width = S.sliceGap;
+        m.line = ln;
+        t.marker = m;
+      }
+    });
+    if (anyBar && lay) {
+      if (lay.bargap === undefined) lay.bargap = S.barGap;
+      if (lay.bargroupgap === undefined) lay.bargroupgap = S.barGroupGap;
+    }
+    return data;
   }
 
   function vcExplicitAt(E, path) {
@@ -3486,6 +3532,8 @@ table.abp-cy th.num, table.abp-cy td.num { min-width: 62px; text-align: right; }
     const prevN = (gd.data && gd.data.length) || 0;
     const purged = (opts.purge === true || !!(prevN && prevN !== data.length));
     if (purged) vcPurge(target, gd);
+
+    try { vcPolish(data, lay); } catch (e) { vcWarn("polish", e); }   // shape only; never gates a draw
 
     let res = null;
     try { res = root.Plotly.react(target, data, lay, opts.config || vcConf()); }
@@ -3992,6 +4040,7 @@ table.abp-cy th.num, table.abp-cy td.num { min-width: 62px; text-align: right; }
   root.vcUnmount = vcUnmount;
   root.vcInjectCSS = vcInjectCSS;
   root.vcColorAlpha = vcColorAlpha;
+  root.vcPolish = vcPolish;
   root.vcCopyTrace = vcCopyTrace;
   root.vcGetChoice = vcGetChoice;
   root.vcSetChoice = vcSetChoice;
@@ -13549,6 +13598,29 @@ const _wfPivExp = {};   // pivot rowKey -> true (expanded), for the Excel-style 
 const _wfDrill = {};    // amc-slug -> drill payload | null (lazy-loaded per-AMC scheme×sector file)
 const _wfCrowdCache = {}, _wfCrowdInflight = {};   // vst_id -> per-stock "who's trading it" payload (lazy)
 const _WF_COL = { na: "#1f9e89", inflow: "#d99a2b", price: "#9aa6b2" };
+// the panel entering or leaving the priced sample: its own hue, never one of the three flow colours,
+// as it is not a decision anyone took
+const _WF_COL_PANEL = "#8c7bb5";
+
+// ── THE PEEL (Kyser 2026-10-22): "by default plots should have one default plot and then option to
+// add/adjust the plot with sub parts or different parts" — plot the total change first, then let the
+// reader take out price action, then implied inflow, and arrive at the bottom line. The old chart drew
+// all three parts at once and made you untick two of them to see the one that matters.
+//
+// The bar you are looking at is always what is LEFT after the parts above it are removed, so the three
+// steps are one quantity at three depths: shade deepens toward the teal the rest of the page already
+// uses for active flow. What has been removed stays on the chart as a faint bar, so the stack still
+// adds to the total change and nothing is hidden.
+let _wfPeel = 0;                 // 0 total change · 1 less price action · 2 less implied inflow
+let _wfGhost = true;             // keep the removed parts on the chart, faintly
+const _WF_PEEL = [
+  { label: "Total change", color: "#2f4858",
+    note: "the whole rupee change in what the funds hold, before anything is taken out" },
+  { label: "Change after the market's move", color: "#2f6f8f",
+    note: "what is left once the holdings' own price move is taken out: fresh money plus genuine reweighting" },
+  { label: "Active flow", color: _WF_COL.na,
+    note: "the bottom line: genuine reweighting, with both the market's move and the pro-rata deployment of fresh money taken out" },
+];
 function _wf() { return (typeof window !== "undefined") ? window.VISTAS_WATERFALL : null; }
 function _wfNode(W, amc, sector) {
   if (!W) return null;
@@ -13590,7 +13662,7 @@ function _wfSeriesFor(f) {
   }
   return f.sector ? ((sch.sectors || {})[f.sector] || null) : sch.total;
 }
-function _wfPlot(id, traces, layout) {
+function _wfPlot(id, traces, layout, more) {
   const el = $(id); if (!el) return;
   // purgePlot takes the chart layer's strip down with the chart, so an emptied panel is not left
   // with a "Pop out" button over nothing.
@@ -13599,6 +13671,7 @@ function _wfPlot(id, traces, layout) {
   // every panel here is monthly flow BARS or a heatmap on a category axis: no path to average, and
   // no x-window whose y a re-fit would help.
   if (!(layout && layout.xaxis && layout.xaxis.type === "date")) vopts.autoscale = false;
+  if (more) Object.assign(vopts, more);
   vplot(id, traces, layout, vopts);
 }
 function _wfFmt(v) { return (v === null || v === undefined) ? "—" : (v >= 0 ? "+" : "") + Math.round(v).toLocaleString() + " cr"; }
@@ -18324,6 +18397,7 @@ function renderOwnership() {
          <details><summary>How this panel works</summary>
            <p>Every month, the rupee change in each mutual-fund holding is split into three parts that add up to the gross change. <b>Price action</b> is the starting value times the stock's return: the holding simply moved with the market, and no one decided anything. <b>Implied inflow</b> is fresh scheme money spread across the book in proportion to existing weights: every name rises together, so it still says nothing about any one stock. <b>Net-active</b> is the genuine change in weight. It is unaffected by inflows, and it is the only part that reflects conviction.</p>
            <p>In formulas: price action = gross change minus the price-adjusted change; implied inflow = the price-adjusted change minus net-active; net-active = AUM × (1 + the portfolio return) × the change in active weight. The stock-level figures are then added up through every level, from stock to fund house by sector, to fund house, to sector, to the whole market. At each level the three parts still add up to the gross change every month, so the levels reconcile. The data comes from monthly disclosures, ${months.length} months to ${fEsc(months[months.length - 1])}.</p>
+           <p><b>Where the size of the book comes from, and the fourth thing that moves it.</b> The three parts above add up to the rupee change in a holding, exactly. They do not add up to the change in the SIZE of the book, and the second chart shows why. Both the size and the three parts are summed over the holdings that had a usable price that month, and that set of holdings is not the same set every month. The leftover is the sample changing, and on 22 October 2026 it was measured rather than assumed: across the whole market, over the 35 month-pairs from November 2023 to September 2026, it came to ₹302,978 crore, made up of a fund book entering the panel (₹107,502 crore), a holding inside a book already in the panel gaining a usable price (₹210,838 crore), a book leaving (−₹11,405 crore) and a holding losing its price (−₹3,957 crore). Those four account for all of it, with nothing unexplained. So the second chart gives that term its own band and its own name instead of dropping it to make the arithmetic look tidy.</p>
            <p>Why it matters: a headline such as "₹X crore bought" is mostly SIP money landing. Only net-active can carry a conviction signal. Separating the three lets you see where managers are actually tilting, by fund house and sector, over time. One caveat: implied inflow is worked out from the holdings themselves; it is not the raw subscription data that AMFI publishes.</p>
          </details>
          <div class="ab-ctlrow">
@@ -18338,7 +18412,19 @@ function renderOwnership() {
            </span>
          </div>
          <div id="wf-head" style="display:flex;flex-wrap:wrap;gap:16px;margin:10px 0"></div>
+         <div class="ab-ctlrow" style="margin:4px 0 0">
+           <span class="ab-ctllbl">Plot</span>
+           <span id="wf-peel">
+             <button type="button" class="fs-lvl on" data-peel="0">Total change</button>
+             <button type="button" class="fs-lvl" data-peel="1">less price action</button>
+             <button type="button" class="fs-lvl" data-peel="2">less implied inflow</button>
+           </span>
+           <button type="button" class="fs-lvl on" id="wf-ghost" style="margin-left:10px" title="Keep the parts you have taken out on the chart, drawn faintly, so the bars still add up to the total change.">Show what was taken out</button>
+         </div>
          <div id="plot-wf-decomp"></div>
+         <div id="wf-peel-note" class="q-note"></div>
+         <div id="plot-wf-size"></div>
+         <div id="wf-size-note" class="q-note"></div>
          <div id="plot-wf-reshuffle"></div>
          <div id="wf-cov-note" class="q-note"></div>
          <div class="ab-ctlrow" id="wf-snap-dn" style="margin-top:10px"></div>
@@ -18351,6 +18437,15 @@ function renderOwnership() {
       hz.querySelectorAll(".fs-lvl").forEach((x) => x.classList.remove("on")); b.classList.add("on");
       _wfHz = b.dataset.hz; _wfDrawPlot(); _wfThemeChart(); _wfCrowdChart();
     }));
+    const peel = $("wf-peel");
+    if (peel) peel.querySelectorAll(".fs-lvl").forEach((b) => b.addEventListener("click", () => {
+      peel.querySelectorAll(".fs-lvl").forEach((x) => x.classList.remove("on")); b.classList.add("on");
+      _wfPeel = parseInt(b.dataset.peel, 10) || 0; _wfDrawPlot();
+    }));
+    const gh = $("wf-ghost");
+    if (gh) gh.addEventListener("click", () => {
+      _wfGhost = !_wfGhost; gh.classList.toggle("on", _wfGhost); _wfDrawPlot();
+    });
     const tsel = $("wf-theme-sel");
     if (tsel) tsel.addEventListener("change", (e) => { _wfTheme = e.target.value; _wfThemeDraw(); });
     const cmode = $("wf-crowd-mode");
@@ -18464,28 +18559,133 @@ function _wfDrawHead() {
 
 function _wfDrawPlot() {
   const W = _wf(), node = _wfSeriesFor(_wfFocus); if (!W) return;
-  if (!node || !node.gross) { _wfPlot("plot-wf-decomp", [], {}); return; }
+  if (!node || !node.gross) { _wfPlot("plot-wf-decomp", [], {}); _wfPlot("plot-wf-size", [], {}); return; }
   const n = W.months.length;
   const back = parseInt(_wfHz, 10) || 0;
   const h0 = back > 0 ? Math.max(0, n - back) : 0;
   const x = W.months.slice(h0);
-  const sl = (arr) => arr.slice(h0);
-  const traces = [
-    { type: "bar", x, y: sl(node.net_active), name: "Net-active", marker: { color: _WF_COL.na } },
-    { type: "bar", x, y: sl(node.inflow), name: "Implied inflow", marker: { color: _WF_COL.inflow } },
-    { type: "bar", x, y: sl(node.price), name: "Price action", marker: { color: _WF_COL.price } },
-  ];
+  const sl = (arr) => (arr || []).slice(h0);
+  const step = _WF_PEEL[_wfPeel] || _WF_PEEL[0];
+
+  // what is LEFT at this depth: the total change, less each part already taken out. Built by
+  // subtraction from the baked arrays, so the bars on the chart cannot drift from the cube.
+  const gross = sl(node.gross), price = sl(node.price), inflow = sl(node.inflow);
+  const taken = [];                                     // the parts removed, in the order removed
+  if (_wfPeel >= 1) taken.push({ name: "Price action, taken out", y: price, color: _WF_COL.price });
+  if (_wfPeel >= 2) taken.push({ name: "Implied inflow, taken out", y: inflow, color: _WF_COL.inflow });
+  const left = gross.map((g, i) => {
+    if (g == null) return null;
+    let v = g;
+    for (const t of taken) { const p = t.y[i]; if (p == null) return null; v -= p; }
+    return v;
+  });
+
+  // the removed parts are drawn first so the one you are looking at sits on top of the stack
+  const traces = [];
+  if (_wfGhost) taken.forEach((t) => traces.push({
+    type: "bar", x, y: t.y, name: t.name,
+    marker: { color: vcColorAlphaSafe(t.color, 0.3), line: { width: 0 } },
+  }));
+  traces.push({ type: "bar", x, y: left, name: step.label, marker: { color: step.color } });
+
   _wfPlot("plot-wf-decomp", traces, {
     barmode: "relative", height: 360,
-    title: { text: `Flow decomposition, ${_wfScopeName()}, ₹ crore per month`, font: { size: 13 } },
+    title: { text: `${step.label}, ${_wfScopeName()}, ₹ crore per month`, font: { size: 13 } },
     legend: { orientation: "h" }, yaxis: { title: "₹ crore", zeroline: true }, margin: { t: 40 },
     // ★ KV 2026-08-19: each bar is a MONTH (the Jun-30→Jul-31 book change), not a day. Plotly
     // stamps monthly points at the month's first day and then hover-prints "Jul 1, 2026" — a fake
     // precision that read as a DATE claim. Month-granular hover ("Jul 2026") says what the bar is.
     xaxis: { hoverformat: "%b %Y" },
   });
+  const pn = $("wf-peel-note");
+  if (pn) pn.innerHTML = `<b>The solid bar is ${fEsc(step.label.toLowerCase())}</b> — ${fEsc(step.note)}.`
+    + (taken.length ? ` The faint bars are what you have taken out, so the stack still adds to the total change.`
+       : ` Take out the market's move, and then the fresh money deployed in proportion to the book, to reach the bottom line.`);
+  _wfDrawSize(x, h0, node);
   _wfDrawReshuffle(x, h0);
   _wfCoverageNote(h0);
+}
+
+// vcColorAlpha lives in the chart layer, which is loaded before this file; fall back rather than throw
+// if a deck ever ships without it.
+function vcColorAlphaSafe(c, a) {
+  try { if (typeof vcColorAlpha === "function") return vcColorAlpha(c, a); } catch (e) {}
+  return c;
+}
+
+// ── THE SIZE BUILD-UP (Kyser 2026-10-22): "the total change in size (in time series) — as sum of
+// its parts at each time". The chart above answers "how much moved this month, and how much of it was
+// a decision"; this one answers "where did the pile itself come from".
+//
+// ★ THE FOURTH TERM IS REAL AND IT IS MEASURED, NOT GUESSED. Book SIZE does not move by the three
+// flow parts alone: the cube sums both the size and the three parts over the PRICED rows of each
+// month, and that set of rows changes between months. The leftover per month is exactly
+//     (size now − size last month) − total change
+// and on 2026-10-22 it was decomposed over the 35 month-pairs from 2023-11 to 2026-09 into the four
+// ways a row can be in one month's set and not the other: a book entering the panel (+107,502 cr),
+// a holding inside a book already here becoming priced (+210,838 cr), a book leaving (−11,405 cr)
+// and a holding ceasing to be priced (−3,957 cr). Those four add to 302,978 cr against a measured
+// leftover of 302,978 cr — 0.000% unexplained. So it gets its own band and its own name, rather than
+// being quietly dropped to make an identity look tidy.
+function _wfDrawSize(x, h0, node) {
+  const W = _wf(); if (!W) return;
+  const host = $("plot-wf-size"); if (!host) return;
+  const mv = node.mv;
+  if (!mv || !mv.length) { _wfPlot("plot-wf-size", [], {}); const nn = $("wf-size-note"); if (nn) nn.innerHTML = ""; return; }
+  const n = W.months.length;
+  // cumulative, from the first month of the window: every series is a change SINCE that month, so the
+  // parts and the size line start together at zero and can be read against each other.
+  //
+  // ★ A MISSING MONTH IS ZERO HERE, AND THAT IS THE WHOLE POINT. At the market level every month
+  // carries a value, but one AMC or one scheme is simply ABSENT from the priced panel before it
+  // starts disclosing — the cube writes nothing for those months. Skipping them (the first cut of
+  // this chart did) left the bands short of the line in 73 of 161 months for a single AMC: the size
+  // line still moved when the book appeared, while no band recorded the appearance.
+  // An absent book held nothing priced, so its value is 0 and its arrival belongs to the panel band.
+  const v = (arr, i) => (arr && arr[i] != null) ? arr[i] : 0;
+  const cum = { price: [], inflow: [], na: [], panel: [], size: [] };
+  let cp = 0, ci = 0, cn = 0, cg = 0;
+  for (let i = h0; i < n; i++) {
+    if (i > h0) {
+      const dp = v(node.price, i), di = v(node.inflow, i), dn = v(node.net_active, i);
+      cp += dp; ci += di; cn += dn;
+      // the panel band is taken as the RESIDUAL against the three parts, not against the stored
+      // gross. The two differ only by the cube's 0.1 crore display rounding, which is definitionally
+      // dust per month but accumulates in a running total: measured at about 2 crore over 161 months
+      // on a 9,600 crore book before this change. Taking the residual makes the bars add to the line
+      // exactly, and parks that dust in the one band that is already "everything else".
+      cg += (v(mv, i) - v(mv, i - 1)) - dp - di - dn;
+    }
+    cum.price.push(cp); cum.inflow.push(ci); cum.na.push(cn); cum.panel.push(cg);
+    cum.size.push(v(mv, i) - v(mv, h0));
+  }
+  const bar = (y, name, color) => ({ type: "bar", x, y, name, marker: { color } });
+  const traces = [
+    bar(cum.price, "Price action", _WF_COL.price),
+    bar(cum.inflow, "Implied inflow", _WF_COL.inflow),
+    bar(cum.na, "Active flow", _WF_COL.na),
+    bar(cum.panel, "Books and holdings entering the panel", _WF_COL_PANEL),
+    { type: "scatter", mode: "lines", x, y: cum.size, name: "Total change in size",
+      line: { color: "#1d2128", width: 2 } },
+  ];
+  _wfPlot("plot-wf-size", traces, {
+    barmode: "relative", height: 320,
+    title: { text: `Total change in size since ${x[0]}, ${_wfScopeName()}, ₹ crore`, font: { size: 13 } },
+    legend: { orientation: "h" }, yaxis: { title: "₹ crore", zeroline: true }, margin: { t: 40 },
+    xaxis: { hoverformat: "%b %Y" },
+    // a rolling mean of a running total smooths nothing a reader wants: the chart layer would offer
+    // a "3-month mean" of a line that is already cumulative, so the strip is turned off here
+  }, { noSmooth: true });
+  const nn = $("wf-size-note");
+  // the measured attribution of the fourth band is a MARKET-level figure and belongs in the panel's
+  // own explainer, not beside a chart that may be showing one AMC: a market number printed next to an
+  // AMC chart reads as a statement about that AMC
+  if (nn) nn.innerHTML = `<b>The bars add to the line.</b> The line is how much bigger or smaller this `
+    + `book is than it was in ${fEsc(x[0])}; the bars are the four things that moved it, added up month `
+    + `by month. Three of them are the parts in the chart above. The fourth is not a decision anyone `
+    + `took: the sample itself changes, as a fund book joins or leaves the disclosed panel and as a `
+    + `holding gains or loses a usable price. See "How this panel works" for what that fourth part has `
+    + `measured across the whole market.`;
 }
 
 // The panel now runs from 2013 rather than a trailing 36 months, and disclosed-scheme coverage
