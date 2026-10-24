@@ -1201,7 +1201,7 @@
   "last": "2026-09-30",
   "rows": 88,
   "flows_from": "2000-01-31",
-  "bytes": 210486
+  "bytes": 210500
  },
  {
   "key": "reserve_currencies",
@@ -1803,7 +1803,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22400
+  "bytes": 22415
  },
  {
   "key": "futures_short__044601",
@@ -1817,7 +1817,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 22500
+  "bytes": 22515
  },
  {
   "key": "futures_long__043602",
@@ -1971,7 +1971,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21164
+  "bytes": 21177
  },
  {
   "key": "futures_short__045601",
@@ -1985,7 +1985,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 21231
+  "bytes": 21244
  },
  {
   "key": "futures_long__13874A",
@@ -2083,7 +2083,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16995
+  "bytes": 16979
  },
  {
   "key": "futures_short__244042",
@@ -2097,7 +2097,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16940
+  "bytes": 16924
  },
  {
   "key": "futures_long__244041",
@@ -2111,7 +2111,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16174
+  "bytes": 16164
  },
  {
   "key": "futures_short__244041",
@@ -2125,7 +2125,7 @@
   "last": "2026-10-13",
   "rows": 7,
   "flows_from": null,
-  "bytes": 16103
+  "bytes": 16093
  },
  {
   "key": "futures_long__099741",
