@@ -56,7 +56,7 @@
       "reason": null
     },
     "short_dispersion_signal": {
-      "strength": 92.88,
+      "strength": 92.86,
       "available": true,
       "reason": null
     },
@@ -5125,7 +5125,7 @@
       25.0,
       25.0,
       25.0,
-      15.65,
+      15.67,
       null,
       null,
       null,
@@ -6392,16 +6392,16 @@
       null,
       null,
       null,
-      63.94,
+      63.93,
       null,
       null,
       100.0,
       null,
       75.0,
       100.0,
-      89.78,
-      77.43,
-      92.88
+      89.75,
+      77.4,
+      92.86
     ],
     "vix_pctile_252d": [
       30.56,
@@ -7774,7 +7774,7 @@
         "asof": "2026-10-23",
         "coverage_min_pct": 80.0
       },
-      "vix_csv": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\World Data PX till Oct 24, 2026.csv"
+      "vix_csv": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\World Data PX till Oct 25, 2026.csv"
     },
     "backbone_date_note": "asof = realized.json's own last date, the daily equity-return backbone; VIX and implied correlation are joined onto it by AS-OF (latest value on or before that date), never by looking ahead.",
     "null_handling": "implied correlation pending (coverage < 80%) -- every implied-dependent tile/leg (CRP, the Dispersion Score's CRP leg, both dispersion signals, the module-13 hedge color, the module-21 covered-call signal, the regime-shift score's CRP leg) reads null with this reason whenever rho_imp is null/absent for asof. The module-21 Index Hedge Signal does NOT depend on CRP and stays live.",
