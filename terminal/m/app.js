@@ -6492,7 +6492,7 @@ async function fsRenderHoldonly(slug, meta, man) {
   const cov = f.coverage || {}, con = f.concentration || {}, aa = f.asset_alloc || {}, sa = f.sector_alloc || {}, H = f.holdings || [];
   const num = (x, s) => (x == null) ? "—" : (x + (s || ""));
   let h = `<div class="quant-head"><div class="qh-name">${fEsc(f.name || meta.name || slug)}${f.amc ? ` <span class="qh-sym">${fEsc(f.amc)}</span>` : ""}</div><div class="qh-px"><span class="fs-badge" style="background:#6e7781">holdings only</span></div></div>`;
-  h += `<section class="panel"><div class="q-warn">This is a passive index fund, an ETF, a debt fund or a very new fund, so there is <b>no manager-skill history</b>. It is not in the 13-year active-equity store, and excess return, information ratio and batting cannot be measured. Only the latest disclosed book is shown.</div>`;
+  h += `<section class="panel"><div class="q-warn">This fund is not in the 13-year active-equity store, so there is <b>no manager-skill history</b>: excess return, information ratio and batting cannot be measured. Only the latest disclosed book is shown.</div>`;
   h += `<div class="q-stats">` + qStat("Holdings", num(con.n_holdings)) + qStat("Top-10 weight", num(con.top10_pct, "%"))
     + qStat("Total % of NAV covered", num(cov.pct_sum, "%")) + qStat("Portfolio as on", fEsc(f.asof || "—")) + `</div>`;
   h += `<div class="qgrid2"><div class="qcell"><div class="q-cap">Asset allocation (% of NAV)</div><div class="plot" id="plot-ho-asset" style="height:260px"></div></div>`
