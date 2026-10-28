@@ -9524,6 +9524,45 @@ function _abDomNoteHTML() {
     + (on.indexOf("dom_other") >= 0 ? `"Other domestic institutions" is what the filing's domestic institutions line has left after mutual funds, insurance, pension and provident funds, banks and finance companies and alternative investment funds, so nothing in that line goes missing. ` : "")
     + `The performance track below prices the mutual-fund book only.`;
 }
+// Which quarter the filing books run to (2026-10-28). While the newest quarter is still being filed the books use
+// the quarter before it and carry every company forward from there; a night that could not build them at all shows
+// the last good build's books. All eight are built together, so the first one switched on speaks for them.
+// "2026-09" -> "the September 2026 quarter"; "2026-10-27 02:29" -> "27 October 2026 at 02:29" (review 2026-10-28:
+// the reader sees words, not machine labels).
+const _AB_MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+  "October", "November", "December"];
+function _abQuarterName(q) {
+  const p = String(q || "").split("-");
+  return (p.length >= 2 && +p[1] >= 1 && +p[1] <= 12) ? "the " + _AB_MONTH_NAMES[(+p[1]) - 1] + " " + p[0] + " quarter" : "the quarter before";
+}
+function _abBuildName(b) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}:\d{2}))?/.exec(String(b || ""));
+  return m ? (+m[3]) + " " + _AB_MONTH_NAMES[(+m[2]) - 1] + " " + m[1] + (m[4] ? " at " + m[4] : "") : String(b || "an earlier build");
+}
+function _abFiledStateHTML() {
+  const on = _abFiledOn();
+  if (!on.length) return "";
+  const m = _abFiledMeta(on[0]) || {}, hb = m.held_back, c = m.carried, left = m.left_out || {};
+  const used = _abQuarterName(m.filed_through);
+  let s = "";
+  if (hb && hb.quarter) {
+    const pct = (v) => (Math.round(1000 * (v || 0)) / 10).toFixed(1) + "%";
+    const big = (hb.large_caps_missing || []).length;
+    const lead = _abQuarterName(hb.quarter);
+    s += ` <b>${fEsc(lead.charAt(0).toUpperCase() + lead.slice(1))} is still being filed.</b> ${pct(hb.top_cover)} of the 600 largest companies have filed it so far`
+      + (big ? `, and ${big} of the 100 largest have not` : "")
+      + `. These books wait until ${Math.round(100 * (hb.cover_needed || 0.99))}% have, with none of the 100 largest missing, so for now they use ${fEsc(used)} and carry each company forward from there. `;
+  } else {
+    // a few early filings of the next quarter: shown here, since the books no longer list it as part-filed
+    const qs = Object.keys(left).sort();
+    if (qs.length) {
+      const q = qs[qs.length - 1], n = left[q];
+      s += ` <b>A few companies have already filed for ${fEsc(_abQuarterName(q))}</b> (${fEsc(String(n))} so far). These books leave those filings out until most of the market has filed, so for now every company is shown as of ${fEsc(used)}. `;
+    }
+  }
+  if (c && c.from_build) s += ` <b>These books are from an earlier build.</b> The latest build could not make them, so the books built on ${fEsc(_abBuildName(c.from_build))} are shown as they were. `;
+  return s;
+}
 // The ⬇ Excel button beside the AMC book table. A workbook is the right thing for the table as shown and an
 // impossible thing for the whole history, so the button says which one it is pointed at instead of letting the
 // reader find out by losing the page.
@@ -11118,10 +11157,13 @@ function _abPaint(P, P2, keepScroll) {
     + `<b>Sector book and size book.</b> The two tables under the stock table add up the rows it is showing, in whichever view is on, so every filter and the comparison carry through to them. In the Shares view they count the stocks held instead, since share counts do not add across companies. `
     + (_abIncList().some((k) => AB_FOREIGN.indexOf(k) >= 0) ? _abFiiNoteHTML() : "")
     + _abDomNoteHTML()
+    + (THEME_XLATE ? "" : _abFiledStateHTML())
     + _abDisclosureNoteHTML()
     + `<br><b>Basis.</b> ${fEsc(M.basis || "")} <b>Source.</b> ${fEsc(M.source || "")} <b>Limits.</b> ${fEsc(M.limits || "")}`;
   // outside classic the long reading guide is folded away under one line the reader opens
-  if (THEME_XLATE) { const n = $("ab-note"); if (n) n.innerHTML = `<details><summary>How to read it</summary>${n.innerHTML.replace(/^<b>How to read it\.<\/b>\s*/, "")}</details>`; }
+  // outside classic the filing books' state stays in view above the folded guide (review 2026-10-28): which quarter
+  // they use is a fact about tonight's numbers, not reading instructions
+  if (THEME_XLATE) { const n = $("ab-note"), fs = _abFiledStateHTML(); if (n) n.innerHTML = (fs ? `<div class="ab-filed-state">${fs.trim()}</div>` : "") + `<details><summary>How to read it</summary>${n.innerHTML.replace(/^<b>How to read it\.<\/b>\s*/, "")}</details>`; }
   tbl.querySelectorAll(".ab-h").forEach((h) => {
     h.onclick = (e) => {
       const k = h.dataset.k, col = cols.find((c) => c.k === k), first = (col && col.num) ? -1 : 1;   // number columns open largest-first
