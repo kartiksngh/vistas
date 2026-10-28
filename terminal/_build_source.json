@@ -1,5 +1,13 @@
 {
- "process_started": "2026-10-29T00:00:01",
- "build_finished": "2026-10-29T02:58:57",
- "changed_during_build": []
+ "process_started": "2026-10-29T04:21:05",
+ "build_finished": "2026-10-29T04:21:05",
+ "changed_during_build": [],
+ "restitched": true,
+ "restitched_at": "2026-10-29T04:21:05",
+ "restitched_files": [
+  "static/vistas.js"
+ ],
+ "js_bytes": 1781796,
+ "data_from_build": "2026-10-29T02:58:57",
+ "note": "front-end code and styles swapped into the shell already on disk; every data file is from the build named in data_from_build"
 }

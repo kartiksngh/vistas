@@ -1068,8 +1068,9 @@ function vplot(el, traces, layout, opts) {
 //
 // Staged deliberately (Kyser: "build it for amc book and publish first then do for rest"): the gate
 // below is the only thing between this and every chart in the terminal.
-// every chart of the AMC book: its own plots (ab*), the panels under it (plot-abd-*) and the flows (af-plot-*)
-function _vsDlAllow(id) { return /^(ab|plot-abd|af-plot)/.test(String(id || "")); }   // → `true` widens it to every chart
+// every chart of the AMC book: its own plots (ab*), the panels under it (plot-abd-*) and the flows (af-plot-*);
+// and every chart of the Prediction Markets tab (pm-*, 2026-10-28)
+function _vsDlAllow(id) { return /^(ab|plot-abd|af-plot|pm-)/.test(String(id || "")); }   // → `true` widens it to every chart
 
 // The rows behind a chart, as a wide table: one row per x value, one column per line.
 // Reads gd._vc.traces -- the caller's ORIGINAL series -- not gd.data, which by then may hold a
@@ -1597,6 +1598,7 @@ async function init() {
   initOil();            // Oil tab (2026-09-02 oil-tab build) — baked window.VISTAS_OIL, no recompute
   initIndiaData();      // India Data tab (2026-09-15, data.gov.in) — fetches data/indiadata/index.json when opened
   initLiquidity();      // Global Liquidity tab (2026-09-14 EPFR++) — fetches data/liquidity/global_liquidity.json when opened
+  initPolymarket();     // Prediction Markets tab (2026-10-28, Polymarket) — fetches data/polymarket/*.json when opened
   initDateStrips();     // compact window strips on the Fundamentals + Macro measurebars
   applyHash();          // restore a shared/bookmarked view+selection before the first compute
   run();
@@ -2402,10 +2404,11 @@ function setView(v) {
   if ($("view-consumption")) $("view-consumption").hidden = (v !== "consumption");
   if ($("view-oil")) $("view-oil").hidden = (v !== "oil");
   if ($("view-liquidity")) $("view-liquidity").hidden = (v !== "liquidity");
+  if ($("view-polymarket")) $("view-polymarket").hidden = (v !== "polymarket");
   if ($("view-indiadata")) $("view-indiadata").hidden = (v !== "indiadata");
   // the Universe/Benchmark/range control bar only applies to Performance + Valuation; hide it on
   // the self-contained Fundamentals + Quant + Macro + Allocator + Ownership + Events + Revisions tabs (own pickers / fixed windows).
-  const ctl = $("ctl"); if (ctl) ctl.style.display = (v === "fundamentals" || v === "quant" || v === "screen" || v === "funds" || v === "fundskill" || v === "macro" || v === "allocator" || v === "dashboard" || v === "ownership" || v === "amcbook" || v === "events" || v === "revisions" || v === "gold" || v === "oil" || v === "liquidity" || v === "indiadata") ? "none" : "";
+  const ctl = $("ctl"); if (ctl) ctl.style.display = (v === "fundamentals" || v === "quant" || v === "screen" || v === "funds" || v === "fundskill" || v === "macro" || v === "allocator" || v === "dashboard" || v === "ownership" || v === "amcbook" || v === "events" || v === "revisions" || v === "gold" || v === "oil" || v === "liquidity" || v === "polymarket" || v === "indiadata") ? "none" : "";
   $("tabs").querySelectorAll(".tab[data-view]").forEach((b) => b.classList.toggle("active", b.dataset.view === v));
   if (!linked() && TAB_WIN[v]) { $("start").value = TAB_WIN[v][0]; $("end").value = TAB_WIN[v][1]; }   // restore this tab's own window
   syncDateStrips();
@@ -2452,6 +2455,7 @@ function setView(v) {
   if (v === "power") { try { renderPower(); } catch (e) { console.error("renderPower:", e); } }
   if (v === "consumption") { try { renderConsumption(); } catch (e) { console.error("renderConsumption:", e); } }
     else if (v === "liquidity") renderLiquidity();
+    else if (v === "polymarket") renderPolymarket();
     else if (v === "indiadata") renderIndiaData();
     else if (v === "oil") renderOil();
     else if (BUNDLE) renderAll();
@@ -16612,6 +16616,7 @@ function applyHash() {
     else if (raw.indexOf("events") === 0) { setView("events"); }
     else if (raw.indexOf("screen") === 0) { setView("screen"); }
     else if (raw.indexOf("liquidity") === 0) { setView("liquidity"); }
+    else if (raw.indexOf("polymarket") === 0) { setView("polymarket"); }
     else if (raw.indexOf("indiadata") === 0) { setView("indiadata"); }
     else if (raw.split(/[?=&]/)[0] === "amcbook") { setView("amcbook"); }
     else if (raw.split(/[?=&]/)[0] === "funds") { setView("funds"); }
@@ -18639,6 +18644,1062 @@ function renderLiquidity() {
   host.querySelectorAll("details.liq-data").forEach((d) => d.addEventListener("toggle", () => { if (d.open) _lDataOpen(d); }));
   setTimeout(() => { try { viewPlotsResize("liquidity"); } catch (e) {} }, 80);
 }
+
+// ============================== PREDICTION MARKETS (2026-10-28, Polymarket) ==============================
+// Spec: docs/superpowers/specs/2026-10-28-polymarket-intelligence-design.md, section 7. Data: data/polymarket/*.json
+// beside this page, written by vistas/polymarket/site.py (the shapes are in its module docstring). The files are
+// FETCHED when the tab first opens, never embedded, so the nightly refresh is a file copy and this tab needs no full
+// build (restitch.py's rule). Every number is drawn as the files carry it. The only arithmetic here is for display:
+// UTC times turned into IST, the most-moved markets picked for a chart (the change over the last 30 days of each
+// market's own daily history), and flagged central-bank days counted for the notes.
+// Never set a Plotly trace key (marker/line/mode/fill) to undefined -- omit it (standing repo rule).
+const PM_BASE = "data/polymarket/";
+const PM_FILES = ["meta", "board", "cb", "sensitivity", "leadlag", "calibration", "coverage", "markets_open", "closed/index"];
+const PM_GROUPS = [
+  { key: "oil", tag: "OIL AND THE GULF", title: "Oil and the Gulf", themes: ["oil_gulf"], brent: true },
+  { key: "geo", tag: "GEOPOLITICS", title: "Geopolitics", themes: ["india_security", "middle_east", "russia_ukraine", "china_taiwan"] },
+  { key: "us", tag: "US ECONOMY AND POLITICS", title: "US economy and politics", themes: ["us_data", "tariffs_trade", "us_politics"] },
+  { key: "india", tag: "INDIA", title: "India", themes: ["rbi", "india_economy", "india_politics", "india_trade"] },
+];
+const PM_BANK_ORDER = ["fed", "rbi", "ecb", "boe", "boj"];
+const PM_INTRO = "Odds from Polymarket, a prediction market. A contract that pays $1 if an event happens trades at the "
+  + "crowd's chance of it, so 12 cents means 12%. These are its markets on the events that move Indian markets from "
+  + "outside: central-bank decisions, oil and the Gulf, wars, US data, tariffs and Indian politics. They trade around "
+  + "the clock, so the odds keep moving through the Indian night, when Fed decisions, US data and most war news land. "
+  + "A market with little trading can sit still for days or jump on one small order, so every table says which "
+  + "markets are thin. Technical detail: the odds are the midpoint of the best buy and sell prices from Polymarket's "
+  + "public price feed, refreshed nightly; a change is in percentage points, so 20% to 35% is +15 points.";
+let PM = null, PM_PROMISE = null, PM_TODAY = "";
+const PM_CACHE = {};
+const PM_S = { theme: {}, pick: {}, hide: {}, cal: "all", mkSet: "open", mkTheme: "", mkMonth: "" };
+const PM_TBL = {}, PM_DATA = {};
+let PM_JOBS = [], PM_TBL_N = 0;
+// colours are written in the classic look's values; vplot (THEME_XLATE) swaps them for the active look's own
+const PM_COL = THEMES.classic.colorway;
+const PM_C = { move: PM_COL[0], noChange: PM_COL[4], day1: PM_COL[0], day7: PM_COL[8], brent: PM_COL[6],
+  diag: THEMES.classic.chrome.faint, seg: THEMES.classic.chrome.warm4 };
+const PM_MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const PM_MONTH = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const PM_THIN = { "no book": "no order book on file", "one-sided book": "only one side quoted",
+  "wide spread": "wide spread", "small size": "under $1,000 at the best price" };
+
+function initPolymarket() {
+  if (typeof document === "undefined") return;
+  const tabs = $("tabs");
+  if (tabs && !tabs.querySelector('[data-view="polymarket"]')) {
+    const btn = document.createElement("button");
+    btn.className = "tab"; btn.setAttribute("data-view", "polymarket"); btn.textContent = "Prediction Markets";
+    btn.addEventListener("click", () => setView("polymarket"));
+    const note = $("tabnote");
+    if (note) tabs.insertBefore(btn, note); else tabs.appendChild(btn);
+  }
+  if (!$("view-polymarket")) {
+    const v = document.createElement("div");
+    v.className = "view"; v.id = "view-polymarket"; v.hidden = true;
+    v.innerHTML = `<div class="measurebar"><span class="mlbl">Prediction Markets</span>`
+      + `<span class="measurenote">${fEsc(PM_INTRO)}</span></div><div id="polymarket-body"></div>`;
+    const foot = $("foot");
+    if (foot && foot.parentNode) foot.parentNode.insertBefore(v, foot); else document.body.appendChild(v);
+  }
+}
+
+// ---- loading: one cache-busting retry per file, and a failed load is never remembered ----
+async function _pmFetch(rel) {
+  if (PM_CACHE[rel]) return PM_CACHE[rel];
+  const url = PM_BASE + rel + ".json";
+  let j = await fetchJSON(url);
+  // a CDN can keep serving a stale miss for ten minutes after a publish: retry once past its cache
+  if (!j || typeof j !== "object") j = await fetchJSON(url + "?r=" + Date.now());
+  if (j && typeof j === "object") { PM_CACHE[rel] = j; return j; }
+  return null;
+}
+function _pmLoad() {
+  if (PM) return Promise.resolve(PM);
+  if (!PM_PROMISE) {
+    PM_PROMISE = (async () => {
+      const got = await Promise.all(PM_FILES.map(_pmFetch));
+      const P = { themes: {} };
+      PM_FILES.forEach((f, i) => { P[f === "closed/index" ? "closed_index" : f] = got[i]; });
+      const listed = (P.meta && Array.isArray(P.meta.themes)) ? P.meta.themes : [];
+      const want = [];
+      PM_GROUPS.forEach((g) => g.themes.forEach((t) => { if (listed.indexOf(t) >= 0) want.push(t); }));
+      const th = await Promise.all(want.map((t) => _pmFetch("themes/" + t)));
+      want.forEach((t, i) => { P.themes[t] = th[i]; });
+      P.missing = PM_FILES.filter((f, i) => !got[i]).concat(want.filter((t, i) => !th[i]).map((t) => "themes/" + t));
+      if (P.meta && !P.missing.length) PM = P;       // a partial load is drawn, not kept: the next open asks again
+      PM_PROMISE = null;
+      return P.meta ? P : null;
+    })();
+  }
+  return PM_PROMISE;
+}
+
+// ---- small helpers ----
+const _pmOk = (v) => v !== null && v !== undefined && typeof v === "number" && isFinite(v);
+const _pmInt = (v) => _pmOk(v) ? Math.round(v).toLocaleString("en-US") : "";
+const _pmNum = (v, d) => _pmOk(v) ? Number(v).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d }) : "";
+const _pmSign = (v, d) => !_pmOk(v) ? "" : (v > 0 ? "+" : v < 0 ? "−" : "") + _pmNum(Math.abs(v), d);
+const _pmPct = (p) => _pmOk(p) ? _pmNum(p * 100, 1) + "%" : "";
+const _pmP100 = (p) => _pmOk(p) ? Math.round(p * 10000) / 100 : null;          // 0-1 to percent, for tables and files
+const _pmR = (v, d) => _pmOk(v) ? Math.round(v * Math.pow(10, d)) / Math.pow(10, d) : null;
+function _pmDay(d) {
+  const s = String(d || "");
+  if (!/^\d{4}-\d{2}-\d{2}/.test(s)) return s;
+  return Number(s.slice(8, 10)) + " " + PM_MON[Number(s.slice(5, 7)) - 1] + " " + s.slice(0, 4);
+}
+function _pmIST(z) {
+  const t = Date.parse(String(z || "").replace(/Z?$/, "Z"));
+  if (!isFinite(t)) return "";
+  const d = new Date(t + 330 * 60000), two = (n) => String(n).padStart(2, "0");
+  return d.getUTCDate() + " " + PM_MON[d.getUTCMonth()] + " " + d.getUTCFullYear() + ", " + two(d.getUTCHours()) + ":" + two(d.getUTCMinutes()) + " IST";
+}
+function _pmMeeting(m) {
+  const s = String(m || "");
+  return /^\d{4}-\d{2}$/.test(s) ? PM_MONTH[Number(s.slice(5, 7)) - 1] + " " + s.slice(0, 4) : s;
+}
+function _pmHours(h) {
+  if (!_pmOk(h)) return "";
+  if (h < 1) return "under an hour";
+  if (h < 48) { const n = Math.round(h); return n + (n === 1 ? " hour" : " hours"); }
+  const n = Math.round(h / 24); return n + " days";
+}
+function _pmCol(c) { return THEME_XLATE ? _thStr(c) : c; }
+function _pmAddDay(d, n) { return new Date(Date.parse(d + "T00:00:00Z") + n * 86400000).toISOString().slice(0, 10); }
+// a daily line breaks where no price came for more than `gap` days, instead of a straight line across the hole
+function _pmGapped(d, ys, gap) {
+  const x = [], out = ys.map(() => []);
+  for (let i = 0; i < d.length; i++) {
+    if (i && Date.parse(d[i]) - Date.parse(d[i - 1]) > gap * 86400000) { x.push(_pmAddDay(d[i - 1], 1)); out.forEach((o) => o.push(null)); }
+    x.push(d[i]);
+    out.forEach((o, k) => { const v = ys[k][i]; o.push(_pmOk(v) ? v : null); });
+  }
+  return { x, ys: out };
+}
+// tick labels with their sign (+25, 0, -25): this Plotly build ignores the "+" flag of a tick format (measured 2026-10-28)
+function _pmSignedTicks(vals) {
+  const v = vals.filter(_pmOk);
+  if (!v.length) return {};
+  let lo = Math.min(0, ...v), hi = Math.max(0, ...v);
+  if (hi - lo < 1) { lo -= 1; hi += 1; }
+  const step = [1, 2, 5, 10, 20, 25, 50, 100, 200, 500].find((k) => (hi - lo) / k <= 6) || 1000;
+  const tv = [];
+  for (let t = Math.floor(lo / step) * step; t <= Math.ceil(hi / step) * step + 1e-9; t += step) tv.push(Math.round(t * 100) / 100);
+  return { tickmode: "array", tickvals: tv, ticktext: tv.map((t) => t > 0 ? "+" + t : t < 0 ? "\u2212" + Math.abs(t) : "0") };
+}
+function _pmThemeLabel(P, id) {
+  const b = P && P.meta && P.meta.counts && P.meta.counts.by_theme && P.meta.counts.by_theme[id];
+  return (b && b.label) || String(id || "");
+}
+function _pmLink(q, slug) {
+  const t = fEsc(q || "");
+  return slug ? `<a href="https://polymarket.com/event/${encodeURIComponent(slug)}" target="_blank" rel="noopener">${t}</a>` : t;
+}
+function _pmWrap(s, w) {          // break a long question into lines for a hover card, never cutting a word
+  const out = []; let line = "";
+  String(s || "").split(/\s+/).forEach((wd) => {
+    if (line && (line + " " + wd).length > w) { out.push(line); line = wd; } else line = line ? line + " " + wd : wd;
+  });
+  if (line) out.push(line);
+  return out.map((x) => fEsc(x)).join("<br>");
+}
+function _pmAsofOdds(P) { return (P.meta && P.meta.asof_ist) ? "odds at " + P.meta.asof_ist : ""; }
+function _pmBuilt(P) { return (P.meta && P.meta.built) ? "worked out " + _pmIST(P.meta.built) : ""; }
+function _pmMissing(name) {
+  return `<div class="empty-note">This part's data file, data/polymarket/${fEsc(name)}.json, did not load. Reload the page; `
+    + `if it keeps happening, the file is missing from this site.</div>`;
+}
+// the day the odds were read (meta.asof_date, a UTC day); the browser's own UTC day when the files carry none
+function _pmToday(P) {
+  const d = String((P && P.meta && P.meta.asof_date) || "");
+  return /^\d{4}-\d{2}-\d{2}$/.test(d) ? d : new Date().toISOString().slice(0, 10);
+}
+// an open market whose end time is before the odds' as-of time and that has not settled: the tab marks its price so
+// it is not read as a live forecast. The files carry end_passed (judged on the full end time); a file written before
+// that field falls back to the day.
+function _pmPastEnd(r) {
+  if (r && typeof r.end_passed === "boolean") return r.end_passed;
+  const e = String((r && r.end_date) || "");
+  return /^\d{4}-\d{2}-\d{2}$/.test(e) && !!PM_TODAY && e < PM_TODAY;
+}
+// why a market is marked, in words: no price, an end date that has passed, thin (and why), a close price read well
+// before the close. Every table that shows a "Now" price uses this, so a dead market never shows a bare price.
+function _pmNote(r) {
+  if (!r) return "";
+  const out = [], past = _pmPastEnd(r) ? "end date passed, not settled" : "";
+  if (!_pmOk(r.p_now)) return ["no price yet", past].filter(Boolean).join("; ");
+  if (past) out.push(past);
+  if (r.thin) {
+    let why = String(r.thin_reason || "").split(/,\s*/).filter(Boolean).map((w) => PM_THIN[w] || w);
+    if (!why.length && _pmOk(r.spread) && r.spread > 0.05) why = ["wide spread"];
+    out.push("thin market" + (why.length ? ": " + why.join(", ") : ""));
+  }
+  if (_pmOk(r.close_gap_hours) && r.close_gap_hours > 2)
+    out.push("change counted from " + Math.round(r.close_gap_hours) + " hours before the close");
+  return out.join("; ");
+}
+const _pmStaleCol = () => ({ h: "Unchanged for", num: true, v: (r) => _pmR(r.stale_hours, 1), html: (r) => fEsc(_pmHours(r.stale_hours)) });
+// "Now" with the end-date warning under the price itself, so a wide table scrolled sideways never shows it bare
+const _pmNowCol = () => ({ h: "Now", unit: "%", num: true, v: (r) => _pmP100(r.p_now),
+  html: (r) => _pmOk(r.p_now) ? fEsc(_pmNum(_pmP100(r.p_now), 1) + "%") + (_pmPastEnd(r) ? `<br><span class="pm-dim pm-past">end date passed</span>` : "") : "" });
+function _pmStyle() {
+  return `<style>.pm-asof{float:right;font-size:11px;font-weight:400;color:var(--muted,#6a6f78);margin-left:14px;letter-spacing:0}`
+    + `.pm-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:14px}`
+    + `.pm-ctl{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:6px 0}`
+    + `.pm-btn{margin:0;padding:3px 10px;border:1px solid #b9c3cf;border-radius:4px;background:#fff;cursor:pointer;font:inherit;font-size:12px}`
+    + `.pm-btn.on{background:#e8f0fa;border-color:#2f6fb0;font-weight:600}`
+    + `.pm-legend{display:flex;flex-direction:column;gap:3px;margin:4px 0 8px;font-size:12px;line-height:1.4}`
+    + `.pm-legend label{display:flex;gap:7px;align-items:flex-start;cursor:pointer}`
+    + `.pm-sw{display:inline-block;width:16px;height:3px;margin-top:8px;flex:0 0 16px;border-radius:2px}`
+    + `.pm-dim{color:var(--muted,#6a6f78)}.pm-past{font-size:11px}`
+    + `.pm-bank{border-top:1px solid var(--border,#e5e8ec);padding-top:10px;margin-top:12px}`
+    + `.pm-bank h3{font-size:13.5px;margin:0 0 2px}`
+    + `.pm-tbl td.pm-q{min-width:260px;max-width:520px;white-space:normal}`
+    + `.pm-tbl td{white-space:nowrap}.pm-tbl td.pm-wrap{white-space:normal;min-width:160px}`
+    + `.pm-data{margin:10px 0 2px}.pm-data>summary{cursor:pointer;font-size:12px;color:var(--muted,#6a6f78)}`
+    + `.pm-count{font-size:11.5px;color:var(--muted,#6a6f78)}`
+    + `.pm-def{border-collapse:collapse;font-size:12.5px;margin:4px 0}.pm-def th{text-align:left;font-weight:600;padding:4px 14px 4px 0;vertical-align:top;white-space:nowrap}`
+    + `.pm-def td{padding:4px 0;vertical-align:top}`
+    + `@media (max-width:760px){.pm-grid{grid-template-columns:minmax(0,1fr)}.pm-tbl td.pm-q{min-width:170px}.pm-asof{float:none;display:block;margin:3px 0 0}`
+    + `.pm-def th{white-space:normal;min-width:96px}}</style>`;
+}
+
+// ---- tables: every row searchable and downloadable; the first `show` drawn ----
+// t = { id, cols: [{h, unit, v: row -> raw value (also the file's value), html: row -> cell html, num, cls}], rows,
+//       csv: file stem, show, find: placeholder, height }
+function _pmTable(t) {
+  t.id = t.id || ("pmt" + (++PM_TBL_N));
+  PM_TBL[t.id] = t;
+  const n = t.rows.length;
+  const xl = n <= 5000 ? `<button type="button" class="liq-who-btn pm-btn td-xl" title="The same rows as an Excel workbook, numbers as numbers.">Excel</button>` : "";
+  return `<div class="pm-tblbox" data-t="${fEsc(t.id)}"><div class="pm-ctl">`
+    + `<input type="search" class="pm-find" aria-label="Search this table" placeholder="${fEsc(t.find || "Search the rows")}" style="padding:4px 8px;min-width:210px;max-width:100%">`
+    + `<button type="button" class="liq-who-btn pm-btn pm-csv" data-csv="${fEsc(t.csv)}">Download all ${_pmInt(n)} rows as CSV</button>${xl}`
+    + `<span class="pm-count"></span></div>`
+    + `<div class="tbl-scroll" style="max-height:${t.height || 420}px"><table class="gauge-tbl td-tbl pm-tbl"><thead><tr>`
+    + t.cols.map((c, i) => `<th data-i="${i}" class="sortable" title="Click to sort">${fEsc(c.h)}${c.unit ? ` <span class="pm-dim" style="font-weight:400">(${fEsc(c.unit)})</span>` : ""}</th>`).join("")
+    + `</tr></thead><tbody></tbody></table></div></div>`;
+}
+function _pmCell(c, r) {
+  if (c.html) return c.html(r);
+  const v = c.v(r);
+  if (v === null || v === undefined || (typeof v === "number" && !isFinite(v))) return "";
+  if (typeof v === "boolean") return v ? "yes" : "no";
+  if (typeof v === "number") return fEsc(c.fmt ? c.fmt(v) : v.toLocaleString("en-US", { maximumFractionDigits: 4 }));
+  return fEsc(String(v));
+}
+function _pmWireTables(root) {
+  root.querySelectorAll(".pm-tblbox").forEach((box) => {
+    if (box._pmWired) return;
+    box._pmWired = true;
+    const t = PM_TBL[box.dataset.t];
+    if (!t) return;
+    const tb = box.querySelector("tbody"), cnt = box.querySelector(".pm-count"), inp = box.querySelector(".pm-find");
+    let order = t.rows.slice();
+    const text = new Map();
+    const txt = (r) => {
+      if (!text.has(r)) text.set(r, t.cols.map((c) => { const v = c.s ? c.s(r) : c.v(r); return v === null || v === undefined ? "" : String(v); }).join(" ").toLowerCase());
+      return text.get(r);
+    };
+    const draw = () => {
+      const f = (inp.value || "").trim().toLowerCase(), show = t.show || 300, rs = [];
+      let n = 0;
+      for (const r of order) {
+        if (f && txt(r).indexOf(f) < 0) continue;
+        n++;
+        if (rs.length < show) rs.push(r);
+      }
+      tb.innerHTML = rs.length
+        ? rs.map((r) => `<tr>${t.cols.map((c) => `<td${c.cls ? ` class="${c.cls}"` : ""}>${_pmCell(c, r)}</td>`).join("")}</tr>`).join("")
+        : `<tr><td colspan="${t.cols.length}" class="pm-wrap">${fEsc(f ? "No row matches that search." : (t.none || "No rows yet."))}</td></tr>`;
+      const all = order.length;
+      cnt.textContent = !all ? "" : (rs.length === n && !f) ? `${_pmInt(all)} rows`
+        : `showing ${_pmInt(rs.length)} of ${_pmInt(n)}${f ? " matching" : ""} rows; the download has all ${_pmInt(all)}`;
+    };
+    inp.addEventListener("input", draw);
+    box.querySelectorAll("thead th").forEach((th) => th.addEventListener("click", () => {
+      const c = t.cols[Number(th.dataset.i)];
+      if (!c) return;
+      const desc = !th.classList.contains("s-desc");
+      box.querySelectorAll("thead th").forEach((x) => x.classList.remove("s-desc", "s-asc"));
+      th.classList.add(desc ? "s-desc" : "s-asc");
+      order = order.slice().sort((a, b) => {
+        const x = c.v(a), y = c.v(b), xn = x === null || x === undefined || x === "", yn = y === null || y === undefined || y === "";
+        if (xn && yn) return 0;
+        if (xn) return 1;                                    // a blank always sinks, whichever way the column sorts
+        if (yn) return -1;
+        if (typeof x === "number" && typeof y === "number") return desc ? y - x : x - y;
+        return desc ? String(y).localeCompare(String(x)) : String(x).localeCompare(String(y));
+      });
+      draw();
+    }));
+    box.querySelector(".pm-csv").addEventListener("click", () => {
+      const head = t.cols.map((c) => c.h + (c.unit ? " (" + c.unit + ")" : ""));
+      exportCSV(t.csv + ".csv", head, order.map((r) => t.cols.map((c) => { const v = c.v(r); return (v === null || v === undefined) ? "" : v; })));
+    });
+    draw();
+  });
+}
+// ---- every number behind a panel: tables built from the loaded files when a reader opens the box ----
+function _pmDataBox(key, fn) {
+  PM_DATA[key] = fn;
+  return `<details class="pm-data" data-k="${fEsc(key)}"><summary>Every number behind this panel, as far back as the data go</summary>`
+    + `<div class="pm-data-body"></div></details>`;
+}
+function _pmDataOpen(d) {
+  const body = d.querySelector(".pm-data-body"), fn = PM_DATA[d.dataset.k];
+  if (!fn || !body || body.dataset.done) return;
+  let tabs;
+  try { tabs = fn() || []; }
+  catch (e) { console.error("prediction markets table " + d.dataset.k + ":", e); body.innerHTML = `<div class="empty-note">These tables failed to build.</div>`; return; }
+  body.innerHTML = tabs.length ? tabs.map((t) => `<div class="gold-sub">${fEsc(t.title)}</div>`
+    + (t.note ? `<div class="gold-note">${fEsc(t.note)}</div>` : "") + _pmTable(t)).join("")
+    : `<div class="empty-note">There are no rows behind this panel yet.</div>`;
+  body.dataset.done = "1";
+  _pmWireTables(body);
+}
+function _pmDataRedo(key) {           // a switch changed what a panel shows: rebuild its open box
+  const d = document.querySelector(`details.pm-data[data-k="${key}"]`);
+  if (!d) return;
+  const body = d.querySelector(".pm-data-body");
+  if (body) { delete body.dataset.done; body.innerHTML = ""; }
+  if (d.open) _pmDataOpen(d);
+}
+// common columns
+const _pmDateCol = (h, k) => ({ h, v: (r) => r[k] || "", s: (r) => (r[k] || "") + " " + _pmDay(r[k]), html: (r) => fEsc(_pmDay(r[k])) });
+const _pmQCol = (h) => ({ h: h || "Market", v: (r) => r.question || "", html: (r) => _pmLink(r.question, r.slug), cls: "pm-q" });
+const _pmPctCol = (h, k) => ({ h, unit: "%", num: true, v: (r) => _pmP100(r[k]), fmt: (v) => _pmNum(v, 1) + "%" });
+const _pmPtsCol = (h, k, bold) => ({ h, unit: "points", num: true, v: (r) => _pmR(r[k], 2),
+  html: bold ? ((r) => _pmOk(r[k]) ? `<b>${_pmSign(r[k], 1)}</b>` : "") : ((r) => _pmSign(r[k], 1)) });
+const _pmSpreadCol = () => ({ h: "Spread", unit: "points", num: true, v: (r) => _pmOk(r.spread) ? _pmR(r.spread * 100, 2) : null,
+  fmt: (v) => _pmNum(v, 1) });
+
+function renderPolymarket() {
+  const host = $("polymarket-body");
+  if (!host) return;
+  if (!PM) {
+    host.innerHTML = `<div class="empty-note">Loading the prediction-market data…</div>`;
+    _pmLoad().then((P) => {
+      if (VIEW !== "polymarket") return;
+      if (!P) { host.innerHTML = `<div class="empty-note">The prediction-market data did not load. Reload the page; if it keeps happening, data/polymarket/meta.json is missing from this site.</div>`; return; }
+      _pmDraw(host, P);
+    });
+    return;
+  }
+  _pmDraw(host, PM);
+}
+function _pmDraw(host, P) {
+  PM_JOBS = [];
+  PM_TODAY = _pmToday(P);
+  Object.keys(PM_TBL).forEach((k) => { delete PM_TBL[k]; });
+  const sec = (tag, title, fn) => {
+    let asof = "", inner;
+    try { const r = fn(P); asof = r[0] || ""; inner = r[1]; }
+    catch (e) { console.error("prediction markets panel " + tag + ":", e); inner = `<div class="empty-note">This part failed to draw.</div>`; }
+    return `<section class="panel gold-panel pm-sec" data-pm="${fEsc(tag)}"><h2><span class="tag-sec">${fEsc(tag)}</span>${fEsc(title)}`
+      + (asof ? `<span class="pm-asof">${fEsc(asof)}</span>` : "") + `</h2>${inner}</section>`;
+  };
+  host.innerHTML = _pmStyle() + _pmNotices(P) + [
+    sec("OVERNIGHT", "What moved overnight", _pmBoard),
+    sec("CENTRAL BANKS", "Central banks: what the market expects at the next meeting", _pmBanks),
+  ].concat(PM_GROUPS.map((g) => sec(g.tag, g.title, (x) => _pmGroup(x, g))), [
+    sec("INDIAN MARKETS", "How Indian markets moved with these odds", _pmSens),
+    sec("REGISTERED TEST", "A test we registered in advance", _pmLeadLag),
+    sec("CALIBRATION", "How often the odds were right", _pmCalib),
+    sec("EVERY MARKET", "Every market we track", _pmAll),
+  ]).join("");
+  const jobs = PM_JOBS;
+  PM_JOBS = [];
+  jobs.forEach((f) => { try { f(); } catch (e) { console.error("prediction markets draw:", e); } });
+  _pmWireTables(host);
+  host.querySelectorAll("details.pm-data").forEach((d) => d.addEventListener("toggle", () => { if (d.open) _pmDataOpen(d); }));
+  setTimeout(() => { try { viewPlotsResize("polymarket"); } catch (e) {} }, 80);
+}
+
+// ---- notices at the top ----
+function _pmNotices(P) {
+  const out = [];
+  ((P.meta && P.meta.notices) || []).forEach((n) => {
+    const m = /NSE calendar \(newest TR file\) ends (\d{4}-\d{2}-\d{2}); the last weekday close was (\d{4}-\d{2}-\d{2})/.exec(String(n));
+    if (m) out.push(`The NSE price file Vistas reads ends on ${_pmDay(m[1])}, although ${_pmDay(m[2])} was a weekday, so every `
+      + `change "since the last NSE close" here counts from the ${_pmDay(m[1])} close (15:30 IST). If NSE traded on `
+      + `${_pmDay(m[2])}, those changes run over two sessions.`);
+    else out.push(String(n));
+  });
+  if ((P.missing || []).length) out.push(`Some of this tab's files did not load (${P.missing.join(", ")}); the parts that need them say so. Reload the page to try again.`);
+  return out.length ? `<section class="panel gold-panel pm-sec pm-notices" data-pm="NOTICES">${out.map((t) => `<div class="gold-note">${fEsc(t)}</div>`).join("")}</section>` : "";
+}
+
+// ---- 1. what moved overnight ----
+// when most board rows' close price was read more than 2 hours before the close, say so once for the whole board;
+// N is the middle value of those rows' gaps (Ruling 24 measured 10 hours on every row before a 15:35 IST run exists)
+function _pmEarlyClose(rows) {
+  const gaps = (rows || []).map((r) => r.close_gap_hours).filter(_pmOk), far = gaps.filter((g) => g > 2).sort((a, b) => a - b);
+  if (!rows || !rows.length || far.length * 2 <= rows.length) return "";
+  const mid = far.length % 2 ? far[(far.length - 1) / 2] : (far[far.length / 2 - 1] + far[far.length / 2]) / 2;
+  const n = Math.round(mid);
+  return ` For most markets the close price is the last reading before the close, ${n} ${n === 1 ? "hour" : "hours"} earlier, until a reading at the close is added.`;
+}
+function _pmWaiting(P) {
+  const k = P && P.meta && P.meta.intel ? Number(P.meta.intel.awaiting_settlement_moves) : 0;
+  return k > 0 ? `; ${_pmInt(k)} of them moved 5 points or more since the close` : "";
+}
+function _pmBoard(P) {
+  const B = P.board;
+  if (!B) return ["", _pmMissing("board")];
+  const rows = B.rows || [], top = rows.filter((r) => r.on_board);
+  const close = B.close_ts ? _pmIST(B.close_ts) : "";
+  const asof = [_pmAsofOdds(P), close ? "last NSE close " + close : ""].filter(Boolean).join("; ");
+  const note = `The core markets whose odds moved most since the last NSE close${close ? ` (${close})` : ""}, biggest move `
+    + `first. ${_pmInt(B.n_core_open)} core markets are open; ${_pmInt(B.n_changed)} have a price at the close (or in the 24 hours before it) and a newer one and are still before their end date, and `
+    + `they are ranked by the size of the change. Markets past their end date are left off the board, because their odds move toward 0 or 100 as they settle`
+    + `${_pmWaiting(P)}. A market is thin when there is no order book on file, only one side is `
+    + `quoted, the best buy and sell prices are more than 5 points apart, or less than $1,000 sits at the best price; `
+    + `its odds can sit still or jump on one small order, so read its move with care.` + _pmEarlyClose(rows);
+  if (!top.length) return [asof, `<div class="gold-note">${fEsc(note)}</div><div class="empty-note">No core market that is still before its end date has a price both at the last NSE close and after it in tonight's files.</div>`];
+  const cols = [
+    { h: "#", num: true, v: (r) => r.rank },
+    _pmQCol(),
+    { h: "Theme", v: (r) => r.label || _pmThemeLabel(P, r.theme) },
+    _pmNowCol(),
+    _pmPctCol("At NSE close", "p_close"),
+    _pmPtsCol("Change", "d_since_nse_close", true),
+    _pmPtsCol("Week", "d_1w"),
+    _pmSpreadCol(),
+    _pmStaleCol(),
+    { h: "Note", v: _pmNote, cls: "pm-wrap" },
+  ];
+  const table = _pmTable({ cols, rows: top, csv: "polymarket_overnight_board", show: 25, height: 560, find: "Search the board" });
+  const box = _pmDataBox("board", () => [{
+    title: "Every ranked market behind the board (the first " + _pmInt(rows.length) + " by size of move)",
+    note: "One row per open core market with a price at the last NSE close and a newer one, biggest change first. "
+      + "Odds are percent; changes and the spread are percentage points; size is dollars at the best price.",
+    cols: cols.slice(0, 9).concat([
+      { h: "Best-price size", unit: "$", num: true, v: (r) => r.best_size_usd, fmt: (v) => _pmInt(v) },
+      _pmDateCol("Ends", "end_date"),
+      { h: "Hours between the close and the price used for it", num: true, v: (r) => _pmOk(r.close_gap_hours) ? r.close_gap_hours : null },
+      { h: "Note", v: _pmNote, cls: "pm-wrap" },
+      { h: "Market id", v: (r) => r.condition_id || "" }]),
+    rows, csv: "polymarket_overnight_all", show: 300 }]);
+  return [asof, `<div class="gold-note">${fEsc(note)}</div>` + table + box];
+}
+
+// ---- 2. central banks ----
+function _pmBankRank(b) { const i = PM_BANK_ORDER.indexOf(b); return i < 0 ? 99 : i; }
+function _pmMoveLabel(o) {
+  const m = o.move_bps;
+  if (!_pmOk(m)) return "";
+  if (m === 0) return "No change";
+  const dir = m < 0 ? "Cut" : "Hike";
+  if (o.move_rule === "open-ended +25") return dir + " over " + (Math.abs(m) - 25);
+  return dir + " " + Math.abs(m);
+}
+function _pmDayFlags(L, i) {
+  const w = [];
+  if (L.sum_flag && L.sum_flag[i]) w.push("outcome prices did not add up to between 85% and 115%");
+  const miss = L.missing_outcomes ? L.missing_outcomes[i] : 0;
+  if (_pmOk(miss) && miss > 0) w.push(miss + (miss === 1 ? " outcome had" : " outcomes had") + " no price; the line uses the others");
+  const car = L.n_carried ? L.n_carried[i] : 0;
+  if (_pmOk(car) && car > 0) w.push(car + (car === 1 ? " outcome uses its" : " outcomes use their") + " last price from up to 3 days earlier");
+  return w.join("; ");
+}
+function _pmBanks(P) {
+  const C = P.cb;
+  if (!C) return ["", _pmMissing("cb")];
+  const banks = (C.banks || []).slice().sort((a, b) => _pmBankRank(a.bank) - _pmBankRank(b.bank) || String(a.label).localeCompare(String(b.label)));
+  if (!banks.length) return ["", `<div class="empty-note">No central-bank meeting has a priced set of outcomes in tonight's files.</div>`];
+  let last = "";
+  banks.forEach((b) => { const d = (b.line && b.line.dates) || []; if (d.length && d[d.length - 1] > last) last = d[d.length - 1]; });
+  const note = "For each central bank Polymarket runs one market per possible outcome of a meeting: cut 50, cut 25, no "
+    + "change, hike 25 and so on. Each price divided by the total of all of them gives the odds of that outcome, and the "
+    + "expected move is the odds-weighted average move, in basis points (100 basis points is one percentage point of "
+    + "interest rate, so a certain quarter-point cut reads −25). The line always shows the next meeting still to "
+    + "come and moves on to the following one once a meeting is held; a thin grey line marks each move, and the line "
+    + "breaks where no meeting had prices for more than a week. The bars are "
+    + "the odds of each outcome at the next meeting on the latest day with prices.";
+  const asofDay = (P.meta && P.meta.asof_date) || last;
+  const parts = banks.map((b) => _pmBank(b, asofDay));
+  const box = _pmDataBox("cb", () => {
+    const daily = [], outs = [], comp = [];
+    banks.forEach((b) => {
+      const L = b.line || {}, d = L.dates || [];
+      for (let i = d.length - 1; i >= 0; i--) daily.push({ bank: b.label, date: d[i], meeting: _pmMeeting(L.segments ? _pmSegAt(L.segments, d[i]) : ""),
+        exp: L.exp_move_bps ? L.exp_move_bps[i] : null, pnc: L.p_no_change ? L.p_no_change[i] : null, check: _pmDayFlags(L, i) });
+      const nm = b.next_meeting;
+      if (nm) (nm.outcomes || []).forEach((o) => outs.push(Object.assign({ bank: b.label, meeting: _pmMeeting(nm.meeting), meeting_date: nm.meeting_date, date: nm.date }, o)));
+      (b.competing || []).forEach((c) => comp.push(Object.assign({ bank: b.label }, c)));
+    });
+    const t = [{
+      title: "Every bank, every day",
+      note: "One row per bank and day: the expected move at the meeting the line follows that day and the chance of no change, newest first, with any check that day failed.",
+      cols: [{ h: "Bank", v: (r) => r.bank }, _pmDateCol("Date", "date"), { h: "Meeting", v: (r) => r.meeting },
+        { h: "Expected move", unit: "basis points", num: true, v: (r) => _pmR(r.exp, 2), fmt: (v) => _pmSign(v, 1) },
+        _pmPctCol("Chance of no change", "pnc"), { h: "Check", v: (r) => r.check, cls: "pm-wrap" }],
+      rows: daily, csv: "polymarket_central_banks_daily" }, {
+      title: "Each bank's next meeting, outcome by outcome",
+      note: "The outcomes priced on the latest day the bank has prices: the market price and its share of the total of all the outcome prices.",
+      cols: [{ h: "Bank", v: (r) => r.bank }, { h: "Meeting", v: (r) => r.meeting }, _pmDateCol("Meeting date", "meeting_date"),
+        _pmDateCol("Prices from", "date"), { h: "Outcome", v: (r) => _pmMoveLabel(r) },
+        { h: "Move used", unit: "basis points", num: true, v: (r) => r.move_bps },
+        { h: "How the move was read", v: (r) => r.move_rule === "open-ended +25" ? "open-ended bucket, counted as 25 more than its edge" : "as the market states it" },
+        _pmPctCol("Price", "p"), _pmPctCol("Share of the total", "p_norm"), { h: "Market id", v: (r) => r.condition_id || "" }],
+      rows: outs, csv: "polymarket_central_banks_next_meeting" }];
+    if (comp.length) t.push({ title: "Other sets of markets for the same meeting", note: "A meeting priced by more than one set of markets; the line uses one set so no meeting counts twice.",
+      cols: [{ h: "Bank", v: (r) => r.bank }, { h: "Set", v: (r) => r.set_id }, { h: "Markets", num: true, v: (r) => r.n_markets },
+        { h: "Moves", num: true, v: (r) => r.n_moves }, { h: "Settled", num: true, v: (r) => r.n_winners },
+        { h: "Winning move", unit: "basis points", num: true, v: (r) => r.winner_move_bps }, { h: "Set the line uses", v: (r) => r.chosen_set_id },
+        { h: "Its winning move", unit: "basis points", num: true, v: (r) => r.chosen_winner_move_bps }],
+      rows: comp, csv: "polymarket_central_banks_competing_sets" });
+    return t;
+  });
+  return [last ? "prices to " + _pmDay(last) : "", `<div class="gold-note">${fEsc(note)}</div>` + parts.join("") + box];
+}
+function _pmSegAt(segs, d) {
+  for (const s of segs) if (s.from <= d && d <= s.to) return s.meeting;
+  return "";
+}
+function _pmBank(b, asofDay) {
+  const L = b.line || {}, d = L.dates || [], nm = b.next_meeting, n = d.length;
+  const id = "pm-cb-" + String(b.bank).replace(/[^a-z0-9_]/gi, "_");
+  const name = fEsc(b.label || b.bank);
+  const head = [];
+  if (nm) {
+    const stale = asofDay && nm.date && (Date.parse(asofDay) - Date.parse(nm.date)) > 3 * 86400000;
+    if (stale) head.push(`The last day with prices for a ${name} meeting was ${fEsc(_pmDay(nm.date))}, for the ${fEsc(_pmMeeting(nm.meeting))} meeting; nothing later has a price in tonight's files.`);
+    const when = nm.meeting_date ? `${fEsc(_pmDay(nm.meeting_date))} (the ${fEsc(_pmMeeting(nm.meeting))} meeting)` : `the ${fEsc(_pmMeeting(nm.meeting))} meeting`;
+    const put = [];
+    if (_pmOk(nm.p_no_change)) put.push(`the chance of no change at <b>${_pmPct(nm.p_no_change)}</b>`);
+    if (_pmOk(nm.exp_move_bps)) put.push(`the expected move at <b>${_pmSign(nm.exp_move_bps, 1)} basis points</b>`);
+    head.push(`${stale ? "That meeting" : "Next meeting"}: ${when}.` + (put.length ? ` On ${fEsc(_pmDay(nm.date))} the market put ${put.join(" and ")}.` : ""));
+    if (!_pmOk(nm.p_no_change)) head.push("No market for no change had a price that day.");
+    if (!_pmOk(nm.exp_move_bps)) head.push("The outcome prices added up to zero, so there is no expected move.");
+    if (nm.past) head.push(`The meeting date is before that last priced day; the markets had not settled when last read.`);
+    const flagNow = [];
+    if (nm.sum_flag && _pmOk(nm.sum_raw)) flagNow.push(`its outcome prices added up to ${_pmNum(nm.sum_raw * 100, 1)}%, outside 85% to 115%, so read it with care`);
+    if (_pmOk(nm.missing_outcomes) && nm.missing_outcomes > 0) flagNow.push(`${nm.missing_outcomes} outcome${nm.missing_outcomes === 1 ? "" : "s"} had no price that day and the reading uses the others`);
+    if (_pmOk(nm.n_carried) && nm.n_carried > 0) flagNow.push(`${nm.n_carried} outcome${nm.n_carried === 1 ? " uses its" : "s use their"} last price from up to 3 days earlier`);
+    if (flagNow.length) head.push("On that day " + flagNow.join("; ") + ".");
+  } else head.push("No priced set of outcomes for a coming meeting.");
+  const cnt = (arr, f) => (arr || []).reduce((s, v) => s + (f(v) ? 1 : 0), 0);
+  const sf = cnt(L.sum_flag, (v) => v === true), pf = cnt(L.missing_outcomes, (v) => _pmOk(v) && v > 0), cf = cnt(L.n_carried, (v) => _pmOk(v) && v > 0);
+  const fl = [];
+  if (sf) fl.push(`On ${_pmInt(sf)} of the line's ${_pmInt(n)} days the outcome prices did not add up to between 85% and 115%; the line still divides each price by their total, so treat those days with care.`);
+  if (pf) fl.push(`On ${_pmInt(pf)} days one or more outcomes had no price; the line uses the others.`);
+  if (cf) fl.push(`On ${_pmInt(cf)} days an outcome with no price that day used its last price from up to 3 days earlier.`);
+  if (!fl.length && n) fl.push(`Every one of the line's ${_pmInt(n)} days has a full set of prices that add up to between 85% and 115%.`);
+  const comp = (b.competing || []).map((c) => `another set of ${_pmInt(c.n_markets)} markets (${_pmInt(c.n_moves)} moves${c.n_winners ? `, ${_pmInt(c.n_winners)} settled` : ""}${_pmOk(c.winner_move_bps) ? `, winning move ${_pmSign(c.winner_move_bps, 0)}` : ""})`);
+  if (comp.length) fl.push(`Polymarket also prices this meeting through ${comp.join(" and ")}; the line uses one set only, so the meeting is not counted twice.`);
+  const outs = ((nm && nm.outcomes) || []).filter((o) => _pmOk(o.move_bps)).slice().sort((x, y) => x.move_bps - y.move_bps);
+  const barTitle = nm ? `Odds of each outcome, ${nm.meeting_date ? _pmDay(nm.meeting_date) : _pmMeeting(nm.meeting)} meeting, priced ${_pmDay(nm.date)}` : "";
+  if (n) PM_JOBS.push(() => {
+    const segs = (L.segments || []).slice(1).map((s) => ({ type: "line", xref: "x", yref: "paper", x0: s.from, x1: s.from, y0: 0, y1: 1,
+      line: { color: PM_C.seg, width: 1 } }));
+    const G = _pmGapped(d, [L.exp_move_bps || [], (L.p_no_change || []).map(_pmP100)], 7);
+    vplot(id + "-line", [
+      { type: "scatter", mode: "lines", name: "Expected move, basis points (left scale)", x: G.x, y: G.ys[0],
+        line: { width: 2, color: PM_C.move }, connectgaps: false, hovertemplate: "Expected move: %{y:.1f} basis points<extra></extra>" },
+      { type: "scatter", mode: "lines", name: "Chance of no change (right scale)", x: G.x, y: G.ys[1], yaxis: "y2",
+        line: { width: 1.4, color: PM_C.noChange }, connectgaps: false, hovertemplate: "Chance of no change: %{y:.1f}%<extra></extra>" },
+    ], { margin: { l: 54, r: 50, t: 10, b: 36 }, shapes: segs, hovermode: "x unified",
+      yaxis: Object.assign({ title: { text: "Basis points" }, zeroline: true }, _pmSignedTicks(L.exp_move_bps || [])),
+      yaxis2: { overlaying: "y", side: "right", range: [0, 100], ticksuffix: "%", showgrid: false, title: { text: "No change" } } },
+    { id: id + "-line", noSmooth: true });
+  });
+  if (outs.length) PM_JOBS.push(() => {
+    const y = outs.map((o) => _pmOk(o.p_norm) ? Math.round(o.p_norm * 1000) / 10 : null);
+    const top = Math.max(10, ...y.filter(_pmOk));
+    vplot(id + "-next", [{ type: "bar", name: "Odds", x: outs.map(_pmMoveLabel), y,
+      marker: { color: PM_C.move }, text: y.map((v) => _pmOk(v) ? _pmNum(v, 1) + "%" : ""), textposition: "outside", cliponaxis: false,
+      hovertemplate: "%{x}: %{y:.1f}%<extra></extra>" }],
+    { margin: { l: 44, r: 10, t: 22, b: 40 }, showlegend: false, hovermode: "closest",
+      xaxis: { type: "category", title: { text: "Move, basis points" } }, yaxis: { ticksuffix: "%", range: [0, Math.min(100, top * 1.2) + 2] } },
+    { id: id + "-next", noSmooth: true, autoscale: false });
+  });
+  return `<div class="pm-bank" data-bank="${fEsc(b.bank)}"><h3>${name}</h3><div class="gold-note">${head.join(" ")}</div>`
+    + `<div class="pm-grid"><div>${n ? `<div id="${id}-line" style="height:270px"></div>` : `<div class="empty-note">No daily line yet.</div>`}</div>`
+    + `<div>${outs.length ? `<div class="gold-sub">${fEsc(barTitle)}</div><div id="${id}-next" style="height:248px"></div>` : `<div class="empty-note">No outcome odds for the next meeting.</div>`}</div></div>`
+    + `<div class="gold-note">${fl.map(fEsc).join(" ")}</div></div>`;
+}
+
+// ---- 3 to 6. the theme sections ----
+function _pmEpochDay(epoch, n) {
+  const t = Date.parse((epoch || "2023-01-01") + "T00:00:00Z") + n * 86400000;
+  return new Date(t).toISOString().slice(0, 10);
+}
+// the markets whose odds moved most over the last 30 days of their own history (the whole history when shorter).
+// Open markets priced within the last 30 days (counted back from the newest price here) come first, so a market that
+// ended, or one past its end date whose prices stopped long ago, cannot crowd out what is moving now.
+function _pmMovers(hist) {
+  const out = [];
+  let newest = null;
+  (hist || []).forEach((h) => { const d = h.days || []; if (d.length && (newest === null || d[d.length - 1] > newest)) newest = d[d.length - 1]; });
+  (hist || []).forEach((h) => {
+    const days = h.days || [], p = h.p || [];
+    let last = Math.min(days.length, p.length) - 1;
+    while (last >= 0 && !_pmOk(p[last])) last--;
+    if (last < 0) return;
+    const target = days[last] - 30;
+    let j = -1;
+    for (let i = 0; i <= last; i++) if (days[i] <= target && _pmOk(p[i])) j = i;
+    const whole = j < 0;
+    if (whole) { j = 0; while (j < last && !_pmOk(p[j])) j++; }
+    out.push({ h, move: (p[last] - p[j]) * 100, whole, span: days[last] - days[j], live: !!h.open && days[last] >= newest - 30 });
+  });
+  return out.sort((a, b) => ((b.live ? 1 : 0) - (a.live ? 1 : 0)) || Math.abs(b.move) - Math.abs(a.move));
+}
+function _pmGroup(P, g) {
+  const have = g.themes.filter((t) => P.themes[t]);
+  const asof = _pmAsofOdds(P);
+  const gone = g.themes.filter((t) => !P.themes[t] && P.meta && (P.meta.themes || []).indexOf(t) >= 0);
+  const absent = g.themes.filter((t) => !P.meta || (P.meta.themes || []).indexOf(t) < 0);
+  const extra = (gone.length ? gone.map((t) => _pmMissing("themes/" + t)).join("") : "")
+    + (absent.length ? `<div class="gold-note">No markets are tracked under ${fEsc(absent.join(", "))} tonight.</div>` : "");
+  if (!have.length) return [asof, extra || `<div class="empty-note">No markets are tracked under this heading tonight.</div>`];
+  let cur = PM_S.theme[g.key];
+  if (cur !== "all" && have.indexOf(cur) < 0) cur = "all";
+  PM_S.theme[g.key] = cur;
+  const label = (t) => _pmThemeLabel(P, t);
+  const btns = have.length > 1 ? [["all", ({ 2: "Both", 3: "All three", 4: "All four" })[have.length] || "All"]].concat(have.map((t) => [t, label(t)]))
+    .map(([k, t]) => `<button type="button" class="liq-who-btn pm-btn pm-theme${k === cur ? " on" : ""}" data-k="${fEsc(k)}">${fEsc(t)}</button>`).join("") : "";
+  const note = `The open markets in this section, with today's odds and how they moved. The chart draws the daily odds of `
+    + `the markets that moved most over the last 30 days of their own history; open markets with prices in the last 30 `
+    + `days come first, then the rest. Choose how many lines to show, and untick a market to hide it.`
+    + (g.brent ? " Brent crude is drawn underneath, from Vistas' own world prices." : "");
+  PM_JOBS.push(() => {
+    const sec = document.querySelector(`#pm-g-${g.key}`);
+    const wrap = sec && sec.parentNode;
+    if (wrap) wrap.querySelectorAll(".pm-theme").forEach((b) => b.addEventListener("click", () => {
+      PM_S.theme[g.key] = b.dataset.k;
+      wrap.querySelectorAll(".pm-theme").forEach((x) => x.classList.toggle("on", x === b));
+      PM_S.hide[g.key] = new Set();
+      _pmGroupFill(P, g);
+      _pmDataRedo("g-" + g.key);
+    }));
+    _pmGroupFill(P, g);
+  });
+  const box = _pmDataBox("g-" + g.key, () => _pmGroupData(P, g));
+  return [asof, `<div class="gold-note">${fEsc(note)}</div>${extra}` + (btns ? `<div class="pm-ctl">${btns}</div>` : "")
+    + `<div id="pm-g-${g.key}"></div>` + box];
+}
+function _pmGroupThemes(P, g) {
+  const have = g.themes.filter((t) => P.themes[t]), cur = PM_S.theme[g.key];
+  return (cur && cur !== "all" && have.indexOf(cur) >= 0) ? [cur] : have;
+}
+function _pmGroupFill(P, g) {
+  const el = $("pm-g-" + g.key);
+  if (!el) return;
+  ["-chart", "-brent"].forEach((s) => { const o = $("pm-g-" + g.key + s); if (o) purgePlot(o); });
+  const ths = _pmGroupThemes(P, g), multi = ths.length > 1;
+  const hist = [], open = [];
+  ths.forEach((t) => {
+    const T = P.themes[t] || {};
+    (T.history || []).forEach((h) => hist.push(Object.assign({ theme: t, epoch: T.epoch }, h)));
+    (T.open || []).forEach((r) => open.push(Object.assign({ theme: t }, r)));
+  });
+  const movers = _pmMovers(hist);
+  const N = PM_S.pick[g.key] || 5;
+  const hide = PM_S.hide[g.key] || (PM_S.hide[g.key] = new Set());
+  const shown = movers.slice(0, N);
+  const cid = "pm-g-" + g.key + "-chart";
+  let chart;
+  if (!shown.length) {
+    chart = `<div class="empty-note">No daily history came with tonight's files for ${multi ? "these markets" : "this theme's markets"}, so there is no chart yet. The table below lists every open market with its odds.</div>`;
+  } else {
+    const picks = [3, 5, 10].filter((k, i, a) => k <= movers.length || (i > 0 && a[i - 1] < movers.length))
+      .map((k) => `<button type="button" class="liq-who-btn pm-btn pm-n${k === N ? " on" : ""}" data-n="${k}">${k}</button>`).join("");
+    const leg = shown.map((m, i) => {
+      const h = m.h, col = _pmCol(PM_COL[i % PM_COL.length]);
+      const end = !h.open ? ("ended " + _pmDay(h.end_date) + (h.winner ? ", settled " + h.winner : ""))
+        : !h.end_date ? "open" : (_pmPastEnd(h) ? "end date " + _pmDay(h.end_date) + " has passed, not settled" : "ends " + _pmDay(h.end_date));
+      const mv = `${_pmSign(m.move, 1)} points over ${m.whole ? "its whole history of " + _pmInt(m.span) + " days" : "the last 30 days"}`;
+      return `<label><input type="checkbox" data-c="${fEsc(h.condition_id)}"${hide.has(h.condition_id) ? "" : " checked"}>`
+        + `<span class="pm-sw" style="background:${col}"></span><span>${fEsc(h.question)} <span class="pm-dim">(${fEsc(mv)}; ${fEsc(end)}${multi ? "; " + fEsc(_pmThemeLabel(P, h.theme)) : ""})</span></span></label>`;
+    }).join("");
+    chart = `<div class="pm-ctl"><span class="pm-dim">Lines on the chart:</span>${picks}<span class="pm-dim">of the ${_pmInt(movers.length)} markets with a daily history here</span></div>`
+      + `<div id="${cid}" style="height:330px"></div><div class="pm-legend">${leg}</div>`;
+  }
+  const rows = open.slice().sort((a, b) => {
+    const x = _pmOk(a.d_since_nse_close) ? Math.abs(a.d_since_nse_close) : -1, y = _pmOk(b.d_since_nse_close) ? Math.abs(b.d_since_nse_close) : -1;
+    if (y !== x) return y - x;
+    const u = _pmOk(a.d_1w) ? Math.abs(a.d_1w) : -1, v = _pmOk(b.d_1w) ? Math.abs(b.d_1w) : -1;
+    if (v !== u) return v - u;
+    return _pmOk(b.p_now) - _pmOk(a.p_now);
+  });
+  const cols = [_pmQCol()].concat(multi ? [{ h: "Theme", v: (r) => _pmThemeLabel(P, r.theme) }] : [], [
+    _pmDateCol("Ends", "end_date"),
+    _pmNowCol(),
+    _pmPtsCol("Since NSE close", "d_since_nse_close", true),
+    _pmPtsCol("Week", "d_1w"), _pmPtsCol("Month", "d_1m"),
+    _pmSpreadCol(), _pmStaleCol(),
+    { h: "Note", v: _pmNote, cls: "pm-wrap" }]);
+  const priced = open.filter((r) => _pmOk(r.p_now)).length;
+  const tnote = `${_pmInt(open.length)} open markets, ${_pmInt(priced)} with a price tonight; biggest move since the NSE close first.`;
+  el.innerHTML = chart + `<div class="gold-sub">The open markets</div><div class="gold-note">${fEsc(tnote)}</div>`
+    + _pmTable({ cols, rows, csv: "polymarket_" + g.key + "_open_markets", show: 300, find: "Search these markets" })
+    + (g.brent ? `<div class="gold-sub">Brent crude, US dollars a barrel, ${shown.length ? "over the chart's dates" : "over the last year"}</div>`
+      + `<div id="pm-g-${g.key}-brent" style="height:220px"></div>` : "");
+  _pmWireTables(el);
+  el.querySelectorAll(".pm-n").forEach((b) => b.addEventListener("click", () => { PM_S.pick[g.key] = Number(b.dataset.n); _pmGroupFill(P, g); }));
+  el.querySelectorAll(".pm-legend input").forEach((cb) => cb.addEventListener("change", () => {
+    if (cb.checked) hide.delete(cb.dataset.c); else hide.add(cb.dataset.c);
+    _pmGroupChart(cid, shown, hide);
+  }));
+  if (shown.length) _pmGroupChart(cid, shown, hide);
+  if (g.brent) _pmBrent("pm-g-" + g.key + "-brent", hist);
+  setTimeout(() => { try { viewPlotsResize("polymarket"); } catch (e) {} }, 60);
+}
+function _pmGroupChart(cid, shown, hide) {
+  const traces = [];
+  shown.forEach((m, i) => {
+    const h = m.h;
+    if (hide.has(h.condition_id)) return;
+    const x = [], y = [];
+    (h.days || []).forEach((dd, k) => { x.push(_pmEpochDay(h.epoch, dd)); y.push(_pmOk(h.p[k]) ? Math.round(h.p[k] * 1000) / 10 : null); });
+    traces.push({ type: "scatter", mode: "lines", name: h.question, x, y, connectgaps: false,
+      line: { width: 1.8, color: PM_COL[i % PM_COL.length] },
+      hovertemplate: _pmWrap(h.question, 46) + "<br>%{x}: <b>%{y:.1f}%</b><extra></extra>" });
+  });
+  if (!traces.length) {
+    const el = $(cid);
+    if (el) { purgePlot(el); el.innerHTML = `<div class="empty-note">Every line is unticked; tick a market below to draw it.</div>`; }
+    return;
+  }
+  const el = $(cid);
+  if (el && el.querySelector(".empty-note")) el.innerHTML = "";
+  vplot(cid, traces, { margin: { l: 50, r: 16, t: 10, b: 36 }, showlegend: false, hovermode: "closest",
+    yaxis: { title: { text: "Chance it happens" }, ticksuffix: "%", rangemode: "tozero" } }, { id: cid, noSmooth: true, purge: true });
+}
+function _pmBrentSeries() {
+  const W = (typeof window !== "undefined" && window.VISTAS_WORLD) || null, k = "Crude Oil (Brent)";
+  if (!W || !W.series || !W.series[k] || !W.dates) return null;
+  return { dates: W.dates, v: W.series[k] };
+}
+function _pmBrentWindow(hist) {
+  let lo = null, hi = null;
+  (hist || []).forEach((h) => { const d = h.days || []; if (d.length) { lo = lo === null ? d[0] : Math.min(lo, d[0]); hi = hi === null ? d[d.length - 1] : Math.max(hi, d[d.length - 1]); } });
+  const ep = (hist && hist[0] && hist[0].epoch) || "2023-01-01";
+  return lo === null ? null : [_pmEpochDay(ep, lo), _pmEpochDay(ep, hi)];
+}
+function _pmBrentRows(hist) {
+  const S = _pmBrentSeries();
+  if (!S) return [];
+  const w = _pmBrentWindow(hist), rows = [];
+  let from = w ? w[0] : null;
+  if (!from) { const last = S.dates[S.dates.length - 1]; const t = new Date(Date.parse(last + "T00:00:00Z")); t.setUTCFullYear(t.getUTCFullYear() - 1); from = t.toISOString().slice(0, 10); }
+  for (let i = 0; i < S.dates.length; i++) if (S.dates[i] >= from && _pmOk(S.v[i])) rows.push({ date: S.dates[i], v: S.v[i] });
+  return rows;
+}
+function _pmBrent(id, hist) {
+  const draw = () => {
+    const el = $(id);
+    if (!el) return;
+    const rows = _pmBrentRows(hist);
+    if (!rows.length) { el.style.height = "auto"; el.innerHTML = `<div class="empty-note">Brent prices are not in this copy of the terminal.</div>`; return; }
+    vplot(id, [{ type: "scatter", mode: "lines", name: "Brent crude", x: rows.map((r) => r.date), y: rows.map((r) => r.v),
+      line: { width: 1.6, color: PM_C.brent }, connectgaps: false, hovertemplate: "Brent: $%{y:.2f} a barrel<extra></extra>" }],
+    { margin: { l: 50, r: 16, t: 10, b: 36 }, showlegend: false, hovermode: "x unified", yaxis: { title: { text: "US$ a barrel" }, tickprefix: "$" } },
+    { id, noSmooth: true });
+  };
+  if (_pmBrentSeries()) { draw(); return; }
+  if (typeof ensureWorldLoaded === "function" && typeof LAZY !== "undefined" && LAZY && LAZY.world) {
+    ensureWorldLoaded(["Crude Oil (Brent)"]).then(draw, draw);
+  } else draw();
+}
+function _pmGroupData(P, g) {
+  const ths = _pmGroupThemes(P, g), rows = [];
+  ths.forEach((t) => {
+    const T = P.themes[t] || {};
+    (T.history || []).forEach((h) => {
+      const st = h.open ? "open" : ("ended" + (h.winner ? ", settled " + h.winner : ""));
+      for (let k = (h.days || []).length - 1; k >= 0; k--)
+        rows.push({ question: h.question, theme: _pmThemeLabel(P, t), status: st, date: _pmEpochDay(T.epoch, h.days[k]), p: h.p[k], id: h.condition_id });
+    });
+  });
+  rows.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+  const out = !rows.length ? [] : [{
+    title: "Daily odds of every market this section draws from",
+    note: "One row per market and day, newest first: the daily midpoint as a percent. Each theme file carries up to 40 "
+      + "markets with a price history and their last 400 daily prices: open ones first, by the size of their move over "
+      + "the last 30 days, then ended ones, most recently ended first.",
+    cols: [{ h: "Market", v: (r) => r.question, cls: "pm-q" }, { h: "Theme", v: (r) => r.theme }, { h: "Status", v: (r) => r.status },
+      _pmDateCol("Date", "date"), _pmPctCol("Odds", "p"), { h: "Market id", v: (r) => r.id }],
+    rows, csv: "polymarket_" + g.key + "_daily_odds" }];
+  if (g.brent) {
+    const br = _pmBrentRows(ths.reduce((a, t) => a.concat(((P.themes[t] || {}).history || []).map((h) => Object.assign({ epoch: (P.themes[t] || {}).epoch }, h))), []));
+    out.push({ title: "Brent crude over the chart's dates", note: "Daily close in US dollars a barrel, from Vistas' world prices, newest first.",
+      cols: [_pmDateCol("Date", "date"), { h: "Brent", unit: "US$ a barrel", num: true, v: (r) => _pmR(r.v, 2), fmt: (v) => _pmNum(v, 2) }],
+      rows: br.slice().reverse(), csv: "polymarket_brent_daily", none: "Brent prices are not in this copy of the terminal." });
+  }
+  return out;
+}
+
+// ---- 7. how Indian markets moved with these odds ----
+function _pmSens(P) {
+  const S = P.sensitivity;
+  if (!S) return ["", _pmMissing("sensitivity")];
+  const rows = S.rows || [];
+  const cap = "This is co-movement on the same day, not a forecast: on days these odds rose by 10 points, how far each "
+    + "Indian series moved between the same two NSE closes. It says what moved together, never what comes next. Technical "
+    + "detail: daily log return of each Indian series in basis points (India VIX: the change in points; USD/INR: the "
+    + "world file's daily close) regressed on the change in the odds read at 10:00 UTC, slope per 10 points (for a "
+    + "central-bank line, the change in its expected move, slope per 10 basis points), Newey-West "
+    + "t-statistic with 5 lags, 60 NSE trading days at least; a gap of more than 30 days between markets starts a new episode.";
+  if (!rows.length) return [_pmBuilt(P), `<div class="gold-note">${fEsc(cap)}</div><div class="empty-note">This needs 60 trading days of hourly prices for a market. The first rows appear once the hourly history is filled in.</div>`];
+  // the unit, read from the file's own fields: asset_unit (bp = log return x 1e4; points = India VIX), unit (per 10
+  // probability points for a market, per 10 bps of expected move for a central-bank line); the CSV keeps it as a column
+  const unit = (r) => {
+    const a = r.asset_unit === "bp" ? "bp of log return" : r.asset_unit === "points" ? "India VIX points" : String(r.asset_unit || "");
+    const u = String(r.unit || "per 10 points");
+    return a + ", " + (/bps/.test(u) ? u + " of expected move" : u);
+  };
+  const cols = [{ h: "Odds line or market", v: (r) => r.series_name || r.series, cls: "pm-q" },
+    { h: "Kind", v: (r) => r.kind === "cb_line" ? "central-bank line" : (r.kind || "") },
+    { h: "Theme", v: (r) => _pmThemeLabel(P, r.theme) }, { h: "Indian series", v: (r) => r.asset || "" },
+    { h: "Move per 10 points", num: true,
+      v: (r) => _pmR(r.slope_per_10pt, 4), html: (r) => fEsc(_pmSign(r.slope_per_10pt, 1)) },
+    { h: "Unit", v: unit, cls: "pm-wrap" },
+    { h: "t-statistic", num: true, v: (r) => r.t_hac5, fmt: (v) => _pmNum(v, 2) },
+    { h: "Days", num: true, v: (r) => r.n_days }, _pmDateCol("From", "first"), _pmDateCol("To", "last"),
+    { h: "Episodes", num: true, v: (r) => r.episodes }];
+  return [_pmBuilt(P), `<div class="gold-note">${fEsc(cap)}</div>` + _pmTable({ cols, rows, csv: "polymarket_same_day_comovement", find: "Search a market or an index" })];
+}
+
+// ---- 8. the registered test ----
+function _pmLeadLag(P) {
+  const L = P.leadlag;
+  if (!L) return ["", _pmMissing("leadlag")];
+  const reg = L.register || [], sc = L.scores || [];
+  if (!reg.length) return ["", `<div class="empty-note">No test is registered yet.</div>`];
+  let asof = "";
+  const blocks = reg.map((e) => {
+    const s = sc.find((x) => x.entry_id === e.id) || {};
+    if (s.scored_on && (!asof || s.scored_on > asof)) asof = s.scored_on;
+    const asset = e.asset || "the asset", nd = e.window === "next_day" ? "the next trading day" : "the same day";
+    const dir = (_pmOk(e.pass_slope_below) && e.pass_slope_below <= 0) ? "fall" : "rise";
+    const need = _pmOk(s.min_days) ? s.min_days : e.min_days;
+    const reading = _pmOk(s.slope_per_10pt)
+      ? `${_pmSign(s.slope_per_10pt, 1)} basis points of ${asset}'s return on ${nd} for each 10-point rise in the odds, t-statistic ${_pmNum(s.t_hac5, 2)}`
+      : "none yet: too few days to measure";
+    const verdict = s.verdict === "pass" ? `Passed on the days scored so far.`
+      : s.verdict === "fail" ? `Not passed: the reading does not meet the pass mark.`
+      : `Not judged yet: it needs ${_pmInt(need)} scored days.`;
+    const days = `${_pmInt(s.n_days || 0)} of ${_pmInt(need)}` + (s.first && s.last ? `, from ${_pmDay(s.first)} to ${_pmDay(s.last)}` : "");
+    const rowsT = [
+      ["What is tested", `When the odds that "${e.question}" rise, does ${asset} ${dir} on ${nd}, after allowing for ${asset}'s own move that day?`],
+      ["Registered", `${_pmDay(e.registered)}; only trading days after that date count, so the test cannot be fitted to the past.`],
+      ["It passes if", `over at least ${_pmInt(e.min_days)} of those days, a rise in the odds goes with a ${dir} in ${asset} on ${nd}, and the link is clear: a t-statistic below ${_pmNum(e.pass_t_below, 0)} (beyond 2 in size is the usual bar for an effect rather than noise).`],
+      ["Days scored so far", days],
+      ["Reading so far", reading],
+      ["Verdict", verdict]];
+    return `<table class="pm-def">${rowsT.map(([k, v]) => `<tr><th>${fEsc(k)}</th><td>${fEsc(v)}</td></tr>`).join("")}</table>`
+      + `<div class="gold-note">Technical detail: ${fEsc(e.rule || "")}.</div>`;
+  });
+  const note = "A link seen in the past is only a candidate until it holds on days that had not happened when it was written "
+    + "down. Each test here was registered with its rule and its pass mark first, and is scored only on the days after.";
+  const box = _pmDataBox("leadlag", () => [{
+    title: "The register", note: "Every test as it was registered; nothing is deleted.",
+    cols: [{ h: "Test", v: (r) => r.id }, _pmDateCol("Registered", "registered"), { h: "Market", v: (r) => r.question, cls: "pm-q" },
+      { h: "Asset", v: (r) => r.asset }, { h: "Pass mark", v: (r) => r.pass_mark, cls: "pm-wrap" }, { h: "Rule", v: (r) => r.rule, cls: "pm-wrap" }],
+    rows: reg, csv: "polymarket_leadlag_register" }, {
+    title: "The latest score of each test",
+    cols: [{ h: "Test", v: (r) => r.entry_id }, _pmDateCol("Scored on", "scored_on"), { h: "Days", num: true, v: (r) => r.n_days },
+      { h: "Days needed", num: true, v: (r) => r.min_days }, _pmDateCol("From", "first"), _pmDateCol("To", "last"),
+      { h: "Move per 10-point rise", unit: "basis points", num: true, v: (r) => r.slope_per_10pt },
+      { h: "t-statistic", num: true, v: (r) => r.t_hac5 }, { h: "Verdict", v: (r) => String(r.verdict || "").replace(/_/g, " ") }],
+    rows: sc, csv: "polymarket_leadlag_scores" }]);
+  return [asof ? "scored " + _pmDay(asof) : "", `<div class="gold-note">${fEsc(note)}</div>` + blocks.join("") + box];
+}
+
+// ---- 9. calibration ----
+function _pmCalib(P) {
+  const C = P.calibration;
+  if (!C) return ["", _pmMissing("calibration")];
+  const brier = C.brier || [], bins = C.bins || [];
+  const lab = (t) => t === "all" ? "All themes" : _pmThemeLabel(P, t);
+  const note = "For markets that have settled, how the odds a week and a day before the end compare with what happened. "
+    + "The Brier score is the average of the squared gap between the odds and the result (1 if it happened, 0 if not): "
+    + "0 is perfect, and 0.25 is what always saying 50% scores. Beside each score is what you would get by always "
+    + "saying the theme's own hit rate (the hit-rate rule); odds that score lower than that did better than that simple rule.";
+  if (!brier.length) return [_pmBuilt(P), `<div class="gold-note">${fEsc(note)}</div><div class="empty-note">No settled market has a price a week or a day before its end yet.</div>`];
+  const themes = [];
+  brier.forEach((r) => { if (themes.indexOf(r.theme) < 0) themes.push(r.theme); });
+  themes.sort((a, b) => (a === "all" ? -1 : b === "all" ? 1 : lab(a).localeCompare(lab(b))));
+  const by = (t, h) => brier.find((r) => r.theme === t && r.horizon_days === h) || {};
+  const rows = themes.map((t) => ({ theme: t, a: by(t, 7), b: by(t, 1) }));
+  const sc = (v) => _pmOk(v) ? _pmNum(v, 3) : "";
+  const cols = [{ h: "Theme", v: (r) => lab(r.theme) },
+    { h: "Markets, week before", num: true, v: (r) => r.a.n }, { h: "Score, week before", num: true, v: (r) => r.a.brier, fmt: sc },
+    { h: "Hit-rate rule, week before", num: true, v: (r) => r.a.brier_base_rate, fmt: sc },
+    { h: "Markets, day before", num: true, v: (r) => r.b.n }, { h: "Score, day before", num: true, v: (r) => r.b.brier, fmt: sc },
+    { h: "Hit-rate rule, day before", num: true, v: (r) => r.b.brier_base_rate, fmt: sc }];
+  let sel = PM_S.cal;
+  if (themes.indexOf(sel) < 0) sel = themes[0];
+  PM_S.cal = sel;
+  const opts = themes.map((t) => `<option value="${fEsc(t)}"${t === sel ? " selected" : ""}>${fEsc(lab(t))}</option>`).join("");
+  PM_JOBS.push(() => {
+    const s = $("pm-cal-sel");
+    if (s) s.addEventListener("change", () => { PM_S.cal = s.value; _pmCalFill(P); _pmDataRedo("cal"); });
+    _pmCalFill(P);
+  });
+  const box = _pmDataBox("cal", () => [{
+    title: "Scores by theme and reading", note: "One row per theme and reading (days before the end), with every market left out and why.",
+    cols: [{ h: "Theme", v: (r) => lab(r.theme) }, { h: "Days before the end", num: true, v: (r) => r.horizon_days },
+      { h: "Scored", num: true, v: (r) => r.n }, { h: "Score", num: true, v: (r) => r.brier }, { h: "Always the hit rate", num: true, v: (r) => r.brier_base_rate },
+      { h: "Average odds", unit: "%", num: true, v: (r) => _pmP100(r.mean_p) }, { h: "Happened", unit: "%", num: true, v: (r) => _pmP100(r.happened) },
+      { h: "Ended early", num: true, v: (r) => r.n_ended_early }, { h: "Left out: still open", num: true, v: (r) => r.excl_not_resolved },
+      { h: "Left out: no winner recorded", num: true, v: (r) => r.excl_no_winner }, { h: "Left out: no Yes side", num: true, v: (r) => r.excl_no_yes_token },
+      { h: "Left out: second set for a meeting", num: true, v: (r) => r.excl_competing_set }, { h: "Left out: never priced", num: true, v: (r) => r.excl_not_priced },
+      { h: "Left out: no price near the reading", num: true, v: (r) => r.excl_no_price_at_mark }],
+    rows: brier, csv: "polymarket_calibration_scores" }, {
+    title: "Predicted against happened, in 10-point buckets", note: "One row per theme, reading and bucket of odds: how many markets, their average odds and the share that happened.",
+    cols: [{ h: "Theme", v: (r) => lab(r.theme) }, { h: "Days before the end", num: true, v: (r) => r.horizon_days },
+      { h: "Odds from", unit: "%", num: true, v: (r) => _pmP100(r.bin_lo) }, { h: "Odds to", unit: "%", num: true, v: (r) => _pmP100(r.bin_hi) },
+      { h: "Markets", num: true, v: (r) => r.n }, { h: "Average odds", unit: "%", num: true, v: (r) => _pmP100(r.mean_p) },
+      { h: "Happened", unit: "%", num: true, v: (r) => _pmP100(r.happened) }],
+    rows: bins, csv: "polymarket_calibration_buckets" }]);
+  return [_pmBuilt(P), `<div class="gold-note">${fEsc(note)}</div>` + _pmTable({ cols, rows, csv: "polymarket_calibration_by_theme", find: "Search a theme" })
+    + `<div class="gold-sub">What the odds said against what happened</div>`
+    + `<div class="pm-ctl"><label>Theme <select id="pm-cal-sel" style="padding:3px 6px">${opts}</select></label></div>`
+    + `<div id="pm-cal-chart" style="height:340px"></div><div class="gold-note" id="pm-cal-why"></div>` + box];
+}
+function _pmCalFill(P) {
+  const lab = (x) => x === "all" ? "All themes" : _pmThemeLabel(P, x);
+  const C = P.calibration || {}, t = PM_S.cal, bins = (C.bins || []).filter((r) => r.theme === t);
+  const tr = [{ type: "scatter", mode: "lines", name: "If the odds were exactly right", x: [0, 100], y: [0, 100],
+    line: { width: 1, color: PM_C.diag }, hoverinfo: "skip" }];
+  [[1, "A day before the end", PM_C.day1], [7, "A week before the end", PM_C.day7]].forEach(([h, nm, col]) => {
+    const b = bins.filter((r) => r.horizon_days === h && _pmOk(r.mean_p) && _pmOk(r.happened)).sort((x, y) => x.bin - y.bin);
+    if (!b.length) return;
+    tr.push({ type: "scatter", mode: "lines+markers", name: nm, x: b.map((r) => _pmP100(r.mean_p)), y: b.map((r) => _pmP100(r.happened)),
+      customdata: b.map((r) => r.n), line: { width: 1.8, color: col }, marker: { size: 7, color: col },
+      hovertemplate: nm + "<br>odds said %{x:.1f}%, happened %{y:.1f}% of %{customdata} markets<extra></extra>" });
+  });
+  vplot("pm-cal-chart", tr, { margin: { l: 56, r: 16, t: 10, b: 44 }, hovermode: "closest",
+    xaxis: { title: { text: "What the odds said" }, range: [0, 100], tickmode: "array", tickvals: [20, 40, 60, 80, 100], ticktext: ["20%", "40%", "60%", "80%", "100%"] },
+    yaxis: { title: { text: "How often it happened" }, ticksuffix: "%", range: [0, 100] } },
+  { id: "pm-cal-chart", noSmooth: true, autoscale: false });
+  const why = $("pm-cal-why");
+  if (why) {
+    const r7 = (C.brier || []).find((r) => r.theme === t && r.horizon_days === 7) || {}, r1 = (C.brier || []).find((r) => r.theme === t && r.horizon_days === 1) || {};
+    const parts = [["still open", r7.excl_not_resolved], ["closed with no winner recorded", r7.excl_no_winner], ["with no Yes side", r7.excl_no_yes_token],
+      ["central-bank markets from a second set for a meeting already counted", r7.excl_competing_set], ["never priced", r7.excl_not_priced]]
+      .filter(([, v]) => _pmOk(v) && v > 0).map(([k, v]) => `${_pmInt(v)} ${k}`);
+    const mark = [_pmOk(r7.excl_no_price_at_mark) && r7.excl_no_price_at_mark > 0 ? `${_pmInt(r7.excl_no_price_at_mark)} a week before` : "",
+      _pmOk(r1.excl_no_price_at_mark) && r1.excl_no_price_at_mark > 0 ? `${_pmInt(r1.excl_no_price_at_mark)} a day before` : ""].filter(Boolean);
+    if (mark.length) parts.push(`no price near the reading (${mark.join(", ")})`);
+    const early = _pmOk(r7.n_ended_early) && r7.n_ended_early > 0 ? ` ${_pmInt(r7.n_ended_early)} of the week-before markets (and ${_pmInt(r1.n_ended_early || 0)} of the day-before ones) stopped trading before their scheduled end, so they are read that long before their last price instead.` : "";
+    why.textContent = `${lab(t)}: ${_pmInt(r7.n || 0)} markets scored a week before the end and ${_pmInt(r1.n || 0)} a day before. `
+      + (parts.length ? `Left out: ${parts.join("; ")}.` : "Nothing was left out.") + early
+      + " Hover a point for its count of markets; the table under this panel has every bucket.";
+  }
+}
+
+// ---- 10. every market we track ----
+function _pmAll(P) {
+  const M = P.markets_open, ix = Array.isArray(P.closed_index) ? P.closed_index : [];
+  const asof = _pmAsofOdds(P);
+  if (!M) return [asof, _pmMissing("markets_open")];
+  const counts = (P.meta && P.meta.counts) || {};
+  const themes = Object.keys(counts.by_theme || {}).sort((a, b) => _pmThemeLabel(P, a).localeCompare(_pmThemeLabel(P, b)));
+  const months = ix.filter((m) => m.month !== "undated");
+  if (!PM_S.mkMonth) {
+    const now = String((P.meta && P.meta.asof_date) || "").slice(0, 7);
+    const m = months.find((x) => x.month <= now) || months[0] || ix[0];
+    PM_S.mkMonth = m ? m.month : "";
+  }
+  const note = `Every market we track: ${_pmInt(counts.tracked)} in all, ${_pmInt(counts.open)} open and ${_pmInt(counts.closed)} closed. `
+    + `Open markets come with today's odds; closed markets are kept by the month they ended, and a month loads when you pick it. `
+    + `A market we track but could not price stays on the list, marked "no price yet", and the table at the bottom counts why, theme by theme.`;
+  const set = `<button type="button" class="liq-who-btn pm-btn pm-set${PM_S.mkSet === "open" ? " on" : ""}" data-s="open">Open markets</button>`
+    + `<button type="button" class="liq-who-btn pm-btn pm-set${PM_S.mkSet === "closed" ? " on" : ""}" data-s="closed">Closed markets</button>`;
+  const thSel = `<label>Theme <select id="pm-all-theme" style="padding:3px 6px"><option value="">All themes</option>`
+    + themes.map((t) => `<option value="${fEsc(t)}"${t === PM_S.mkTheme ? " selected" : ""}>${fEsc(_pmThemeLabel(P, t))}</option>`).join("") + `</select></label>`;
+  const moSel = `<label id="pm-all-month-l"${PM_S.mkSet === "closed" ? "" : " hidden"}>Ended in <select id="pm-all-month" style="padding:3px 6px">`
+    + ix.map((m) => `<option value="${fEsc(m.month)}"${m.month === PM_S.mkMonth ? " selected" : ""}>${fEsc(m.month === "undated" ? "no end date" : _pmMeeting(m.month))} (${_pmInt(m.rows)})</option>`).join("") + `</select></label>`;
+  const allBtn = ix.length ? `<button type="button" class="liq-who-btn pm-btn" id="pm-all-closed-csv">Download every closed month as one CSV (${_pmInt(ix.reduce((s, m) => s + (m.rows || 0), 0))} rows)</button><span class="pm-count" id="pm-all-closed-msg"></span>` : "";
+  PM_JOBS.push(() => {
+    document.querySelectorAll("#pm-all .pm-set").forEach((b) => b.addEventListener("click", () => {
+      PM_S.mkSet = b.dataset.s;
+      document.querySelectorAll("#pm-all .pm-set").forEach((x) => x.classList.toggle("on", x === b));
+      const l = $("pm-all-month-l"); if (l) l.hidden = PM_S.mkSet !== "closed";
+      _pmAllFill(P);
+    }));
+    const ts = $("pm-all-theme"); if (ts) ts.addEventListener("change", () => { PM_S.mkTheme = ts.value; _pmAllFill(P); });
+    const ms = $("pm-all-month"); if (ms) ms.addEventListener("change", () => { PM_S.mkMonth = ms.value; _pmAllFill(P); });
+    const cb = $("pm-all-closed-csv"); if (cb) cb.addEventListener("click", () => _pmAllClosedCSV(P));
+    _pmAllFill(P);
+  });
+  const cov = (P.coverage && P.coverage.rows) || [];
+  const covT = cov.length ? `<div class="gold-sub">What we track, theme by theme</div><div class="gold-note">Asked but nothing came back: the price feed `
+    + `was asked and returned no prices. Not asked yet: the nightly feed has not requested its prices so far.</div>`
+    + _pmTable({ cols: [{ h: "Theme", v: (r) => r.label || _pmThemeLabel(P, r.theme) }, { h: "Tier", v: (r) => r.tier === "core" ? "core" : (r.tier || "") },
+      { h: "Tracked", num: true, v: (r) => r.tracked }, { h: "Open", num: true, v: (r) => r.open }, { h: "Closed", num: true, v: (r) => r.closed },
+      { h: "Priced", num: true, v: (r) => r.priced }, { h: "With hourly prices", num: true, v: (r) => r.with_hourly },
+      { h: "Asked, nothing came back", num: true, v: (r) => r.unpriced_empty }, { h: "Not asked yet", num: true, v: (r) => r.unpriced_not_reached },
+      { h: "Ended before 2023", num: true, v: (r) => r.excluded_pre2023 }, { h: "No Yes side", num: true, v: (r) => r.no_yes_token }],
+      rows: cov, csv: "polymarket_coverage", height: 360, find: "Search a theme" }) : (P.coverage ? "" : _pmMissing("coverage"));
+  return [asof, `<div class="gold-note">${fEsc(note)}</div><div id="pm-all"><div class="pm-ctl">${set}${thSel}${moSel}</div>`
+    + `<div class="pm-ctl">${allBtn}</div><div id="pm-all-tbl"></div></div>` + covT];
+}
+function _pmOpenCols(P) {
+  return [_pmQCol(), { h: "Theme", v: (r) => _pmThemeLabel(P, r.theme) }, { h: "Tier", v: (r) => r.tier || "" },
+    _pmDateCol("Ends", "end_date"), _pmNowCol(),
+    _pmPtsCol("Since NSE close", "d_since_nse_close"), _pmPtsCol("Week", "d_1w"), _pmPtsCol("Month", "d_1m"), _pmSpreadCol(),
+    { h: "Best-price size", unit: "$", num: true, v: (r) => r.best_size_usd, fmt: (v) => _pmInt(v) },
+    _pmStaleCol(),
+    { h: "Note", v: _pmNote, cls: "pm-wrap" },
+    { h: "Market id", v: (r) => r.condition_id || "" }];
+}
+function _pmClosedCols(P) {
+  return [_pmQCol(), { h: "Theme", v: (r) => _pmThemeLabel(P, r.theme) }, { h: "Tier", v: (r) => r.tier || "" },
+    _pmDateCol("End date", "end_date"), { h: "Winner", v: (r) => r.winner || "" },
+    { h: "Did Yes win", v: (r) => r.yes_won === true ? "yes" : r.yes_won === false ? "no" : "" },
+    { h: "Last price", unit: "%", num: true, v: (r) => _pmOk(r.last_p) ? Math.round(r.last_p * 1000) / 10 : null, fmt: (v) => _pmNum(v, 1) + "%" },
+    { h: "Market id", v: (r) => r.condition_id || "" }];
+}
+function _pmAllFill(P) {
+  const el = $("pm-all-tbl");
+  if (!el) return;
+  const th = PM_S.mkTheme;
+  if (PM_S.mkSet !== "closed") {
+    const rows = ((P.markets_open && P.markets_open.rows) || []).filter((r) => !th || r.theme === th)
+      .slice().sort((a, b) => {
+        const pa = _pmOk(a.p_now), pb = _pmOk(b.p_now);
+        if (pa !== pb) return pb - pa;
+        const ea = String(a.end_date || "9999"), eb = String(b.end_date || "9999"), da = _pmPastEnd(a), db = _pmPastEnd(b);
+        if (da !== db) return da - db;
+        return (da ? eb.localeCompare(ea) : ea.localeCompare(eb)) || String(a.question).localeCompare(String(b.question));
+      });
+    const np = rows.filter((r) => _pmOk(r.p_now)).length;
+    el.innerHTML = `<div class="gold-note">${_pmInt(rows.length)} open markets${th ? " in " + fEsc(_pmThemeLabel(P, th)) : ""}, ${_pmInt(np)} with a price tonight. Priced markets come first, soonest end first; markets past their end date that have not settled come after them.</div>`
+      + _pmTable({ cols: _pmOpenCols(P), rows, csv: "polymarket_open_markets" + (th ? "_" + th : ""), show: 300, find: "Search the markets" });
+    _pmWireTables(el);
+    return;
+  }
+  const m = PM_S.mkMonth;
+  el.innerHTML = `<div class="empty-note">Loading the markets that ended in ${fEsc(m === "undated" ? "no stated month" : _pmMeeting(m))}…</div>`;
+  _pmFetch("closed/" + m).then((J) => {
+    if (PM_S.mkSet !== "closed" || PM_S.mkMonth !== m || !$("pm-all-tbl")) return;
+    if (!J) { el.innerHTML = _pmMissing("closed/" + m); return; }
+    const rows = (J.rows || []).filter((r) => !th || r.theme === th).slice().sort((a, b) => String(b.end_date || "").localeCompare(String(a.end_date || "")));
+    el.innerHTML = `<div class="gold-note">${_pmInt(rows.length)} markets${th ? " in " + fEsc(_pmThemeLabel(P, th)) : ""} that ended in ${fEsc(m === "undated" ? "no stated month" : _pmMeeting(m))}, latest end first.</div>`
+      + _pmTable({ cols: _pmClosedCols(P), rows, csv: "polymarket_closed_" + m + (th ? "_" + th : ""), show: 300, find: "Search these markets" });
+    _pmWireTables(el);
+  });
+}
+async function _pmAllClosedCSV(P) {
+  const ix = Array.isArray(P.closed_index) ? P.closed_index : [], msg = $("pm-all-closed-msg"), rows = [], failed = [];
+  for (let i = 0; i < ix.length; i++) {
+    if (msg) msg.textContent = `loading month ${i + 1} of ${ix.length}…`;
+    const J = await _pmFetch("closed/" + ix[i].month);
+    if (J && J.rows) J.rows.forEach((r) => rows.push(r)); else failed.push(ix[i].month);
+  }
+  if (failed.length) { if (msg) msg.textContent = `${failed.length} month files did not load (${failed.slice(0, 4).join(", ")}${failed.length > 4 ? "…" : ""}); nothing was downloaded. Try again.`; return; }
+  const cols = _pmClosedCols(P);
+  exportCSV("polymarket_closed_markets_all.csv", cols.map((c) => c.h + (c.unit ? " (" + c.unit + ")" : "")),
+    rows.map((r) => cols.map((c) => { const v = c.v(r); return (v === null || v === undefined) ? "" : v; })));
+  if (msg) msg.textContent = `${_pmInt(rows.length)} rows downloaded`;
+}
+// ============================== end PREDICTION MARKETS ==============================
 
 // ============================== GOLD (2026-09-02 gold-tab build) ==============================
 // Spec: docs/superpowers/specs/2026-09-02-gold-tab-design.md.
@@ -21820,7 +22881,7 @@ async function _arHouse(name) {
 // A group's `id` is internal and lives in its own namespace: the Liquidity GROUP is `flow` so it
 // cannot be confused with the Global Liquidity VIEW, which is `liquidity`.
 const VG_GROUPS = [
-  { id: "markets",     label: "Markets",     def: "performance",  views: ["performance", "derivs"] },
+  { id: "markets",     label: "Markets",     def: "performance",  views: ["performance", "derivs", "polymarket"] },
   { id: "dashboards",  label: "Dashboards",  def: "allocator",    views: ["allocator", "dashboard"] },
   { id: "companies",   label: "Companies",   def: "fundamentals", views: ["fundamentals", "screen", "quant", "events"] },
   { id: "funds",       label: "Funds",       def: "fundskill",    views: ["fundskill", "amcbook"] },
