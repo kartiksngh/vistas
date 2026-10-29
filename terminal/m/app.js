@@ -19437,12 +19437,21 @@ function _pmSens(P) {
   const S = P.sensitivity;
   if (!S) return ["", _pmMissing("sensitivity")];
   const rows = S.rows || [];
+  const priced = rows.filter((r) => _pmOk(r.p_shift)), small = priced.filter((r) => r.p_shift < 0.05).length;
+  const luck = priced.length ? `Here ${_pmInt(small)} of ${_pmInt(priced.length)} rows have a chance under 5%, and luck alone would give about ${_pmInt(Math.round(priced.length * 0.05))}, `
+    + "so a small chance marks a candidate to watch, not a proven link. " : "";
   const cap = "This is co-movement on the same day, not a forecast: on days these odds rose by 10 points, how far each "
-    + "Indian series moved between the same two NSE closes. It says what moved together, never what comes next. Technical "
+    + "Indian series moved between the same two NSE closes. It says what moved together, never what comes next. "
+    + "Chance by luck is how often a link at least this strong shows up when the Indian series is slid to days that do "
+    + "not match the odds. " + luck + "The t-statistic is "
+    + "kept for reference but overstates the evidence here: with no link at all it went beyond 2 in about one row in "
+    + "seven, where one in twenty is the usual expectation. Technical "
     + "detail: daily log return of each Indian series in basis points (India VIX: the change in points; USD/INR: the "
     + "world file's daily close) regressed on the change in the odds read at 10:00 UTC, slope per 10 points (for a "
     + "central-bank line, the change in its expected move, slope per 10 basis points), Newey-West "
-    + "t-statistic with 5 lags, 60 NSE trading days at least; a gap of more than 30 days between markets starts a new episode.";
+    + "t-statistic with 5 lags; chance by luck = the share of runs, the real one and every circular shift of the Indian "
+    + "series by 5 or more trading days, whose robust (HC0) t-statistic is at least as large; 60 NSE trading days at least; "
+    + "a gap of more than 30 days between markets starts a new episode.";
   if (!rows.length) return [_pmBuilt(P), `<div class="gold-note">${fEsc(cap)}</div><div class="empty-note">This needs 60 trading days of hourly prices for a market. The first rows appear once the hourly history is filled in.</div>`];
   // the unit, read from the file's own fields: asset_unit (bp = log return x 1e4; points = India VIX), unit (per 10
   // probability points for a market, per 10 bps of expected move for a central-bank line); the CSV keeps it as a column
@@ -19456,7 +19465,7 @@ function _pmSens(P) {
     { h: "Theme", v: (r) => _pmThemeLabel(P, r.theme) }, { h: "Indian series", v: (r) => r.asset || "" },
     { h: "Move per 10 points", num: true,
       v: (r) => _pmR(r.slope_per_10pt, 4), html: (r) => fEsc(_pmSign(r.slope_per_10pt, 1)) },
-    { h: "Unit", v: unit, cls: "pm-wrap" },
+    { h: "Unit", v: unit, cls: "pm-wrap" }, _pmPctCol("Chance by luck", "p_shift"),
     { h: "t-statistic", num: true, v: (r) => r.t_hac5, fmt: (v) => _pmNum(v, 2) },
     { h: "Days", num: true, v: (r) => r.n_days }, _pmDateCol("From", "first"), _pmDateCol("To", "last"),
     { h: "Episodes", num: true, v: (r) => r.episodes }];
@@ -19476,8 +19485,10 @@ function _pmLeadLag(P) {
     const asset = e.asset || "the asset", nd = e.window === "next_day" ? "the next trading day" : "the same day";
     const dir = (_pmOk(e.pass_slope_below) && e.pass_slope_below <= 0) ? "fall" : "rise";
     const need = _pmOk(s.min_days) ? s.min_days : e.min_days;
+    const amended = e.amends ? reg.find((x) => x.id === e.amends) : null, later = reg.find((x) => x.amends === e.id);
     const reading = _pmOk(s.slope_per_10pt)
       ? `${_pmSign(s.slope_per_10pt, 1)} basis points of ${asset}'s return on ${nd} for each 10-point rise in the odds, t-statistic ${_pmNum(s.t_hac5, 2)}`
+        + (_pmOk(s.p_shift) ? `, chance by luck ${_pmPct(s.p_shift)}` : "")
       : "none yet: too few days to measure";
     const verdict = s.verdict === "pass" ? `Passed on the days scored so far.`
       : s.verdict === "fail" ? `Not passed: the reading does not meet the pass mark.`
@@ -19486,10 +19497,14 @@ function _pmLeadLag(P) {
     const rowsT = [
       ["What is tested", `When the odds that "${e.question}" rise, does ${asset} ${dir} on ${nd}, after allowing for ${asset}'s own move that day?`],
       ["Registered", `${_pmDay(e.registered)}; only trading days after that date count, so the test cannot be fitted to the past.`],
-      ["It passes if", `over at least ${_pmInt(e.min_days)} of those days, a rise in the odds goes with a ${dir} in ${asset} on ${nd}, and the link is clear: a t-statistic below ${_pmNum(e.pass_t_below, 0)} (beyond 2 in size is the usual bar for an effect rather than noise).`],
+      ["It passes if", `over at least ${_pmInt(e.min_days)} of those days, a rise in the odds goes with a ${dir} in ${asset} on ${nd}, and the link is clear: `
+        + (_pmOk(e.pass_p_below) ? `the chance of a link this strong by luck is below ${_pmPct(e.pass_p_below)}.`
+          : `a t-statistic below ${_pmNum(e.pass_t_below, 0)}. This mark is looser than it looks: with no link at all, a t-statistic beyond 2 turned up in about one co-movement row in seven.`
+            + (later ? ` The version registered on ${_pmDay(later.registered)} judges the same test on the chance by luck.` : ""))],
       ["Days scored so far", days],
       ["Reading so far", reading],
       ["Verdict", verdict]];
+    if (amended) rowsT.splice(2, 0, ["Why this version", `It repeats the test registered on ${_pmDay(amended.registered)} with a different pass mark; both are kept and scored. Reason: ${e.why || ""}.`]);
     return `<table class="pm-def">${rowsT.map(([k, v]) => `<tr><th>${fEsc(k)}</th><td>${fEsc(v)}</td></tr>`).join("")}</table>`
       + `<div class="gold-note">Technical detail: ${fEsc(e.rule || "")}.</div>`;
   });
@@ -19498,13 +19513,15 @@ function _pmLeadLag(P) {
   const box = _pmDataBox("leadlag", () => [{
     title: "The register", note: "Every test as it was registered; nothing is deleted.",
     cols: [{ h: "Test", v: (r) => r.id }, _pmDateCol("Registered", "registered"), { h: "Market", v: (r) => r.question, cls: "pm-q" },
-      { h: "Asset", v: (r) => r.asset }, { h: "Pass mark", v: (r) => r.pass_mark, cls: "pm-wrap" }, { h: "Rule", v: (r) => r.rule, cls: "pm-wrap" }],
+      { h: "Asset", v: (r) => r.asset }, { h: "Pass mark", v: (r) => r.pass_mark, cls: "pm-wrap" }, { h: "Amends", v: (r) => r.amends || "" },
+      { h: "Rule", v: (r) => r.rule, cls: "pm-wrap" }],
     rows: reg, csv: "polymarket_leadlag_register" }, {
     title: "The latest score of each test",
     cols: [{ h: "Test", v: (r) => r.entry_id }, _pmDateCol("Scored on", "scored_on"), { h: "Days", num: true, v: (r) => r.n_days },
       { h: "Days needed", num: true, v: (r) => r.min_days }, _pmDateCol("From", "first"), _pmDateCol("To", "last"),
       { h: "Move per 10-point rise", unit: "basis points", num: true, v: (r) => r.slope_per_10pt },
-      { h: "t-statistic", num: true, v: (r) => r.t_hac5 }, { h: "Verdict", v: (r) => String(r.verdict || "").replace(/_/g, " ") }],
+      { h: "t-statistic", num: true, v: (r) => r.t_hac5 }, _pmPctCol("Chance by luck", "p_shift"),
+      { h: "Verdict", v: (r) => String(r.verdict || "").replace(/_/g, " ") }],
     rows: sc, csv: "polymarket_leadlag_scores" }]);
   return [asof ? "scored " + _pmDay(asof) : "", `<div class="gold-note">${fEsc(note)}</div>` + blocks.join("") + box];
 }
