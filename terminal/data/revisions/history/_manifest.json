@@ -1,9 +1,9 @@
 {
-  "asof": "2026-10-28",
-  "n_files": 1969,
-  "n_written": 0,
-  "n_unchanged": 1969,
+  "asof": "2026-10-29",
+  "n_files": 1973,
+  "n_written": 689,
+  "n_unchanged": 1284,
   "n_skipped_no_symbol": 232,
-  "n_skipped_short": 15,
-  "bytes_total": 34299121
+  "n_skipped_short": 12,
+  "bytes_total": 34318374
 }
