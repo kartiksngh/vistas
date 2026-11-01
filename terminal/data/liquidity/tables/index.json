@@ -176,10 +176,10 @@
  },
  "dollar_credit": {
   "title": "Credit to borrowers outside each currency's home area, every quarter",
-  "rows": 315,
+  "rows": 318,
   "first": "2000-03-31",
-  "last": "2026-03-31",
-  "bytes": 11101
+  "last": "2026-06-30",
+  "bytes": 11202
  },
  "fund_flows_monthly": {
   "title": "US fund flows, every month, all funds that reported both sales and redemptions",
@@ -981,10 +981,10 @@
  },
  "fed_reverse_repo_lenders": {
   "title": "Every business day of cash lent to the Federal Reserve overnight, in total and by kind of lender",
-  "rows": 5856,
+  "rows": 5857,
   "first": "2022-01-03",
-  "last": "2026-10-29",
-  "bytes": 441186
+  "last": "2026-10-30",
+  "bytes": 441265
  },
  "money__AUS": {
   "title": "Every month of broad and narrow money for Australia, in its own currency",
