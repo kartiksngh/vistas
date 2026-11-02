@@ -148,17 +148,17 @@
  },
  "gold_official": {
   "title": "Official gold of every reporting central bank and government, every month",
-  "rows": 20859,
+  "rows": 20872,
   "first": "2000-01",
   "last": "2026-09",
-  "bytes": 2044749
+  "bytes": 2046083
  },
  "gold_us_funds_treasury": {
   "title": "Gold owned by the US Treasury and held by the two largest US gold funds",
-  "rows": 5698,
+  "rows": 5699,
   "first": "2004-11-18",
-  "last": "2026-10-29",
-  "bytes": 487388
+  "last": "2026-10-30",
+  "bytes": 487475
  },
  "central_banks": {
   "title": "Central bank balance sheets and exchange rates, every observation",
