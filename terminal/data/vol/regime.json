@@ -1,40 +1,40 @@
 {
-  "asof": "2026-11-11",
+  "asof": "2026-11-12",
   "tiles": {
     "vix": {
-      "level": 17.56,
-      "pctile_20d": 95.0,
-      "pctile_50d": 98.0,
-      "pctile_252d": 80.95,
-      "trend": 1.64,
-      "momentum": 2.37,
+      "level": 16.62,
+      "pctile_20d": 70.0,
+      "pctile_50d": 88.0,
+      "pctile_252d": 75.4,
+      "trend": 0.58,
+      "momentum": 1.04,
       "regime": "High"
     },
-    "realized_corr21": 0.23,
+    "realized_corr21": 0.21,
     "realized_corr50": 0.28,
-    "correlation_trend": -0.05,
+    "correlation_trend": -0.07,
     "implied_corr": {
-      "rho_imp": 0.4,
+      "rho_imp": 0.37,
       "coverage_pct": 97.16,
-      "pctile_1y": 84.4,
+      "pctile_1y": 81.8,
       "available": true,
       "reason": null
     },
     "crp": {
-      "crp21": 0.17,
-      "crp50": 0.12,
+      "crp21": 0.16,
+      "crp50": 0.09,
       "available": true,
       "reason": null
     },
     "dispersion_score": {
-      "value": 57.31,
+      "value": 51.25,
       "regime": "Neutral",
       "legs": {
         "crp": null,
-        "trend": 23.85,
-        "xsdisp": 69.18,
-        "breadth": 81.5,
-        "vix": 80.95
+        "trend": 15.3,
+        "xsdisp": 67.06,
+        "breadth": 74.0,
+        "vix": 75.4
       },
       "dropped_legs": [
         "crp"
@@ -51,7 +51,7 @@
       "label": "Strong Stock Picker"
     },
     "long_dispersion_signal": {
-      "strength": 50.0,
+      "strength": 75.0,
       "available": true,
       "reason": null
     },
@@ -70,14 +70,14 @@
       "reason": null
     },
     "regime_shift": {
-      "score": 32.33,
+      "score": 28.45,
       "band": "Watch",
       "legs": {
-        "trend": 23.85,
-        "sector_expansion": 46.79,
-        "breadth_deterioration": 1.32,
-        "xsdisp_collapse": 30.82,
-        "vix_momentum": 88.9,
+        "trend": 15.3,
+        "sector_expansion": 48.75,
+        "breadth_deterioration": 0.53,
+        "xsdisp_collapse": 32.94,
+        "vix_momentum": 69.89,
         "crp": null
       },
       "dropped_legs": [
@@ -93,7 +93,6 @@
     }
   },
   "dates": [
-    "2021-10-13",
     "2021-10-14",
     "2021-10-18",
     "2021-10-19",
@@ -1352,11 +1351,11 @@
     "2026-11-06",
     "2026-11-08",
     "2026-11-09",
-    "2026-11-11"
+    "2026-11-11",
+    "2026-11-12"
   ],
   "series": {
     "dispersion_score": [
-      61.75,
       61.81,
       62.78,
       61.64,
@@ -2615,10 +2614,10 @@
       73.85,
       58.3,
       56.67,
-      57.31
+      57.31,
+      51.25
     ],
     "market_regime": [
-      "C",
       "B",
       "D",
       "D",
@@ -3875,12 +3874,12 @@
       "C",
       "D",
       "D",
+      "A",
       "A",
       "A",
       "A"
     ],
     "long_dispersion_strength": [
-      null,
       null,
       null,
       null,
@@ -5139,10 +5138,10 @@
       null,
       50.0,
       50.0,
-      50.0
+      50.0,
+      75.0
     ],
     "short_dispersion_strength": [
-      null,
       null,
       null,
       null,
@@ -6401,10 +6400,10 @@
       null,
       25.0,
       25.0,
+      25.0,
       25.0
     ],
     "vix_pctile_252d": [
-      30.56,
       29.37,
       34.13,
       35.71,
@@ -7663,7 +7662,8 @@
       80.95,
       84.92,
       79.76,
-      80.95
+      80.95,
+      75.4
     ]
   },
   "alerts": [
@@ -7671,63 +7671,63 @@
       "alert": "m14_1",
       "condition": "RealizedCorr21 > 25%",
       "fired": false,
-      "value": 0.23
+      "value": 0.21
     },
     {
       "alert": "m14_2",
       "condition": "RealizedCorr21 > 30%",
       "fired": false,
-      "value": 0.23
+      "value": 0.21
     },
     {
       "alert": "m14_3",
       "condition": "CorrelationTrend > +3%",
       "fired": false,
-      "value": -0.05
+      "value": -0.07
     },
     {
       "alert": "m14_4",
       "condition": "VIX 252d percentile > 80",
-      "fired": true,
-      "value": 80.95
+      "fired": false,
+      "value": 75.4
     },
     {
       "alert": "m14_5",
       "condition": "CRP21 < -5%",
       "fired": false,
-      "value": 0.17
+      "value": 0.16
     },
     {
       "alert": "m14_6",
       "condition": "Dispersion Score below 30",
       "fired": false,
-      "value": 57.31
+      "value": 51.25
     },
     {
       "alert": "m20_1",
       "condition": "Correlation Expansion: RealizedCorr21 > RealizedCorr50 + 3%",
       "fired": false,
-      "value": -0.05
+      "value": -0.07
     },
     {
       "alert": "m20_2",
       "condition": "Sector Synchronization: avg sector Corr21 rose > 10pt in 20 trading days",
       "fired": false,
-      "value": -0.0
+      "value": 0.0
     },
     {
       "alert": "m20_3",
       "condition": "Dispersion Collapse: CrossSectionalDispersion below its 20th 3y-percentile",
       "fired": false,
-      "value": 51.98
+      "value": 62.17
     },
     {
       "alert": "m20_4",
       "condition": "Macro Regime Warning: CorrelationTrend > +3% AND VIX 252d percentile > 70",
       "fired": false,
       "value": {
-        "trend": -0.05,
-        "vix_pctile252": 80.95
+        "trend": -0.07,
+        "vix_pctile252": 75.4
       }
     },
     {
@@ -7735,15 +7735,15 @@
       "condition": "Correlation Shock: RealizedCorr21 > 35% AND CorrelationTrend > +5%",
       "fired": false,
       "value": {
-        "realized_corr21": 0.23,
-        "corr_trend": -0.05
+        "realized_corr21": 0.21,
+        "corr_trend": -0.07
       }
     },
     {
       "alert": "m20_6",
       "condition": "Breadth Breakdown: PctAbove50DMA < 30%",
       "fired": false,
-      "value": 94.0
+      "value": 96.0
     },
     {
       "alert": "m20_7",
@@ -7758,8 +7758,8 @@
       "condition": "Systemic Risk Warning: CRP21 < -5% AND CorrelationTrend > 0",
       "fired": false,
       "value": {
-        "crp21": 0.17,
-        "corr_trend": -0.05
+        "crp21": 0.16,
+        "corr_trend": -0.07
       }
     }
   ],
@@ -7767,14 +7767,14 @@
     "inputs": {
       "realized_json": {
         "path": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\vol\\realized.json",
-        "asof": "2026-11-11"
+        "asof": "2026-11-12"
       },
       "implied_json": {
         "path": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\vol\\implied.json",
-        "asof": "2026-11-11",
+        "asof": "2026-11-12",
         "coverage_min_pct": 80.0
       },
-      "vix_csv": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\World Data PX till Nov 11, 2026.csv"
+      "vix_csv": "C:\\Users\\Administrator\\Documents\\Projects\\Vistas\\data\\World Data PX till Nov 12, 2026.csv"
     },
     "backbone_date_note": "asof = realized.json's own last date, the daily equity-return backbone; VIX and implied correlation are joined onto it by AS-OF (latest value on or before that date), never by looking ahead.",
     "null_handling": "implied correlation pending (coverage < 80%) -- every implied-dependent tile/leg (CRP, the Dispersion Score's CRP leg, both dispersion signals, the module-13 hedge color, the module-21 covered-call signal, the regime-shift score's CRP leg) reads null with this reason whenever rho_imp is null/absent for asof. The module-21 Index Hedge Signal does NOT depend on CRP and stays live.",
