@@ -6567,6 +6567,25 @@ function fyLabel(y) { return String(y).replace("Mar ", "FY"); }
 function fCagr(vals) { const v = (vals || []).filter((x) => x !== null && x > 0); if (v.length < 2) return null; return (Math.pow(v[v.length - 1] / v[0], 1 / (v.length - 1)) - 1) * 100; }
 function cagrLast(vals, years) { const v = (vals || []).filter((x) => x !== null && x > 0); if (v.length < 2) return null; const n = Math.min(years, v.length - 1); return (Math.pow(v[v.length - 1] / v[v.length - 1 - n], 1 / n) - 1) * 100; }
 function lastNonNull(arr) { if (!arr) return null; for (let i = arr.length - 1; i >= 0; i--) if (arr[i] !== null && arr[i] !== undefined) return arr[i]; return null; }
+// ---- price tiles (2026-11-16). The build puts px.stats {asof, last, lo52, hi52, chg1y_pct, source} on each price
+// block, worked out on DAILY closes. A block without stats falls back to a 365-day date window over its points --
+// never to "the last 52 points": the points are thinned, and 52 of them spanned three to four years (PIIND's
+// "52-week range" was 14 Jul 2023 to 19 Jun 2026).
+const _MON3 = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function _isoParts(iso) { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso || "")); return m ? [+m[1], +m[2], +m[3]] : null; }
+function _isoDayNum(iso) { const p = _isoParts(iso); return p ? Date.UTC(p[0], p[1] - 1, p[2]) / 864e5 : null; }
+function fDay(iso) { const p = _isoParts(iso); return p ? `${p[2]} ${_MON3[p[1] - 1]} ${p[0]}` : ""; }
+function pxStats(px) {
+  if (px && px.stats) return px.stats;
+  const pr = ((px && px.Price) || []).filter((a) => a && a[1] !== null && a[1] !== undefined);
+  if (!pr.length) return null;
+  const asof = pr[pr.length - 1][0], cut = _isoDayNum(asof) - 365;
+  const w = pr.filter((a) => _isoDayNum(a[0]) > cut).map((a) => a[1]);
+  const base = pr.filter((a) => _isoDayNum(a[0]) <= cut), b = base.length ? base[base.length - 1] : null;
+  const chg = (b && b[1] && cut - _isoDayNum(b[0]) <= 7) ? (pr[pr.length - 1][1] / b[1] - 1) * 100 : null;
+  return { asof, last: pr[pr.length - 1][1], lo52: w.length ? Math.min(...w) : null, hi52: w.length ? Math.max(...w) : null,
+    chg1y_pct: chg, source: "" };
+}
 // align series B onto series A's years (both {years,vals}) then combine elementwise
 function alignYears(a, b, fn) { return { years: a.years, vals: a.years.map((y, i) => { const j = b.years.indexOf(y); return fn(a.vals[i], j >= 0 ? b.vals[j] : null); }) }; }
 
@@ -6802,9 +6821,11 @@ function renderFundHeader(syms, C, st) {
     const b = FUND_DATA[sym], pl = st(sym, "profit_loss"), rat = st(sym, "ratios"), bs = st(sym, "balance_sheet"), sh = st(sym, "shareholding"), val = b.valuation || {}, px = b.price || {};
     const pe = val["Price to Earning"] || [], curPE = pe.length ? pe[pe.length - 1][1] : null;
     const med = val["Median PE"] || [], medPE = med.length ? med.reduce((a, p) => a + (p[1] || 0), 0) / med.length : null;
-    const pr = px.Price || [], last = pr.length ? lastNonNull(pr.map((a) => a[1])) : null;
-    const wk = pr.slice(-52).map((a) => a[1]).filter((v) => v !== null && v !== undefined);
-    const hi = wk.length ? Math.max(...wk) : null, lo = wk.length ? Math.min(...wk) : null;
+    const ps = pxStats(px), last = ps ? ps.last : null, lo = ps ? ps.lo52 : null, hi = ps ? ps.hi52 : null;
+    // P/E comes from the Screener file (its own price and earnings, same day); when that day is more than a week
+    // older than the price tile's, the tile says which day it is instead of passing as today's.
+    const peDay = pe.length ? pe[pe.length - 1][0] : null;
+    const peOld = !!(peDay && ps && ps.asof && _isoDayNum(ps.asof) - _isoDayNum(peDay) > 7);
     const sV = fYears(pl, "Sales").vals, npV = fYears(pl, "Net Profit").vals;
     const sCagr = cagrLast(sV, 5), pCagr = cagrLast(npV, 5);
     const roce = lastNonNull(fYears(rat, "ROCE").vals), opm = lastNonNull(fYears(pl, "OPM").vals);
@@ -6814,9 +6835,9 @@ function renderFundHeader(syms, C, st) {
     return `<div class="fco" style="border-left:4px solid ${C(i)}">
       <div class="fname"><span class="fdot" style="background:${C(i)}"></span>${b.name || sym} <span class="fsym">${sym}${b.consolidated ? " · consolidated" : ""}</span><button class="flink" data-perf="${sym}" title="Chart this stock's price in the Performance tab">Chart price ↗</button></div>
       <div class="fchips">
-        ${chip("Price", last !== null ? "Rs " + last.toFixed(1) : "—")}
-        ${chip("52-week range", (lo !== null && hi !== null) ? "Rs " + lo.toFixed(0) + "–" + hi.toFixed(0) : "—")}
-        ${chip("P/E", curPE !== null ? curPE.toFixed(1) + "x" : "—", (curPE !== null && medPE !== null) ? (curPE < medPE ? "pos" : "neg") : "")}
+        ${chip(ps && ps.asof ? "Price, " + fDay(ps.asof) : "Price", (last !== null && last !== undefined) ? "Rs " + last.toFixed(1) : "—")}
+        ${chip("52-week range", (lo !== null && lo !== undefined && hi !== null && hi !== undefined) ? "Rs " + lo.toFixed(0) + "–" + hi.toFixed(0) : "—")}
+        ${chip(peOld ? "P/E, " + fDay(peDay) : "P/E", curPE !== null ? curPE.toFixed(1) + "x" : "—", (curPE !== null && medPE !== null) ? (curPE < medPE ? "pos" : "neg") : "")}
         ${chip("Median P/E", medPE !== null ? medPE.toFixed(1) + "x" : "—")}
         ${chip("ROCE", roce !== null ? roce.toFixed(1) + "%" : "—")}
         ${chip("OPM", opm !== null ? opm.toFixed(1) + "%" : "—")}
@@ -6959,15 +6980,19 @@ async function renderFundamentals() {
       if (d200.length) traces.push({ type: "scatter", mode: "lines", name: "200-day average", x: d200.map((a) => a[0]), y: d200.map((a) => a[1]), line: { color: "#a94b3a", width: 1.1 } });
       if (vol.length) traces.push({ type: "bar", opacity: 0.74, name: "Volume", x: vol.map((a) => a[0]), y: vol.map((a) => a[1]), yaxis: "y2", marker: { color: "rgba(120,140,160,0.28)" }, hoverinfo: "skip" });
       draw("price", traces, { yaxis: { title: "Share price (Rs)", gridcolor: "#e4e1d9" }, yaxis2: { title: "Shares traded", overlaying: "y", side: "right", showgrid: false, rangemode: "tozero", showticklabels: false }, xaxis: { type: "date", gridcolor: "#e4e1d9", rangeslider: { thickness: 0.06 } } });
-      const lst = lastNonNull(pr.map((a) => a[1])), wk = pr.slice(-52).map((a) => a[1]).filter((v) => v !== null && v !== undefined);
-      const hi = wk.length ? Math.max(...wk) : null, lo = wk.length ? Math.min(...wk) : null;
-      const yrAgo = pr.length > 52 ? pr[pr.length - 53][1] : (pr.length ? pr[0][1] : null);
-      const chg = (lst !== null && yrAgo) ? (lst / yrAgo - 1) * 100 : null;
-      setStat("price", lst !== null ? `Last Rs ${lst.toFixed(1)} · 52-week range Rs ${lo !== null ? lo.toFixed(0) : "—"}–${hi !== null ? hi.toFixed(0) : "—"} · 1-year change ${chg !== null ? (chg >= 0 ? "+" : "") + chg.toFixed(1) + "%" : "—"}` : "");
+      // the readout comes from the daily figures (pxStats), not from the thinned, window-clipped points on the chart
+      const ps = pxStats(p), ok = (v) => v !== null && v !== undefined;
+      const lst = ps ? ps.last : null, lo = ps ? ps.lo52 : null, hi = ps ? ps.hi52 : null, chg = ps ? ps.chg1y_pct : null;
+      setStat("price", ok(lst) ? `Last Rs ${lst.toFixed(1)} on ${fDay(ps.asof)} · 52-week range Rs ${ok(lo) ? lo.toFixed(0) : "—"}–${ok(hi) ? hi.toFixed(0) : "—"} · 1-year change ${ok(chg) ? (chg >= 0 ? "+" : "") + chg.toFixed(1) + "%" : "—"}` : "");
     } else {
-      const traces = syms.map((sym, i) => { const pr = clip(px(sym).Price), base = pr.find((a) => a[1] !== null && a[1] !== undefined), b0 = base ? base[1] : null; return { type: "scatter", mode: "lines", name: sym, x: pr.map((a) => a[0]), y: pr.map((a) => (a[1] !== null && a[1] !== undefined && b0) ? a[1] / b0 * 100 : null), line: { color: C(i), width: 1.7 } }; });
+      // Rebased at a shared start: the latest of the companies' first points in the window, each line from its first
+      // point on or after that day (the points are thinned, so the two first points can be a few days apart).
+      const cl = syms.map((sym) => clip(px(sym).Price).filter((a) => a[1] !== null && a[1] !== undefined));
+      const firsts = cl.filter((pr) => pr.length).map((pr) => pr[0][0]).sort(), common = firsts.length ? firsts[firsts.length - 1] : null;
+      const traces = syms.map((sym, i) => { const pr = cl[i].filter((a) => !common || a[0] >= common), b0 = pr.length ? pr[0][1] : null; return { type: "scatter", mode: "lines", name: sym, x: pr.map((a) => a[0]), y: pr.map((a) => b0 ? a[1] / b0 * 100 : null), line: { color: C(i), width: 1.7 } }; });
       draw("price", traces, { yaxis: { title: "Price, rebased to 100", gridcolor: "#e4e1d9" }, xaxis: { type: "date", gridcolor: "#e4e1d9", rangeslider: { thickness: 0.06 } } });
-      setStat("price", "Prices rebased to 100 at the common start so the two paths are comparable.");
+      const tail = syms.map((sym) => { const s = pxStats(px(sym)); return (s && s.last !== null && s.last !== undefined) ? `${sym} Rs ${s.last.toFixed(1)} on ${fDay(s.asof)}` : `${sym} —`; }).join(" · ");
+      setStat("price", `Each line starts at 100 on its first point on or after ${common ? fDay(common) : "the window start"}. Last close: ${tail}.`);
     }
   };
 
@@ -13760,7 +13785,7 @@ function renderOwnership() {
          <details><summary>How this panel works</summary>
            <p>Every month, the rupee change in each mutual-fund holding is split into three parts that add up to the gross change. <b>Price action</b> is the starting value times the stock's return: the holding simply moved with the market, and no one decided anything. <b>Implied inflow</b> is fresh scheme money spread across the book in proportion to existing weights: every name rises together, so it still says nothing about any one stock. <b>Net-active</b> is the genuine change in weight. It is unaffected by inflows, and it is the only part that reflects conviction.</p>
            <p>In formulas: price action = gross change minus the price-adjusted change; implied inflow = the price-adjusted change minus net-active; net-active = AUM × (1 + the portfolio return) × the change in active weight. The stock-level figures are then added up through every level, from stock to fund house by sector, to fund house, to sector, to the whole market. At each level the three parts still add up to the gross change every month, so the levels reconcile. The data comes from monthly disclosures, ${months.length} months to ${fEsc(months[months.length - 1])}.</p>
-           <p><b>Where the size of the book comes from, and the fourth thing that moves it.</b> The three parts above add up to the rupee change in a holding, exactly. They do not add up to the change in the SIZE of the book, and the second chart shows why. Both the size and the three parts are summed over the holdings that had a usable price that month, and that set of holdings is not the same set every month. The leftover is the sample changing, and on 22 October 2026 it was measured rather than assumed: across the whole market, over the 35 month-pairs from November 2023 to September 2026, it came to ₹302,978 crore, made up of a fund book entering the panel (₹107,502 crore), a holding inside a book already in the panel gaining a usable price (₹210,838 crore), a book leaving (−₹11,405 crore) and a holding losing its price (−₹3,957 crore). Those four account for all of it, with nothing unexplained. So the second chart gives that term its own band and its own name instead of dropping it to make the arithmetic look tidy.</p>
+           <p><b>Where the size of the book comes from, and the fourth thing that moves it.</b> The three parts above add up to the rupee change in a holding, exactly. They do not add up to the change in the SIZE of the book, and the second chart shows why. Both the size and the three parts are summed over the holdings that had a usable price that month, and that set of holdings is not the same set every month. The leftover is the sample changing, and on 22 October 2026 it was measured rather than assumed: across the whole market, over the 35 month-pairs from November 2023 to September 2026, it came to ₹302,978 crore, made up of a fund book entering the panel (₹107,502 crore), a holding inside a book already in the panel gaining a usable price (₹210,838 crore), a book leaving (−₹11,405 crore) and a holding losing its price (−₹3,957 crore). Those four account for all of it, with nothing unexplained. So the second chart gives that term its own band, "Newly counted holdings", instead of dropping it to make the arithmetic look tidy. Each bar in that chart is one month on its own.</p>
            <p>Why it matters: a headline such as "₹X crore bought" is mostly SIP money landing. Only net-active can carry a conviction signal. Separating the three lets you see where managers are actually tilting, by fund house and sector, over time. One caveat: implied inflow is worked out from the holdings themselves; it is not the raw subscription data that AMFI publishes.</p>
          </details>
          <div class="ab-ctlrow">
@@ -13976,9 +14001,13 @@ function vcColorAlphaSafe(c, a) {
   return c;
 }
 
-// ── THE SIZE BUILD-UP (Kyser 2026-10-22): "the total change in size (in time series) — as sum of
-// its parts at each time". The chart above answers "how much moved this month, and how much of it was
-// a decision"; this one answers "where did the pile itself come from".
+// ── THE SIZE CHART (Kyser 2026-10-22, corrected 2026-11-17). His request on 22 Oct was "the total
+// change in size (in time series) — as sum of its parts at each time": each MONTH's change in the size
+// of the book, split into its parts, month by month like every other flow chart here. The first build
+// misread that as a running total from the first month of the window (May 2013 at full history), and
+// on 17 Nov he read its ₹12 lakh crore orange bar as one month of new money: "didn't ask to fix a
+// random date in time ... that makes no sense". So every bar is now ONE month on its own; nothing is
+// added up across months. Do not bring the running total back.
 //
 // ★ THE FOURTH TERM IS REAL AND IT IS MEASURED, NOT GUESSED. Book SIZE does not move by the three
 // flow parts alone: the cube sums both the size and the three parts over the PRICED rows of each
@@ -13996,59 +14025,61 @@ function _wfDrawSize(x, h0, node) {
   const mv = node.mv;
   if (!mv || !mv.length) { _wfPlot("plot-wf-size", [], {}); const nn = $("wf-size-note"); if (nn) nn.innerHTML = ""; return; }
   const n = W.months.length;
-  // cumulative, from the first month of the window: every series is a change SINCE that month, so the
-  // parts and the size line start together at zero and can be read against each other.
+  // ONE MONTH PER BAR. For month i: the line is the change in the book's size from month i-1 to month
+  // i, and the four bars are the parts of that same change. Nothing is carried from one month to the
+  // next, so the October bar says what happened in October and nothing else.
   //
   // ★ A MISSING MONTH IS ZERO HERE, AND THAT IS THE WHOLE POINT. At the market level every month
   // carries a value, but one AMC or one scheme is simply ABSENT from the priced panel before it
   // starts disclosing — the cube writes nothing for those months. Skipping them (the first cut of
-  // this chart did) left the bands short of the line in 73 of 161 months for a single AMC: the size
-  // line still moved when the book appeared, while no band recorded the appearance.
-  // An absent book held nothing priced, so its value is 0 and its arrival belongs to the panel band.
+  // this chart did) left the bands short of the line for a single AMC: the size line still moved
+  // in the month the book appeared, while no band recorded the appearance.
+  // An absent book held nothing priced, so its value is 0 and its arrival belongs to the fourth band.
   const v = (arr, i) => (arr && arr[i] != null) ? arr[i] : 0;
-  const cum = { price: [], inflow: [], na: [], panel: [], size: [] };
-  let cp = 0, ci = 0, cn = 0, cg = 0;
+  const m = { price: [], inflow: [], na: [], newly: [], size: [] };
   for (let i = h0; i < n; i++) {
-    if (i > h0) {
-      const dp = v(node.price, i), di = v(node.inflow, i), dn = v(node.net_active, i);
-      cp += dp; ci += di; cn += dn;
-      // the panel band is taken as the RESIDUAL against the three parts, not against the stored
-      // gross. The two differ only by the cube's 0.1 crore display rounding, which is definitionally
-      // dust per month but accumulates in a running total: measured at about 2 crore over 161 months
-      // on a 9,600 crore book before this change. Taking the residual makes the bars add to the line
-      // exactly, and parks that dust in the one band that is already "everything else".
-      cg += (v(mv, i) - v(mv, i - 1)) - dp - di - dn;
+    if (i === 0) {          // the first month in the data has no month before it, so it has no change
+      m.price.push(null); m.inflow.push(null); m.na.push(null); m.newly.push(null); m.size.push(null);
+      continue;
     }
-    cum.price.push(cp); cum.inflow.push(ci); cum.na.push(cn); cum.panel.push(cg);
-    cum.size.push(v(mv, i) - v(mv, h0));
+    const dp = v(node.price, i), di = v(node.inflow, i), dn = v(node.net_active, i);
+    const ds = v(mv, i) - v(mv, i - 1);
+    m.price.push(dp); m.inflow.push(di); m.na.push(dn);
+    // the fourth band is taken as the RESIDUAL against the three parts, not against the stored gross.
+    // The two differ only by the cube's 0.1 crore display rounding; taking the residual makes each
+    // month's bars add to that month's line exactly.
+    m.newly.push(ds - dp - di - dn);
+    m.size.push(ds);
   }
   const bar = (y, name, color) => ({ type: "bar", x, y, name, marker: { color } });
   const traces = [
-    bar(cum.price, "Price action", _WF_COL.price),
-    bar(cum.inflow, "Implied inflow", _WF_COL.inflow),
-    bar(cum.na, "Active flow", _WF_COL.na),
-    bar(cum.panel, "Books and holdings entering the panel", _WF_COL_PANEL),
-    { type: "scatter", mode: "lines", x, y: cum.size, name: "Total change in size",
+    bar(m.price, "Price action", _WF_COL.price),
+    bar(m.inflow, "Implied inflow", _WF_COL.inflow),
+    bar(m.na, "Active flow", _WF_COL.na),
+    bar(m.newly, "Newly counted holdings", _WF_COL_PANEL),
+    { type: "scatter", mode: "lines", x, y: m.size, name: "Change in size this month",
       line: { color: "#1d2128", width: 2 } },
   ];
   _wfPlot("plot-wf-size", traces, {
     barmode: "relative", height: 320,
-    title: { text: `Total change in size since ${x[0]}, ${_wfScopeName()}, ₹ crore`, font: { size: 13 } },
+    title: { text: `Change in size each month, split into its parts, ${_wfScopeName()}, ₹ crore per month`, font: { size: 13 } },
     legend: { orientation: "h" }, yaxis: { title: "₹ crore", zeroline: true }, margin: { t: 40 },
     xaxis: { hoverformat: "%b %Y" },
-    // a rolling mean of a running total smooths nothing a reader wants: the chart layer would offer
-    // a "3-month mean" of a line that is already cumulative, so the strip is turned off here
+    // the chart layer's averaging strip is turned off here by choice: it would add a second, 3-month
+    // average line, and the bars add up only to the month's own line, so a reader would see two lines
+    // and bars that match one of them
   }, { noSmooth: true });
   const nn = $("wf-size-note");
   // the measured attribution of the fourth band is a MARKET-level figure and belongs in the panel's
   // own explainer, not beside a chart that may be showing one AMC: a market number printed next to an
   // AMC chart reads as a statement about that AMC
-  if (nn) nn.innerHTML = `<b>The bars add to the line.</b> The line is how much bigger or smaller this `
-    + `book is than it was in ${fEsc(x[0])}; the bars are the four things that moved it, added up month `
-    + `by month. Three of them are the parts in the chart above. The fourth is not a decision anyone `
-    + `took: the sample itself changes, as a fund book joins or leaves the disclosed panel and as a `
-    + `holding gains or loses a usable price. See "How this panel works" for what that fourth part has `
-    + `measured across the whole market.`;
+  if (nn) nn.innerHTML = `<b>Each month's bars add up to that month's line.</b> The line is how much the `
+    + `book's value went up or down in that month. The bars are the four things that moved it. Three `
+    + `of them are the parts in the chart above. The fourth, newly counted holdings, is not a decision `
+    + `anyone took. It is the value of holdings counted this month that were not counted the month `
+    + `before, less those that dropped out: for example a fund book seen for the first time, or a stock `
+    + `with its first usable price in our data. See "How this panel works" for what it came to across `
+    + `the whole market.`;
 }
 
 // The panel now runs from 2013 rather than a trailing 36 months, and disclosed-scheme coverage
